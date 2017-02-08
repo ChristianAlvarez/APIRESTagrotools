@@ -44,14 +44,19 @@ class DeviceController extends Controller
     public function SaveDevice(StoreDeviceRequest $request)
     {
         $request = $request->all();
-   
+        dd($request);
         $Device        = new \App\Device();
         $Device = Device::create($request);
         
         if ($Device) {
             return response()->json([
-                'msg' => "StoreDevice Success"
+                'Codigo' => "2"
             ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+        }
+        else{
+            return response()->json([
+                'Codigo' => "1"
+            ]);
         }
     }
 

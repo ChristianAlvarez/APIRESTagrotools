@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-class MovementReapRequest extends FormRequest
+class MovementReapRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.

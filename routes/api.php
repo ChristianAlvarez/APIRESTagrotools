@@ -17,6 +17,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+//PICKING
+Route::post('/savepicking', 'UserController@SavePicking');
+
 //USER
 Route::get('/login/{pers_id}/{uspi_password}/{devi_id}', 'UserController@Login');
 Route::post('/saveuserpicking', 'UserController@SaveUserPicking');

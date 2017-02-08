@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserPickingRequest;
+use App\Http\Requests\StorePickingRequest;
 use App\http\Requests\StoreUserPickingCompanyRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\UserPicking;
 use App\UserPickingCompany;
 use App\Device;
+use App\Picking;
 use DB;
 
 class UserController extends Controller
@@ -51,6 +53,44 @@ class UserController extends Controller
                 'Companys' => $Companys  
         ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
     }   
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function SavePicking(StorePickingRequest $request)
+    {
+
+        $request = $request->all();
+        
+        try
+            {
+
+                $Picking        = new \App\Picking();
+                $Picking = Picking::create($request);
+                
+                if ($Picking) {
+                    return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                }
+                else{
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
+    }
 
     /**
      * Store a newly created resource in storage.
