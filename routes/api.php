@@ -34,6 +34,9 @@ Route::put('/updateuserpickingcompany/{cpny_id}/{pers_id}', 'UserController@Upda
 Route::post('/savedevice', 'DeviceController@SaveDevice');
 Route::put('/updatedevice/{devi_id}', 'DeviceController@UpdateDevice');
 
+//DETAILSDEVICE
+Route::post('/savedetailsdevice', 'DetailsDeviceController@SaveDetailsDevice');
+
 //SYNC
 Route::get('/syncUp/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@SyncUp');
 Route::get('/Synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchronized');

@@ -19,6 +19,7 @@ class Picking extends Model
      */
     protected $fillable = [
         'pers_id',
+        'cpny_id',
         'pers_name',
         'pick_password',
         'pick_active',

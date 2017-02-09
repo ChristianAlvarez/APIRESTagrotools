@@ -15,6 +15,7 @@ class CreatePickingTable extends Migration
     {
         Schema::create('picking', function (Blueprint $table) {
             $table->string('pers_id', 12)->primary();
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('pers_name', 160);
             $table->string('pick_password');
             $table->boolean('pick_active');
