@@ -17,6 +17,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+//COMPANY
+Route::post('/savecompany', 'CompanyController@SaveCompany');
+
 //PICKING
 Route::post('/savepicking', 'UserController@SavePicking');
 

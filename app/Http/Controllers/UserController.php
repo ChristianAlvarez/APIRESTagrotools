@@ -61,35 +61,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function SavePicking(Request $request)
-    {
-
-        /*$request = $request->all();
-        
-        try
-            {
-                $Picking = new \App\Picking();
-                $Picking = Picking::create($request);
-                
-                if ($Picking) {
-                    return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
-                return response()->json([
-                    'Codigo' => "1",
-                    'Descripcion' => $e
-                ]);
-
-            }*/
-            $request = $request->all();
+    { 
+        $request = $request->all();
         
         try
             {
@@ -129,7 +102,7 @@ class UserController extends Controller
         $request = $request->all();
    
         $UserPicking        = new \App\UserPicking();
-        $UserPicking = UserPicking::create($request);
+        $UserPicking = UserPicking::insert($request);
         
         if ($UserPicking) {
             return response()->json([

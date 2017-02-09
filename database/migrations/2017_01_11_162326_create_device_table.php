@@ -18,7 +18,6 @@ class CreateDeviceTable extends Migration
             $table->string('devi_id', 50)->primary();
             $table->string('devi_name', 50);
             $table->boolean('devi_active');
-            $table->string('pers_id', 12)->references('pers_id')->on('userspicking');
             $table->boolean('devi_record');
             $table->timestamps();
 

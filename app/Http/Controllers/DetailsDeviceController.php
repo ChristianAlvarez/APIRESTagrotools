@@ -6,33 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreDeviceRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Device;
+use App\DetailsDevice;
 
-class DeviceController extends Controller
+class DetailsDeviceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($Devi_id)
+    public function index()
     {
-        /*$Device = Device::where('devi_id', $Devi_id)
-                        ->where('devi_active', "true")
-                        ->where('devi_record', "false")
-                        ->get();*/
+        //
+    }
 
-        /*$Device = Device::where('devi_id', $Devi_id)
-                            ->where('devi_active', 1)
-                            ->where('devi_record', 0)
-                            ->get();*/
-
-        $Device = Device::with('UserPicking')->where('devi_id', $Devi_id)
-                            ->where('devi_active', 1)
-                            ->where('devi_record', 0)
-                            ->get();
-
-        return Response()->json(array('Device' => $Device));
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -41,16 +36,16 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SaveDevice(Request $request)
+    public function SaveDetailsDevice(Request $request)
     {
         $request = $request->all();
         
         try
             {
-                $Device = new \App\Device();
-                $Device = Device::insert($request);
+                $DetailsDevice = new \App\DetailsDevice();
+                $DetailsDevice = DetailsDevice::insert($request);
                 
-                if ($Device) {
+                if ($DetailsDevice) {
                     return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
@@ -72,23 +67,37 @@ class DeviceController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function UpdateDevice(StoreDeviceRequest $request, $devi_id)
+    public function update(Request $request, $id)
     {
-        $Device = Device::where('devi_id', $devi_id)->get();
-
-        $Request = $request->all();
-       
-        if ($Device->fill($Request)->save()) {
-            return response()->json([
-                'msg' => "UpdateDevice Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-        }
+        //
     }
 
     /**
