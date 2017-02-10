@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
+    public $incrementing = false; 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,4 +26,5 @@ class Company extends Model
         'cpny_record',
     ];
 
+    protected $primaryKey = "cpny_id";
 }

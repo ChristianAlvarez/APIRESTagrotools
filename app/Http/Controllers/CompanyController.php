@@ -43,8 +43,27 @@ class CompanyController extends Controller
         try
             {
                 $Company = new \App\Company();
-                $Company = Company::insert($request);
                 
+                $Company = Company::updateOrCreate(
+                                       ['cpny_id' => $request['cpny_id']],
+                                       ['cpny_name' => $request['cpny_name'],
+                                        'cpny_active' => $request['cpny_active'],
+                                        'cpny_record' => $request['cpny_record']]
+                                    );
+
+                /*$Company = Company::updateOrCreate(['cpny_name' => $request['cpny_name'],
+                                                    'cpny_active' => $request['cpny_active'],
+                                                    'cpny_record' => $request['cpny_record']],
+                                                    ['cpny_id' => $request['cpny_id']]);*/
+
+
+                /*$Company = Company::updateOrCreate(
+                                        ['cpny_id' => $request['cpny_id']],
+                                        ['cpny_name' => $request['cpny_name'],
+                                         'cpny_active' => $request['cpny_active'],
+                                         'cpny_record' => $request['cpny_record']]
+                                    );*/
+
                 if ($Company) {
                     return response()->json([
                         'Codigo' => "2"
