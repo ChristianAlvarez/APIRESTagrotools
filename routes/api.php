@@ -43,6 +43,10 @@ Route::get('/Synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchr
 
 //REAP
 Route::get('/reap/{pers_id}/{cpny_id}', 'ReapController@index');
+Route::post('/savereap', 'ReapController@SaveReap');
+
+//DETAILSREAP
+Route::post('/savedetailsreap', 'DetailsReapController@SaveDetailsReap');
 
 //MOVEMENTREAP
 Route::get('/movementreap', 'MovementreapController@index');

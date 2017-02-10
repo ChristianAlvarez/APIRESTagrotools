@@ -15,6 +15,7 @@ class CreateDetailsreapTable extends Migration
     {
         Schema::create('detailsreap', function (Blueprint $table) {
             $table->string('reap_id', 20)->references('reap_id')->on('reap');
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('card_identification', 50);
             $table->string('pers_name', 160);
             $table->string('quad_name', 80);
@@ -22,7 +23,7 @@ class CreateDetailsreapTable extends Migration
             $table->boolean('dere_record');
             $table->timestamps();
 
-            $table->primary(array('reap_id', 'card_identification'));
+            $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
         });
     }
 

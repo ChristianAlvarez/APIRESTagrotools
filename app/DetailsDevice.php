@@ -19,6 +19,7 @@ class DetailsDevice extends Model
      */
     protected $fillable = [
         'devi_id',
+        'cpny_id',
         'pers_id',
         'dtde_active',
         'dtde_record',

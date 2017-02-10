@@ -154,19 +154,35 @@ class ReapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SaveReap(StoreReapRequest $request)
+    public function SaveReap(Request $request)
     {
 
         $request = $request->all();
-   
-        $Reap = new \App\Reap();
-        $Reap = Reap::create($request);
         
-        if ($Reap) {
-            return response()->json([
-                'msg' => "SaveReap Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-        }
+        try
+            {
+                $Reap = new \App\Reap();
+                $Reap = Reap::insert($request);
+                
+                if ($Reap) {
+                    return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                }
+                else{
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
     }
 
     /**

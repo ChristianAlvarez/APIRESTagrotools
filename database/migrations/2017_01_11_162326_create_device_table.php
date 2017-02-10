@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDeviceTable extends Migration
 {
-    public $incrementing = false;
+    
     /**
      * Run the migrations.
      *
@@ -15,11 +15,14 @@ class CreateDeviceTable extends Migration
     public function up()
     {
         Schema::create('device', function (Blueprint $table) {
-            $table->string('devi_id', 50)->primary();
+            $table->string('devi_id', 50);
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('devi_name', 50);
             $table->boolean('devi_active');
             $table->boolean('devi_record');
             $table->timestamps();
+
+            $table->primary(array('devi_id', 'cpny_id'));
 
         });
     }

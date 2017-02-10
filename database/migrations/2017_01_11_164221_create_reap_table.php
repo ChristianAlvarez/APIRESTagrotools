@@ -15,7 +15,7 @@ class CreateReapTable extends Migration
     {
         Schema::create('reap', function (Blueprint $table) {
             $table->string('reap_id', 20);
-            $table->string('cpny_id', 12);
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('stus_id', 8);
             $table->string('pers_id', 12);
             $table->string('pers_name', 160);

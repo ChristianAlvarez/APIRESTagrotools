@@ -15,12 +15,13 @@ class CreateDetailsdeviceTable extends Migration
     {
         Schema::create('detailsdevice', function (Blueprint $table) {
             $table->string('devi_id', 50);
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('pers_id', 12)->references('pers_id')->on('picking');
             $table->boolean('dtde_active');
             $table->boolean('dtde_record');
             $table->timestamps();
 
-            $table->primary(array('devi_id', 'pers_id'));
+            $table->primary(array('devi_id', 'cpny_id', 'pers_id'));
         });
     }
 

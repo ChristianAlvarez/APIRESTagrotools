@@ -19,6 +19,7 @@ class DetailsReap extends Model
      */
     protected $fillable = [
         'reap_id',
+        'cpny_id',
         'card_identification',
         'pers_name',
         'quad_name',

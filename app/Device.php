@@ -19,9 +19,9 @@ class Device extends Model
      */
     protected $fillable = [
         'devi_id',
+        'cpny_id',
         'devi_name',
         'devi_active',
-        'pers_id',
         'devi_record',
     ];
 }
