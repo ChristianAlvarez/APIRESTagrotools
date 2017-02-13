@@ -112,19 +112,27 @@ class CompanyController extends Controller
      */
     public function updateCompany(Request $request)
     {
-        $request = $request->all();
-        
+        //$request = $request->all();
+        $companys = $request->all();
         try
             {
-                $Company = new \App\Company();
-                $Company = Company::update($request);
+                foreach ($companys as $company) {
+                    $tableData = Company::where('cpny_id', $company->cpny_id)->update(
+                                   ['cpny_name' => $company->cpny_name],
+                                   ['cpny_active' => $company->cpny_active],
+                                   ['cpny_record' => $company->cpny_record]
+                                );
+                }
+
+                //$Company = new \App\Company();
+                //$Company = Company::update($request);
                 
                 /*$itemTypes = [$request->company_id];
 
                 $Company = Company::whereIn('company_id', $itemTypes)
                     ->update([$request]);*/
 
-                if ($Company) {
+                if ($tableData) {
                     return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
