@@ -19,7 +19,7 @@ Route::get('/user', function (Request $request) {
 
 //COMPANY
 Route::post('/savecompany', 'CompanyController@SaveCompany');
-Route::put('/updatecompany', 'CompanyController@UpdateCompany');
+Route::post('/updatecompany', 'CompanyController@UpdateCompany');
 
 //PRUEBA COMPANY
 Route::post('/company', 'CompanyController@SaveCompany');
