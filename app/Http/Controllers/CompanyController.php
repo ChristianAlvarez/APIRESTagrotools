@@ -32,8 +32,8 @@ class CompanyController extends Controller
 
     public function company(Request $request)
     {
-        $QueryInsert = $request['QueryInsert'];
-        $QueryUpdate = $request['QueryUpdate'];
+        $QueryInsert = $request['0'];
+        $QueryUpdate = $request['1'];
 
         if (!empty($QueryInsert)) {
             saveCompany($QueryInsert);
@@ -110,9 +110,9 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCompany($QueryUpdate)
+    public function updateCompany(Request $request)
     {
-        $request = $QueryUpdate;
+        $request = $request->all();
         
         try
             {
@@ -125,9 +125,9 @@ class CompanyController extends Controller
                     ->update([$request]);*/
 
                 if ($Company) {
-                    /*return response()->json([
+                    return response()->json([
                         'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);*/
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
                 }
                 else{
                     return response()->json([
