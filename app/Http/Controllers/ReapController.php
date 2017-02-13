@@ -197,7 +197,7 @@ class ReapController extends Controller
         $request = $request->all();
    
         $DetailsReap = new \App\DetailsReap();
-        $DetailsReap = DetailsReap::create($request);
+        $DetailsReap = DetailsReap::insert($request);
 
         if ($DetailsReap) {
             return response()->json([

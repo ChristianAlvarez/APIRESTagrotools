@@ -30,39 +30,57 @@ class CompanyController extends Controller
         //
     }
 
+    public function company(Request $request)
+    {
+        $QueryInsert = $request['QueryInsert'];
+        $QueryUpdate = $request['QueryUpdate'];
+
+        if (!empty($QueryInsert)) {
+            saveCompany($QueryInsert);
+        }
+
+        if (!empty($QueryUpdate)) {
+            updateCompany($QueryUpdate);
+        }
+
+        return response()->json([
+            'Codigo' => "2"
+        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCompany(Request $request)
+    public function saveCompany($QueryInsert)
     {
-        $request = $request->all();
+        $Company = $QueryInsert;
+        try 
+            {
+                $Company = new \App\Company();
+                $Company = Company::insert($request);
+
+                if ($Company) {
+                    /*return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);*/
+                }
+                else{
+                    return response()->json([
+                            'Codigo' => "1"
+                    ]);
+                }
+            } catch (Exception $e) {
+           
+        }
+        /*$request = $request->all();
         
         try
             {
                 $Company = new \App\Company();
                 $Company = Company::insert($request);
-                /*$Company = Company::updateOrCreate(
-                                       ['cpny_id' => $request['cpny_id']],
-                                       ['cpny_name' => $request['cpny_name'],
-                                        'cpny_active' => $request['cpny_active'],
-                                        'cpny_record' => $request['cpny_record']]
-                                    );*/
-
-                /*$Company = Company::updateOrCreate(['cpny_name' => $request['cpny_name'],
-                                                    'cpny_active' => $request['cpny_active'],
-                                                    'cpny_record' => $request['cpny_record']],
-                                                    ['cpny_id' => $request['cpny_id']]);*/
-
-
-                /*$Company = Company::updateOrCreate(
-                                        ['cpny_id' => $request['cpny_id']],
-                                        ['cpny_name' => $request['cpny_name'],
-                                         'cpny_active' => $request['cpny_active'],
-                                         'cpny_record' => $request['cpny_record']]
-                                    );*/
 
                 if ($Company) {
                     return response()->json([
@@ -82,41 +100,49 @@ class CompanyController extends Controller
                     'Descripcion' => $e
                 ]);
 
-            }
+            }*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
+     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateCompany($QueryUpdate)
     {
-        //
+        $request = $QueryUpdate;
+        
+        try
+            {
+                $Company = new \App\Company();
+                $Company = Company::update($request);
+                
+                /*$itemTypes = [$request->company_id];
+
+                $Company = Company::whereIn('company_id', $itemTypes)
+                    ->update([$request]);*/
+
+                if ($Company) {
+                    /*return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);*/
+                }
+                else{
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
     }
 
     /**

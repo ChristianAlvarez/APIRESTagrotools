@@ -27,4 +27,5 @@ class Company extends Model
     ];
 
     protected $primaryKey = "cpny_id";
+
 }
