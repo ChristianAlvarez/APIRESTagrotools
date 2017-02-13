@@ -56,7 +56,7 @@ class CompanyController extends Controller
      */
     public function saveCompany($QueryInsert)
     {
-        $Company = $QueryInsert;
+        $request = $QueryInsert;
         try 
             {
                 $Company = new \App\Company();
