@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\MovementReap;
 use Illuminate\Http\Request;
 use App\Http\Requests\MovementReapRequest;
@@ -13,10 +14,20 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getMovementReap($created_at)
     {
-        $MovementReap = MovementReap::all();
+        $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
         return Response()->json(array('MovementReap' => $MovementReap));
+
+        /*if (!empty($created_at)) {
+            $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
+            return Response()->json(array('MovementReap' => $MovementReap));
+        }
+        else{
+            $MovementReap = MovementReap::all();
+            return Response()->json(array('MovementReap' => $MovementReap));
+        }*/
+        
     }
 
     /**
@@ -25,26 +36,28 @@ class MovementreapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MovementReapRequest $request)
+    public function store(Request $request)
     {
 
-        $MovementReap                           = new \App\MovementReap();
-        $MovementReap->reap_id                  = $request->reap_id;
-        $MovementReap->cpny_id                  = $request->cpny_id;
-        $MovementReap->dmrp_card_identification = $request->dmrp_card_identification;
-        $MovementReap->dtrp_received_pay_units  = $request->dtrp_received_pay_units;
-        $MovementReap->dmrp_received_amount     = $request->dmrp_received_amount;
-        $MovementReap->dmrp_date_transaction    = $request->dmrp_date_transaction;
-        $MovementReap->modc_input               = $request->modc_input;
-        $MovementReap->user_id                  = $request->user_id;
-        $MovementReap->more_record              = $request->more_record;
-        $MovementReap->dmrp_device_id           = $request->dmrp_device_id;
-        $MovementReap->save();
+        $request = $request->all();
+        try 
+            {
+                $MovementReap = new \App\MovementReap();
+                $MovementReap = MovementReap::insert($request);
 
-        return response()->json([
-                'msg' => 'Success',
-            ], STATUS_CODE
-        );
+                if ($MovementReap) {
+                    return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                }
+                else{
+                    return response()->json([
+                            'Codigo' => "1"
+                    ]);
+                }
+            } catch (Exception $e) {
+           
+        }
     }
 
     /**

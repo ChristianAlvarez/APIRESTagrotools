@@ -53,4 +53,4 @@ Route::post('/savereap', 'ReapController@SaveReap');
 Route::post('/savedetailsreap', 'DetailsReapController@SaveDetailsReap');
 
 //MOVEMENTREAP
-Route::get('/movementreap', 'MovementreapController@index');
+Route::get('/getmovementreap/{fecha}', 'MovementreapController@getMovementReap');

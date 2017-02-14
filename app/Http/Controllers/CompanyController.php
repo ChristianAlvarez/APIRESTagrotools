@@ -54,18 +54,18 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCompany($QueryInsert)
+    public function saveCompany(Request $request)
     {
-        $request = $QueryInsert;
+        $request = $request->all();
         try 
             {
                 $Company = new \App\Company();
                 $Company = Company::insert($request);
 
                 if ($Company) {
-                    /*return response()->json([
+                    return response()->json([
                         'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);*/
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
                 }
                 else{
                     return response()->json([
@@ -112,27 +112,35 @@ class CompanyController extends Controller
      */
     public function updateCompany(Request $request)
     {
-        //$request = $request->all();
-        $companys = $request->all();
+        $companys = $request->all();    
+
         try
             {
-                foreach ($companys as $company) {
-                    $tableData = Company::where('cpny_id', $company->cpny_id)->update(
-                                   ['cpny_name' => $company->cpny_name],
-                                   ['cpny_active' => $company->cpny_active],
-                                   ['cpny_record' => $company->cpny_record]
-                                );
-                }
+                if (count($companys) > 4) {
+                    foreach  ($companys as $id_key => $company) {
 
-                //$Company = new \App\Company();
-                //$Company = Company::update($request);
-                
-                /*$itemTypes = [$request->company_id];
+                      $Company =  Company::where(['cpny_id' => $id_key])->update($company);
+                    }
+                }
+                else{
+                    $Company = Company::find($companys['cpny_id']);
+                    $Company->cpny_name = $companys['cpny_name'];
+                    $Company->cpny_active = $companys['cpny_active'];
+                    $Company->cpny_record = $companys['cpny_record'];
+                    $Company->save();
+                }
+                /*foreach ($companys as $key => $value) {
+                            $Company = Company::find($key);
+                            $Company->cpny_name = $value;
+                            $Company->cpny_active = $value;
+                            $Company->cpny_record = $value;
+                            $Company->save();
+                }
 
                 $Company = Company::whereIn('company_id', $itemTypes)
                     ->update([$request]);*/
 
-                if ($tableData) {
+                if ($Company) {
                     return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
