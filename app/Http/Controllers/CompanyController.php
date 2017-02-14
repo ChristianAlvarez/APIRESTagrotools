@@ -30,24 +30,6 @@ class CompanyController extends Controller
         //
     }
 
-    public function company(Request $request)
-    {
-        $QueryInsert = $request['0'];
-        $QueryUpdate = $request['1'];
-
-        if (!empty($QueryInsert)) {
-            saveCompany($QueryInsert);
-        }
-
-        if (!empty($QueryUpdate)) {
-            updateCompany($QueryUpdate);
-        }
-
-        return response()->json([
-            'Codigo' => "2"
-        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-    }
-
     /**
      * Store a newly created resource in storage.
      *

@@ -14,9 +14,13 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMovementReap($created_at)
+    public function getMovementReap($created_at, $cpny_id)
     {
-        $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
+        $MovementReap = MovementReap::where('created_at', '>', $created_at)
+                                    ->where('cpny_id', $cpny_id)
+                                    ->where('more_record', 0)
+                                    ->get();
+        
         return Response()->json(array('MovementReap' => $MovementReap));
 
         /*if (!empty($created_at)) {
@@ -27,6 +31,51 @@ class MovementreapController extends Controller
             $MovementReap = MovementReap::all();
             return Response()->json(array('MovementReap' => $MovementReap));
         }*/
+        
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function postMovementReap($created_at, $cpny_id)
+    {
+       
+       $id = MovementReap::where('id' ,'>' ,0)
+                                      ->where('created_at', '>', $created_at)
+                                      ->where('cpny_id', $cpny_id)
+                                      ->where('more_record', 0)
+                                      ->pluck('id')->toArray();  
+
+        if (!empty($id)) 
+        {
+
+             try 
+                {
+                    
+                    $MovementReap = MovementReap::whereIn('id',$id)->update(['more_record' => 1]);
+
+                    if ($MovementReap) 
+                    {
+                        return response()->json([
+                            'Codigo' => "2"
+                        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                    }
+                    else{
+                        return response()->json([
+                            'Codigo' => "1"
+                        ]);
+                    }
+                }
+                catch(\Illuminate\Database\QueryException $e)
+                {
+                    return response()->json([
+                        'Codigo' => "1",
+                        'Descripcion' => $e
+                    ]);
+                }
+        }
         
     }
 
@@ -55,53 +104,15 @@ class MovementreapController extends Controller
                             'Codigo' => "1"
                     ]);
                 }
-            } catch (Exception $e) {
-           
-        }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

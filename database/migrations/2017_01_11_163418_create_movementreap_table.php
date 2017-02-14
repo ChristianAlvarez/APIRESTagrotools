@@ -14,8 +14,9 @@ class CreateMovementreapTable extends Migration
     public function up()
     {
         Schema::create('movementreap', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('reap_id', 20)->references('reap_id')->on('reap');
-            $table->string('cpny_id', 12);
+            $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('dmrp_card_identification', 50);
             $table->decimal('dtrp_received_pay_units', 10, 2);
             $table->decimal('dmrp_received_amount', 10, 2);
@@ -26,7 +27,7 @@ class CreateMovementreapTable extends Migration
             $table->string('dmrp_device_id', 50)->references('devi_id')->on('device');
             $table->timestamps();
 
-            $table->primary(array('reap_id', 'cpny_id', 'dmrp_card_identification'));
+            //$table->primary(array('reap_id', 'cpny_id', 'dmrp_card_identification'));
         });
     }
 
