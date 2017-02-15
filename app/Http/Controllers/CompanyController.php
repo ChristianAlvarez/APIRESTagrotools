@@ -41,10 +41,11 @@ class CompanyController extends Controller
 
     private function Insert($companys)
     {
-       
+       //dd($companys);
         try {
                 $Company = new \App\Company();
                 $Company = Company::insert($companys);
+
                 if (!$Company) {
                     return response()->json([
                         'Codigo' => "1"

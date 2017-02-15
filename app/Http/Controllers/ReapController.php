@@ -159,14 +159,20 @@ class ReapController extends Controller
         $reaps = collect($request->all());    
         $insert = $reaps->where('row_mode', 1);
         $update = $reaps->where('row_mode', 0);
-               
+
+        /*foreach  ($insert as $reap) {
+            dd(collect($reap));
+        }*/
+        
         //INSERT       
         if (count($insert) > 0) {
+        
             $new = $insert->map(function ($comp) {
                 unset($comp['row_mode']);
                 $arr = collect($comp);
                 $this->Insert($arr->toArray());
-                });
+            });
+                
         }
 
         //UPDATE
@@ -185,6 +191,7 @@ class ReapController extends Controller
         try {
                 $Reap = new \App\Reap();
                 $Reap = Reap::insert($reaps);
+
                 if (!$Reap) {
                     return response()->json([
                         'Codigo' => "1"
@@ -223,60 +230,4 @@ class ReapController extends Controller
         
     }
 
-     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  
-     * @return \Illuminate\Http\Response
-     */
-    public function UpdateReap($Pers_id, $Cpny_id, $Created_at)
-    {
-        $Reaps = Reap::with('DetailsReap')
-                            ->where('cpny_id', $Cpny_id)
-                            ->where('pers_id', $Pers_id)
-                            ->whereDate('created_at', '<=',  $Created_at)
-                            ->get();
-        
-        $Reaps->update(['reap_record'=> 1, 'dere_record' => 1]);
-
-        return response()->json([
-            'msg' => "Success",
-            'Reaps' => $Reaps
-        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $reapUpdate = $request->all();
-        $reap = Reap::find($id);
-        $reap->update($reapUpdate);
-
-        // Go through all qty (that are related to the details, and create them)
-        foreach ($postValues['detailsreap'] as $qty) {
-
-            $reap->detail()->create([ 
-                'oid' => $reap->reap_id,
-                'total' => $qty,
-            ]);
-        }
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
