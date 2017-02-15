@@ -20,7 +20,8 @@ class CreateDeviceTable extends Migration
             $table->string('devi_name', 50);
             $table->boolean('devi_active');
             $table->boolean('devi_record');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
             $table->primary(array('devi_id', 'cpny_id'));
 

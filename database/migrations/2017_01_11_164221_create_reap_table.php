@@ -25,7 +25,8 @@ class CreateReapTable extends Migration
             $table->string('vare_name', 80);
             $table->string('mere_name', 80);
             $table->boolean('reap_record');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
             $table->primary(array('reap_id', 'cpny_id'));
         });

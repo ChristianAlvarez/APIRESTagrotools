@@ -50,3 +50,5 @@ Route::get('/Synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchr
 //MOVEMENTREAP
 Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovementReap');
 Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
+
+Route::get('/get', 'MovementreapController@get');

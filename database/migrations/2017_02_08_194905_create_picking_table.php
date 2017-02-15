@@ -20,7 +20,8 @@ class CreatePickingTable extends Migration
             $table->string('pick_password');
             $table->boolean('pick_active');
             $table->boolean('pick_record');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
             $table->primary(array('pers_id', 'cpny_id'));
         });

@@ -14,11 +14,10 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMovementReap($created_at, $cpny_id)
+    public function getMovementReap($updated_at, $cpny_id)
     {
-        $MovementReap = MovementReap::where('created_at', '>', $created_at)
+        $MovementReap = MovementReap::where('updated_at', '>', $updated_at)
                                     ->where('cpny_id', $cpny_id)
-                                    ->where('more_record', 0)
                                     ->get();
         
         return Response()->json(array('MovementReap' => $MovementReap));
@@ -39,11 +38,33 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function postMovementReap($created_at, $cpny_id)
+    public function get()
+    {
+        $MovementReap = MovementReap::all();
+        
+        return Response()->json(array('MovementReap' => $MovementReap));
+
+        /*if (!empty($created_at)) {
+            $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
+            return Response()->json(array('MovementReap' => $MovementReap));
+        }
+        else{
+            $MovementReap = MovementReap::all();
+            return Response()->json(array('MovementReap' => $MovementReap));
+        }*/
+        
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function postMovementReap($updated_at, $cpny_id)
     {
        
        $id = MovementReap::where('id' ,'>' ,0)
-                                      ->where('created_at', '>', $created_at)
+                                      ->where('updated_at', '>', $updated_at)
                                       ->where('cpny_id', $cpny_id)
                                       ->where('more_record', 0)
                                       ->pluck('id')->toArray();  

@@ -21,7 +21,8 @@ class CreateDetailsreapTable extends Migration
             $table->string('quad_name', 80);
             $table->boolean('dere_status_card');
             $table->boolean('dere_record');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
             $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
         });
