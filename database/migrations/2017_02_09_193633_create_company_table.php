@@ -18,6 +18,7 @@ class CreateCompanyTable extends Migration
             $table->string('cpny_name', 200);
             $table->boolean('cpny_active');
             $table->boolean('cpny_record');
+            $table->boolean('row_mode');
             $table->timestamps();
         });
     }

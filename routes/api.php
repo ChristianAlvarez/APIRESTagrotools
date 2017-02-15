@@ -18,11 +18,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 //COMPANY
-Route::post('/savecompany', 'CompanyController@SaveCompany');
-Route::post('/updatecompany', 'CompanyController@UpdateCompany');
-
-//PRUEBA COMPANY
-Route::post('/company', 'CompanyController@SaveCompany');
+Route::post('/savecompany', 'CompanyController@saveCompany');
 
 //PICKING
 Route::post('/savepicking', 'UserController@SavePicking');
@@ -54,3 +50,4 @@ Route::post('/savedetailsreap', 'DetailsReapController@SaveDetailsReap');
 
 //MOVEMENTREAP
 Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovementReap');
+Route::post('/postmovementreap', 'MovementreapController@postMovementReap');

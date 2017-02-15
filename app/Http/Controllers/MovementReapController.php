@@ -51,7 +51,7 @@ class MovementreapController extends Controller
         if (!empty($id)) 
         {
 
-             try 
+            try 
                 {
                     
                     $MovementReap = MovementReap::whereIn('id',$id)->update(['more_record' => 1]);
@@ -67,14 +67,14 @@ class MovementreapController extends Controller
                             'Codigo' => "1"
                         ]);
                     }
-                }
-                catch(\Illuminate\Database\QueryException $e)
-                {
-                    return response()->json([
-                        'Codigo' => "1",
-                        'Descripcion' => $e
-                    ]);
-                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+            }
         }
         
     }

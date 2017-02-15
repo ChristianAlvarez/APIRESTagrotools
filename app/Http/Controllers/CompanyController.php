@@ -10,24 +10,64 @@ use App\Http\Requests\StoreCompanyRequest;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    
+    
+
+    public function saveCompany(Request $request)
     {
-        //
+        $companys = collect($request->all());    
+        $insert = $companys->where('row_mode', 1);
+        $update = $companys->where('row_mode', 0);
+       
+        //INSERT       
+        if (count($insert) > 0) {
+            $new = $insert->map(function ($comp) {
+                unset($comp['row_mode']);
+                $arr = collect($comp);
+                $this->Insert($arr->toArray());
+                //$this->Insert($comp);
+            });
+        }
+
+        //UPDATE
+        if (count($update) > 0) {
+            $this->Update($update->toArray());
+        }
+
+        return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function Insert($companys)
     {
-        //
+       
+       // dd($companys);
+
+        try {
+                $Company = new \App\Company();
+                $Company = Company::insert($companys);
+                if (!$Company) {
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+        } catch (Exception $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        }
+    }
+
+    private function Update($companys)
+    {
+        foreach  ($companys as $id_key => $company) {
+            $Company =  Company::where(['cpny_id' => $company['cpny_id']])
+                               ->update(['cpny_name' => $company['cpny_name'],
+                                         'cpny_active' => $company['cpny_active'],
+                                         'cpny_record' => $company['cpny_record']]);
+        }
     }
 
     /**
@@ -36,28 +76,10 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCompany(Request $request)
+    public function SaveCompanyTest(Request $request)
     {
+       
         $request = $request->all();
-        try 
-            {
-                $Company = new \App\Company();
-                $Company = Company::insert($request);
-
-                if ($Company) {
-                    return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
-                    return response()->json([
-                            'Codigo' => "1"
-                    ]);
-                }
-            } catch (Exception $e) {
-           
-        }
-        /*$request = $request->all();
         
         try
             {
@@ -82,7 +104,7 @@ class CompanyController extends Controller
                     'Descripcion' => $e
                 ]);
 
-            }*/
+            }
     }
 
      /**
@@ -92,36 +114,48 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCompany(Request $request)
+    public function UpdateCompanyTest(Request $request)
     {
-        $companys = $request->all();    
+       
+        $companys = collect($request->all());    
+        $com = $companys->where('row_mode', 0);
+        dd(count($com));
 
-        try
+        /*foreach  ($companys as $company) {
+            dd($company['cpny_id']);
+        }*/
+
+        /*foreach ($companys as $key => $value) {
+                            $Company = Company::find($key);
+                            $Company->cpny_name = $value;
+                            $Company->cpny_active = $value;
+                            $Company->cpny_record = $value;
+                            $Company->save();
+                }*/
+
+        foreach  ($companys as $id_key => $company) {
+            $Company =  Company::where(['cpny_id' => $company['cpny_id']])
+                               ->update(['cpny_name' => $company['cpny_name'],
+                                         'cpny_active' => $company['cpny_active'],
+                                         'cpny_record' => $company['cpny_record']]);
+        }
+
+        /*try
             {
-                if (count($companys) > 4) {
+                if (count($companys) > 1) {
                     foreach  ($companys as $id_key => $company) {
-
                       $Company =  Company::where(['cpny_id' => $id_key])->update($company);
                     }
                 }
                 else{
+                    dd(count($companys));
                     $Company = Company::find($companys['cpny_id']);
                     $Company->cpny_name = $companys['cpny_name'];
                     $Company->cpny_active = $companys['cpny_active'];
                     $Company->cpny_record = $companys['cpny_record'];
                     $Company->save();
                 }
-                /*foreach ($companys as $key => $value) {
-                            $Company = Company::find($key);
-                            $Company->cpny_name = $value;
-                            $Company->cpny_active = $value;
-                            $Company->cpny_record = $value;
-                            $Company->save();
-                }
-
-                $Company = Company::whereIn('company_id', $itemTypes)
-                    ->update([$request]);*/
-
+                
                 if ($Company) {
                     return response()->json([
                         'Codigo' => "2"
@@ -140,17 +174,7 @@ class CompanyController extends Controller
                     'Descripcion' => $e
                 ]);
 
-            }
+            }*/
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
