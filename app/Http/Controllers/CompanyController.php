@@ -42,8 +42,6 @@ class CompanyController extends Controller
     private function Insert($companys)
     {
        
-       // dd($companys);
-
         try {
                 $Company = new \App\Company();
                 $Company = Company::insert($companys);
@@ -52,7 +50,7 @@ class CompanyController extends Controller
                         'Codigo' => "1"
                     ]);
                 }
-        } catch (Exception $e) {
+        } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
@@ -62,12 +60,20 @@ class CompanyController extends Controller
 
     private function Update($companys)
     {
-        foreach  ($companys as $id_key => $company) {
-            $Company =  Company::where(['cpny_id' => $company['cpny_id']])
-                               ->update(['cpny_name' => $company['cpny_name'],
-                                         'cpny_active' => $company['cpny_active'],
-                                         'cpny_record' => $company['cpny_record']]);
+        try {
+            foreach  ($companys as $id_key => $company) {
+                $Company =  Company::where(['cpny_id' => $company['cpny_id']])
+                                   ->update(['cpny_name' => $company['cpny_name'],
+                                             'cpny_active' => $company['cpny_active'],
+                                             'cpny_record' => $company['cpny_record']]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
         }
+        
     }
 
     /**

@@ -60,137 +60,66 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SavePicking(Request $request)
+    public function savePicking(Request $request)
     { 
-        $request = $request->all();
-        
-        try
-            {
-                $Picking = new \App\Picking();
-                $Picking = Picking::insert($request);
-                
-                if ($Picking) {
-                    return response()->json([
+        $pickings = collect($request->all());    
+        $insert = $pickings->where('row_mode', 1);
+        $update = $pickings->where('row_mode', 0);
+       
+        //INSERT       
+        if (count($insert) > 0) {
+            $new = $insert->map(function ($comp) {
+                unset($comp['row_mode']);
+                $arr = collect($comp);
+                $this->Insert($arr->toArray());
+                //$this->Insert($comp);
+            });
+        }
+
+        //UPDATE
+        if (count($update) > 0) {
+            $this->Update($update->toArray());
+        }
+
+        return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
+    }
+
+    private function Insert($pickings)
+    {
+        try {
+                $Picking = new \App\Picking();
+                $Picking = Picking::insert($pickings);
+                if (!$Picking) {
                     return response()->json([
                         'Codigo' => "1"
                     ]);
                 }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
-                return response()->json([
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
-
-            }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function SaveUserPicking(StoreUserPickingRequest $request)
-    {
-
-        $request = $request->all();
-   
-        $UserPicking        = new \App\UserPicking();
-        $UserPicking = UserPicking::insert($request);
-        
-        if ($UserPicking) {
-            return response()->json([
-                'msg' => "SaveUserPicking Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-        }
-        else{
-            return response()->json([
-                'Error' => "Problemas en metodo SaveUserPicking"
-            ])-getStatusCode();
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function UpdateUserPicking(StoreUserPickingRequest $request, $pers_id)
+    private function Update($pickings)
     {
-        $UserPicking = UserPicking::where('pers_id', $pers_id)->get();
-
-        $Request = $request->all();
-       
-        if ($UserPicking->fill($Request)->save()) {
+        try {
+            foreach  ($pickings as $id_key => $picking) {
+                $Picking =  Picking::where(['pers_id' => $company['pers_id']])
+                                   ->where(['cpny_id' => $company['cpny_id']])
+                                   ->update(['pers_name' => $company['pers_name'],
+                                             'pick_password' => $company['pick_password|'],
+                                             'pick_active' => $company['pick_active'],
+                                             'pick_record' => $company['pick_record']]);
+                }
+        } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
-                'msg' => "UpdateUserPicking Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
         }
-        else{
-            return response()->json([
-                'Error' => "Problemas en metodo UpdateUserPicking"
-            ])-getStatusCode();
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function SaveUserPickingCompany(StoreUserPickingRequest $request)
-    {
-
-        $request = $request->all();
-   
-        $UserPickingCompany = new \App\UserPickingCompany();
-        $UserPickingCompany = UserPickingCompany::create($request);
-        
-        if ($UserPickingCompany) {
-            return response()->json([
-                'msg' => "SaveUserPickingCompany Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function UpdateUserPickingCompany(StoreUserPickingCompanyRequest $request, $cpny_id, $pers_id)
-    {
-        $UserPickingCompany = UserPickingCompany::where('pers_id', $pers_id)
-                                                ->where('cpny_id', $cpny_id)->get();
-
-        $Request = $request->all();
-       
-        if ($UserPickingCompany->fill($Request)->save()) {
-            return response()->json([
-                'msg' => "UpdateUserPickingCompany Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

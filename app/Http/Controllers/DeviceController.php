@@ -41,64 +41,67 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SaveDevice(Request $request)
+    public function saveDevice(Request $request)
     {
-        $request = $request->all();
-        
-        try
-            {
-                $Device = new \App\Device();
-                $Device = Device::insert($request);
-                
-                if ($Device) {
-                    return response()->json([
+        $devices = collect($request->all());    
+        $insert = $devices->where('row_mode', 1);
+        $update = $devices->where('row_mode', 0);
+       
+        //INSERT       
+        if (count($insert) > 0) {
+            $new = $insert->map(function ($comp) {
+                unset($comp['row_mode']);
+                $arr = collect($comp);
+                $this->Insert($arr->toArray());
+            });
+        }
+
+        //UPDATE
+        if (count($update) > 0) {
+            $this->Update($update->toArray());
+        }
+
+        return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
+    }
+
+    private function Insert($devices)
+    {
+       
+        try {
+                $Device = new \App\Device();
+                $Device = Device::insert($devices);
+                if (!$Device) {
                     return response()->json([
                         'Codigo' => "1"
                     ]);
                 }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
-                return response()->json([
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
-
-            }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function UpdateDevice(StoreDeviceRequest $request, $devi_id)
-    {
-        $Device = Device::where('devi_id', $devi_id)->get();
-
-        $Request = $request->all();
-       
-        if ($Device->fill($Request)->save()) {
-            return response()->json([
-                'msg' => "UpdateDevice Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    private function Update($devices)
     {
-        //
+        try {
+            foreach  ($devices as $id_key => $device) {
+                $Device =  Company::where(['devi_id' => $device['devi_id']])
+                                  ->where(['cpny_id' => $device['cpny_id']])
+                                  ->update(['devi_name' => $device['devi_name'],
+                                            'devi_active' => $device['devi_active'],
+                                            'devi_record' => $device['devi_record']]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        }
+        
     }
+
 }

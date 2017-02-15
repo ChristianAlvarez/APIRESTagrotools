@@ -154,56 +154,73 @@ class ReapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SaveReap(Request $request)
+    public function saveReap(Request $request)
     {
+        $reaps = collect($request->all());    
+        $insert = $reaps->where('row_mode', 1);
+        $update = $reaps->where('row_mode', 0);
+               
+        //INSERT       
+        if (count($insert) > 0) {
+            $new = $insert->map(function ($comp) {
+                unset($comp['row_mode']);
+                $arr = collect($comp);
+                $this->Insert($arr->toArray());
+                });
+        }
 
-        $request = $request->all();
-        
-        try
-            {
+        //UPDATE
+        if (count($update) > 0) {
+            $this->Update($update->toArray());
+        }
+
+        return response()->json([
+                'Codigo' => "2"
+        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+    }
+
+    private function Insert($reaps)
+    {
+       
+        try {
                 $Reap = new \App\Reap();
-                $Reap = Reap::insert($request);
-                
-                if ($Reap) {
-                    return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
+                $Reap = Reap::insert($reaps);
+                if (!$Reap) {
                     return response()->json([
                         'Codigo' => "1"
                     ]);
                 }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
-                return response()->json([
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
-
-            }
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function SaveDetailReap(StoreReapRequest $request)
-    {       
-
-        $request = $request->all();
-   
-        $DetailsReap = new \App\DetailsReap();
-        $DetailsReap = DetailsReap::insert($request);
-
-        if ($DetailsReap) {
+    private function Update($reaps)
+    {
+        try {
+            foreach  ($reaps as $id_key => $reap) {
+                $Reap =  Reap::where(['reap_id' => $reap['reap_id']])
+                             ->where(['cpny_id' => $reap['cpny_id']])
+                             ->update(['stus_id' => $reap['stus_id'],
+                                       'pers_id' => $reap['pers_id'],
+                                       'pers_name' => $reap['pers_name'],
+                                       'land_name' => $reap['land_name'],
+                                       'prun_name' => $reap['prun_name'],
+                                       'ticu_name' => $reap['ticu_name'],
+                                       'vare_name' => $reap['vare_name'],
+                                       'mere_name' => $reap['mere_name'],
+                                       'reap_record' => $reap['reap_record']]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
-                'msg' => "SaveDetailReap Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
         }
+        
     }
 
      /**

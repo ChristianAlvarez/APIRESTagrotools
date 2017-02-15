@@ -9,25 +9,6 @@ use App\DetailsReap;
 
 class DetailsReapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,79 +16,71 @@ class DetailsReapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function SaveDetailsReap(Request $request)
+    public function saveDetailsReap(Request $request)
     {
 
-        $request = $request->all();
-        
-        try
-            {
-                $DetailsReap = new \App\DetailsReap();
-                $DetailsReap = DetailsReap::insert($request);
-                
-                if ($DetailsReap) {
-                    return response()->json([
+        $detailsreaps = collect($request->all());    
+        $insert = $detailsreaps->where('row_mode', 1);
+        $update = $detailsreaps->where('row_mode', 0);
+       
+        //INSERT       
+        if (count($insert) > 0) {
+            $new = $insert->map(function ($comp) {
+                unset($comp['row_mode']);
+                $arr = collect($comp);
+                $this->Insert($arr->toArray());
+                //$this->Insert($comp);
+            });
+        }
+
+        //UPDATE
+        if (count($update) > 0) {
+            $this->Update($update->toArray());
+        }
+
+        return response()->json([
                         'Codigo' => "2"
                     ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                }
-                else{
+    }
+
+     private function Insert($detailsreaps)
+    {
+       
+        try {
+                $DetailsReap = new \App\DetailsReap();
+                $DetailsReap = DetailsReap::insert($detailsreaps);
+                if (!$DetailsReap) {
                     return response()->json([
                         'Codigo' => "1"
                     ]);
                 }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
-                return response()->json([
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
+        }
+    }
 
+    private function Update($detailsreaps)
+    {
+        try {
+            foreach  ($detailsreaps as $id_key => $detailsreap) {
+                $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                           ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                           ->where(['card_identification' => $detailsreap['card_identification']])
+                                           ->update(['pers_name' => $detailsreap['pers_name'],
+                                                     'quad_name' => $detailsreap['quad_name'],
+                                                     'dere_status_card' => $detailsreap['dere_status_card'],
+                                                     'dere_record' => $detailsreap['dere_record']]);
             }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        }
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
