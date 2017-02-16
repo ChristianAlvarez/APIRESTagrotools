@@ -24,11 +24,10 @@ class UserController extends Controller
     public function Login($Pers_id, $Uspi_password, $Devi_id)
     {
         
-        $UserPicking = UserPicking::with(array('Device' => function($query) use ($Devi_id)
+        $Picking = Picking::with(array('Device' => function($query) use ($Devi_id)
                                 {
                                     $query->where('Device.devi_id', $Devi_id);
                                     $query->where('Device.devi_active', 1);
-                                    $query->where('Device.devi_record', 0);
                                 }
                             ))
                             ->where('pers_id', $Pers_id)
@@ -36,7 +35,7 @@ class UserController extends Controller
                             ->where('uspi_active', 1)
                             ->get();
 
-        $Companys = UserPickingCompany::where('pers_id', $Pers_id)->get();
+        $Companys = Company::where('pers_id', $Pers_id)->get();
 
         /*$UserPicking = DB::table('UsersPicking')
                         ->join('Device', 'UsersPicking.pers_id', '=', 'Device.pers_id')

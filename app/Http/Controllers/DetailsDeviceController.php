@@ -66,11 +66,11 @@ class DetailsDeviceController extends Controller
     {
         try {
             foreach  ($detailsdevices as $id_key => $detailsdevice) {
-                $DetailsDevice =  Company::where(['devi_id' => $detailsdevice['devi_id']])
-                                         ->where(['cpny_id' => $detailsdevice['cpny_id']])
-                                         ->where(['pers_id' => $detailsdevice['pers_id']])
-                                         ->update(['dtde_active' => $detailsdevice['dtde_active'],
-                                                   'dtde_record' => $detailsdevice['dtde_record']]);
+                $DetailsDevice =  DetailsDevice::where(['devi_id' => $detailsdevice['devi_id']])
+                                                 ->where(['cpny_id' => $detailsdevice['cpny_id']])
+                                                 ->where(['pers_id' => $detailsdevice['pers_id']])
+                                                 ->update(['dtde_active' => $detailsdevice['dtde_active'],
+                                                           'dtde_record' => $detailsdevice['dtde_record']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([

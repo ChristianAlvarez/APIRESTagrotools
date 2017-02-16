@@ -89,7 +89,7 @@ class DeviceController extends Controller
     {
         try {
             foreach  ($devices as $id_key => $device) {
-                $Device =  Company::where(['devi_id' => $device['devi_id']])
+                $Device =  Device::where(['devi_id' => $device['devi_id']])
                                   ->where(['cpny_id' => $device['cpny_id']])
                                   ->update(['devi_name' => $device['devi_name'],
                                             'devi_active' => $device['devi_active'],

@@ -18,7 +18,7 @@ class CompanyController extends Controller
         $companys = collect($request->all());    
         $insert = $companys->where('row_mode', 1);
         $update = $companys->where('row_mode', 0);
-       
+        
         //INSERT       
         if (count($insert) > 0) {
             $new = $insert->map(function ($comp) {
@@ -41,7 +41,6 @@ class CompanyController extends Controller
 
     private function Insert($companys)
     {
-       //dd($companys);
         try {
                 $Company = new \App\Company();
                 $Company = Company::insert($companys);

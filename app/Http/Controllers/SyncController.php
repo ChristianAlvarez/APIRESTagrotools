@@ -80,9 +80,9 @@ class SyncController extends Controller
                                 ->get();
 
             $Data = [
-                'UserPicking' => $UserPicking,
+                'Picking' => $Picking,
                 'Device' => $Device,
-                'UserPickingCompanys' => $UserPickingCompanys,
+                'Company' => $Company,
                 'Reaps' => $Reaps
             ];
 
