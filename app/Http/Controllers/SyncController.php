@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\UserPicking;
 use App\Device;
-use App\UserPickingCompany;
+use App\Company;
 use App\Reap;
 
 class SyncController extends Controller
@@ -17,19 +17,9 @@ class SyncController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function SyncUp($Pers_id, $Cpny_id, $Devi_id)
+    public function SyncUp($Pers_id, $Cpny_id, $Devi_id, $Updated_at)
     {
-        /*$UserPicking = UserPicking::with(array('Device' => function($query) use ($Devi_id)
-                                {
-                                    $query->where('Device.devi_id', $Devi_id);
-                                    $query->where('Device.devi_active', 1);
-                                    $query->where('Device.devi_record', 0);
-                                }
-                            ))
-                            ->where('pers_id', $Pers_id)
-                            ->where('uspi_active', 1)
-                            ->where('uspi_record', 0)
-                            ->get();*/
+        
         $data = [
             'Pers_id' => $Pers_id, 
             'Cpny_id' => $Cpny_id,
@@ -61,29 +51,32 @@ class SyncController extends Controller
             ]);
         }else {
 
-            $UserPicking = UserPicking::where('pers_id', $Pers_id)
-                                        ->where('uspi_active', 1)
-                                        ->where('uspi_record', 0)
-                                        ->orderBy('created_at', 'desc')
-                                        ->get();
+            $Company = Company::where('pers_id', $Pers_id)
+                              ->where('cpny_id', $Cpny_id)
+                              ->where('cpny_active', 1)
+                              ->where('updated_at', '>', $Updated_at)
+                              ->orderBy('updated_at', 'desc')
+                              ->get();
+
+            $Picking = Picking::where('pers_id', $Pers_id)
+                              ->where('uspi_active', 1)
+                              ->where('updated_at', '>', $Updated_at)
+                              ->orderBy('updated_at', 'desc')
+                              ->get();
 
             $Device = Device::where('devi_id', $Devi_id)
                              ->where('devi_active', 1)
-                             ->where('devi_record', 0)
+                             ->where('updated_at', '>', $Updated_at)
+                             ->orderBy('updated_at', 'desc')
                              ->get();
 
-            $UserPickingCompanys = UserPickingCompany::where('pers_id', $Pers_id)
-                                                        ->where('cpny_id', $Cpny_id)
-                                                        ->where('cpny_active', 1)
-                                                        ->where('cpny_record', 0)
-                                                        ->orderBy('created_at', 'desc')
-                                                        ->get();
+           
 
             $Reaps = Reap::with('DetailsReap')
                                 ->where('cpny_id', $Cpny_id)
                                 ->where('pers_id', $Pers_id)
-                                ->where('reap_record', 0)
-                                ->orderBy('created_at', 'desc')
+                                ->where('updated_at', '>', $Updated_at)
+                                ->orderBy('updated_at', 'desc')
                                 ->get();
 
             $Data = [
