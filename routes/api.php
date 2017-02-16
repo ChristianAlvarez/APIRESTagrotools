@@ -44,7 +44,7 @@ Route::post('/saveuserpickingcompany', 'UserController@SaveUserPickingCompany');
 Route::put('/updateuserpickingcompany/{cpny_id}/{pers_id}', 'UserController@UpdateUserPickingCompany');
 
 //SYNC
-Route::get('/syncUp/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@SyncUp');
+Route::get('/syncUp/{pers_id}/{cpny_id}/{devi_id}/{updated_at}', 'SyncController@SyncUp');
 Route::get('/Synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchronized');
 
 //MOVEMENTREAP
