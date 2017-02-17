@@ -37,7 +37,7 @@ Route::post('/savereap', 'ReapController@saveReap');
 Route::post('/savedetailsreap', 'DetailsReapController@saveDetailsReap');
 
 //USER
-Route::get('/login/{pers_id}/{uspi_password}/{devi_id}', 'UserController@Login');
+Route::post('/login', 'UserController@Login');
 Route::post('/saveuserpicking', 'UserController@SaveUserPicking');
 Route::put('/updateuserpicking/{pers_id}', 'UserController@UpdateUserPicking');
 Route::post('/saveuserpickingcompany', 'UserController@SaveUserPickingCompany');

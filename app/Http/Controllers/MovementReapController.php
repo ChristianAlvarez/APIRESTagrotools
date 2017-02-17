@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\MovementReap;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\MovementReapRequest;
 
 class MovementreapController extends Controller
@@ -50,34 +51,28 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function postMovementReap($updated_at, $cpny_id)
+    public function postMovementReap(Request $request)
     {
-       
-       $id = MovementReap::where('id' ,'>' ,0)
-                                      ->where('updated_at', '>', $updated_at)
-                                      ->where('cpny_id', $cpny_id)
-                                      ->where('more_record', 0)
-                                      ->pluck('id')->toArray();  
+       //$updated_at, $cpny_id
+       $Request = $request->all();
 
+       $id = MovementReap::where('id' ,'>' ,0)
+                         ->where('updated_at', '>', $Request['updated_at'])
+                         ->where('cpny_id', $Request['cpny_id'])
+                         ->where('more_record', 0)
+                         ->pluck('id')->toArray();  
+        
         if (!empty($id)) 
         {
 
             try 
                 {
                     
-                    $MovementReap = MovementReap::whereIn('id',$id)->update(['more_record' => 1]);
+                  $MovementReap = MovementReap::whereIn('id',$id)->update(['more_record' => 1]);
 
-                    if ($MovementReap) 
-                    {
-                        return response()->json([
-                            'Codigo' => "2"
-                        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
-                    }
-                    else{
-                        return response()->json([
-                            'Codigo' => "1"
-                        ]);
-                    }
+                  return response()->json([
+                      'Codigo' => "2"
+                  ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
             }
             catch(\Illuminate\Database\QueryException $e)
             {
@@ -86,6 +81,13 @@ class MovementreapController extends Controller
                     'Descripcion' => $e
                 ]);
             }
+        }
+        else
+        {
+          return response()->json([
+              'Codigo' => "1",
+              'Descripcion' => "No existen registros para la condición de su consulta"
+          ]);
         }
         
     }
