@@ -21,8 +21,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Login($Pers_id, $Uspi_password, $Devi_id)
+    public function Login($Pers_id, $Pick_password, $Devi_id)
     {
+        $Login = DB::table('Device')
+                        ->join('DetailsDevice', 'Device.devi_id', '=', 'DetailsDevice.devi_id')
+                            ->where('DetailsDevice.cpny_id ', '=', 'Device.cpny_id');
+                        ->join('Picking', 'DetailsDevice.pers_id', '=', 'Picking.pers_id')
+                            ->where('DetailsDevice.cpny_id ', '=', 'Picking.cpny_id');
+                        ->join('Company', 'Device.cpny_id', '=', 'Company.cpny_id')
+                        ->where('DetailsDevice.dtde_active', '=', 'Device.devi_active')
+                                    ->where('Picking.pick_active', 1)
+                                    ->where('Company.cpny_active', 1)
+                                    ->where('Picking.pick_password', $Pick_password)
+                                    ->where('Picking.pers_id', $Pers_id)
+                                    ->where('Device.devi_id', $Devi_id)
+                                    ->get();
+        
+        dd($Login);
+
         
         $Picking = Picking::with(array('Device' => function($query) use ($Devi_id)
                                 {
@@ -34,6 +50,11 @@ class UserController extends Controller
                             ->where('uspi_password', $Uspi_password)
                             ->where('uspi_active', 1)
                             ->get();
+
+        if (!empty($Picking)) {
+                
+        }
+
 
         $Companys = Company::where('pers_id', $Pers_id)->get();
 

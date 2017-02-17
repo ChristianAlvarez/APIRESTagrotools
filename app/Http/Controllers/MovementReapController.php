@@ -43,16 +43,6 @@ class MovementreapController extends Controller
         $MovementReap = MovementReap::all();
         
         return Response()->json(array('MovementReap' => $MovementReap));
-
-        /*if (!empty($created_at)) {
-            $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
-            return Response()->json(array('MovementReap' => $MovementReap));
-        }
-        else{
-            $MovementReap = MovementReap::all();
-            return Response()->json(array('MovementReap' => $MovementReap));
-        }*/
-        
     }
 
     /**
