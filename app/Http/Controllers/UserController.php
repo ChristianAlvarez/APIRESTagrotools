@@ -8,6 +8,7 @@ use App\Http\Requests\StorePickingRequest;
 use App\http\Requests\StoreUserPickingCompanyRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Hash;
 use App\DetailsReap;
 use App\Company;
 use App\Reap;
@@ -160,5 +161,48 @@ class UserController extends Controller
                     'Descripcion' => $e
                 ]);
         }
+    }
+
+    public function store(Request $request)
+    {
+ 
+        $Picking = new \App\Picking();
+        $Picking->pers_id = $request->pers_id;
+        $Picking->cpny_id = $request->cpny_id;
+        $Picking->pers_name = $request->pers_name;
+        $Picking->pick_password = Hash::make($request->pick_password);
+        $Picking->pick_active = $request->pick_active;
+        $Picking->pick_record = $request->pick_record;
+
+        if ($Picking->save()) {
+            return response()->json([
+                'Picking' => $Picking
+            ]);
+        } 
+    }
+
+    public function get()
+    {
+        $id = '16173026-2';
+        $pass = '123456';
+        $Picking = Picking::where('pers_id', $id)->first();
+
+        if($Picking->count()) 
+        {
+            //dd($Picking);
+            if(Hash::check($pass, $Picking->pick_password)) 
+            {
+                 //User has provided valid credentials :)
+                dd($Picking);
+            }
+        }
+
+        //dd($Picking->pick_password);
+        //dd(Hash::check('pick_password', $Picking->pick_password));
+
+            return response()->json([
+                'Picking' => $Picking
+            ]);
+       
     }
 }

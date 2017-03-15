@@ -17,6 +17,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+Route::group(['prefix' => '/v1'], function (){
+	Route::get('/usuario', 'AuthenticateController@index');
+	Route::post('/iniciarSesion', 'AuthenticateController@authenticate');
+});
+
+Route::post('/store', 'UserController@store');
+Route::get('/getuser', 'UserController@get');
+
 //COMPANY
 Route::post('/savecompany', 'CompanyController@saveCompany');
 

@@ -14,6 +14,7 @@ class CreatePickingTable extends Migration
     public function up()
     {
         Schema::create('picking', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('pers_id', 12);
             $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('pers_name', 160);
@@ -22,8 +23,9 @@ class CreatePickingTable extends Migration
             $table->boolean('pick_record');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
-
-            $table->primary(array('pers_id', 'cpny_id'));
+            $table->rememberToken();
+            
+            //$table->primary(array('id', 'pers_id', 'cpny_id'));
         });
     }
 
