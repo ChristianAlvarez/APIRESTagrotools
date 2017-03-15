@@ -43,7 +43,7 @@ class UserController extends Controller
                         ->where('Device.devi_active', 1)
                         ->where('Picking.pick_active', 1)
                         ->where('Company.cpny_active', 1)
-                        ->where('Picking.pick_password', $Request['pick_password'])
+                        ->where('Picking.password', $Request['password'])
                         ->where('Picking.pers_id', $Request['pers_id'])
                         ->where('Device.devi_id', $Request['devi_id'])
                         ->get();                      
@@ -151,7 +151,7 @@ class UserController extends Controller
                 $Picking =  Picking::where(['pers_id' => $company['pers_id']])
                                    ->where(['cpny_id' => $company['cpny_id']])
                                    ->update(['pers_name' => $company['pers_name'],
-                                             'pick_password' => $company['pick_password|'],
+                                             'password' => $company['password|'],
                                              'pick_active' => $company['pick_active'],
                                              'pick_record' => $company['pick_record']]);
                 }
@@ -170,7 +170,7 @@ class UserController extends Controller
         $Picking->pers_id = $request->pers_id;
         $Picking->cpny_id = $request->cpny_id;
         $Picking->pers_name = $request->pers_name;
-        $Picking->pick_password = Hash::make($request->pick_password);
+        $Picking->password = Hash::make($request->password);
         $Picking->pick_active = $request->pick_active;
         $Picking->pick_record = $request->pick_record;
 

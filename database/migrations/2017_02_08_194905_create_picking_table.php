@@ -18,7 +18,7 @@ class CreatePickingTable extends Migration
             $table->string('pers_id', 12);
             $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('pers_name', 160);
-            $table->string('pick_password');
+            $table->string('password');
             $table->boolean('pick_active');
             $table->boolean('pick_record');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
