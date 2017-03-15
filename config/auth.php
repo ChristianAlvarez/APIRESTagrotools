@@ -68,7 +68,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Picking::class,
-            
+            'table' => 'picking',
         ],
 
          'users' => [

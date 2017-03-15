@@ -21,7 +21,7 @@ class Picking extends Model
         'pers_id',
         'cpny_id',
         'pers_name',
-        'pick_password',
+        'password',
         'pick_active',
         'pick_record',
     ];
@@ -33,6 +33,7 @@ class Picking extends Model
      * @var array
      */
     protected $hidden = [
-        'pick_password', 
+        'password', 
     ];
+
 }
