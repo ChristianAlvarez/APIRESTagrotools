@@ -13,17 +13,46 @@ use Illuminate\Http\Request;
 |
  */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::post('/saveuser', 'MobileController@storeUser');
 
-Route::group(['prefix' => '/v1'], function (){
-	Route::get('/usuario', 'AuthenticateController@index');
-	Route::post('/iniciarSesion', 'AuthenticateController@authenticate');
+//MOBILE
+Route::group(['prefix' => '/agrooreap/mobile'], function (){
+	//USER - AUTHENTICATE
+	Route::post('/authenticate', 'MobileController@authenticate');
+	Route::get('/indexuser', 'MobileController@indexUser');
+
+	//MOVEMENTREAP
+	Route::get('/indexmovementreap', 'MobileController@indexMovementReap');
+	Route::post('/savemovementreap', 'MobileController@storeMovementReap');
 });
 
-Route::post('/store', 'UserController@store');
-Route::get('/getuser', 'UserController@get');
+//DESKTOP
+Route::group(['prefix' => '/agrooreap/desktop'], function (){
+	//USER - AUTHENTICATE
+	Route::post('/authenticate', 'DesktopController@authenticate');
+	
+	//COMPANY
+	Route::post('/savecompany', 'DesktopController@saveCompany');
+
+	//PICKING
+	Route::post('/savepicking', 'DesktopController@savePicking');
+
+	//DEVICE
+	Route::post('/savedevice', 'DesktopController@saveDevice');
+
+	//DETAILSDEVICE
+	Route::post('/savedetailsdevice', 'DesktopController@saveDetailsDevice');
+
+	//REAP
+	Route::get('/reap/{pers_id}/{cpny_id}', 'DesktopController@index');
+	Route::post('/savereap', 'DesktopController@saveReap');
+
+	//DETAILSREAP
+	Route::post('/savedetailsreap', 'DesktopController@saveDetailsReap');
+
+	//MOVEMENTREAP
+	Route::get('/getmovementreap/{date}/{company}', 'DesktopController@getMovementReap');
+});
 
 //COMPANY
 Route::post('/savecompany', 'CompanyController@saveCompany');
@@ -59,4 +88,4 @@ Route::get('/Synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchr
 Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovementReap');
 Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
 
-Route::get('/get', 'MovementreapController@get');
+

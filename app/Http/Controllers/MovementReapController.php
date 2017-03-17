@@ -15,23 +15,11 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMovementReap($updated_at, $cpny_id)
+    public function index()
     {
-        $MovementReap = MovementReap::where('updated_at', '>', $updated_at)
-                                    ->where('cpny_id', $cpny_id)
-                                    ->get();
+        $MovementReap = MovementReap::all();
         
         return Response()->json(array('MovementReap' => $MovementReap));
-
-        /*if (!empty($created_at)) {
-            $MovementReap = MovementReap::where('created_at', '>', $created_at)->get();
-            return Response()->json(array('MovementReap' => $MovementReap));
-        }
-        else{
-            $MovementReap = MovementReap::all();
-            return Response()->json(array('MovementReap' => $MovementReap));
-        }*/
-        
     }
 
     /**
@@ -39,9 +27,11 @@ class MovementreapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get()
+    public function getMovementReap($updated_at, $cpny_id)
     {
-        $MovementReap = MovementReap::all();
+        $MovementReap = MovementReap::where('updated_at', '>', $updated_at)
+                                    ->where('cpny_id', $cpny_id)
+                                    ->get();
         
         return Response()->json(array('MovementReap' => $MovementReap));
     }
@@ -68,7 +58,8 @@ class MovementreapController extends Controller
             try 
                 {
                     
-                  $MovementReap = MovementReap::whereIn('id',$id)->update(['more_record' => 1]);
+                  $MovementReap = MovementReap::whereIn('id',
+                    $id)->update(['more_record' => 1]);
 
                   return response()->json([
                       'Codigo' => "2"

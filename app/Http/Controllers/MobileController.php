@@ -3,26 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
+use DB;
 use Hash;
-use App\DetailsReap;
-use App\Company;
+use JWTAuth;
+use Carbon\Carbon;
+
 use App\Reap;
 use App\Device;
+use App\Company;
 use App\Picking;
-use DB;
+use App\DetailsReap;
+use App\MovementReap;
 
-class AuthenticateController extends Controller
+class MobileController extends Controller
 {
-	public function __construct()
+    public function __construct()
 	{
 		$this->middleware('jwt.auth', ['except' => ['authenticate']]);
 	}
 
-	public function index()
+	public function indexUser()
 	{
         $picking = Picking::all();
 		return response()->json(compact('picking'));
@@ -58,18 +62,17 @@ class AuthenticateController extends Controller
        
         $token = null;
 
-        $customClaims = ['pick_record' => '0'];
+        //$customClaims = ['pick_record' => '0'];
         //dd($customClaims);
         try 
         {   
-
             //$user = Picking::where('pers_id', $request->pers_id)->first();
             //dd(JWTAuth::fromUser($user, $customClaims));
             //dd($token = JWTAuth::fromUser($user,['pick_record' => '0']));
             //if (!$token = JWTAuth::fromUser($user, $customClaims))
             //{
             // attempt to verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials, $customClaims)) 
+            if (!$token = JWTAuth::attempt($credentials)) 
             {  
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
@@ -146,32 +149,13 @@ class AuthenticateController extends Controller
         return response()->json(compact('token', 'Data'));
     }
 
-    public function get()
-    {
-        $id = '16173026-2';
-        $pass = '123456';
-        $Picking = Picking::where('pers_id', $id)->first();
-
-        if($Picking->count()) 
-        {
-            //dd($Picking);
-            if(Hash::check($pass, $Picking->pick_password)) 
-            {
-                 //User has provided valid credentials :)
-                dd($Picking);
-            }
-        }
-
-        //dd($Picking->pick_password);
-        //dd(Hash::check('pick_password', $Picking->pick_password));
-
-            return response()->json([
-                'Picking' => $Picking
-            ]);
-       
-    }
-
-    public function store(Request $request)
+    /**
+     * Store a User newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeUser(Request $request)
     {
  
         $Picking = new \App\Picking();
@@ -187,5 +171,52 @@ class AuthenticateController extends Controller
                 'Picking' => $Picking
             ]);
         } 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexMovementReap()
+    {
+        $MovementReap = MovementReap::all();
+        
+        return Response()->json(array('MovementReap' => $MovementReap));
+    }
+
+    /**
+     * Store a MovementReap newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMovementReap(Request $request)
+    {
+        $request = $request->all();
+        try 
+            {
+                $MovementReap = new \App\MovementReap();
+                $MovementReap = MovementReap::insert($request);
+
+                if ($MovementReap) {
+                    return response()->json([
+                        'Codigo' => "2"
+                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                }
+                else{
+                    return response()->json([
+                            'Codigo' => "1"
+                    ]);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
     }
 }
