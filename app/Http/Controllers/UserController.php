@@ -162,5 +162,29 @@ class UserController extends Controller
                 ]);
         }
     }
+
+    /**
+     * Store a User newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeUser(Request $request)
+    {
+ 
+        $Picking = new \App\Picking();
+        $Picking->pers_id = $request->pers_id;
+        $Picking->cpny_id = $request->cpny_id;
+        $Picking->pers_name = $request->pers_name;
+        $Picking->password = Hash::make($request->password);
+        $Picking->pick_active = $request->pick_active;
+        $Picking->pick_record = $request->pick_record;
+
+        if ($Picking->save()) {
+            return response()->json([
+                'Picking' => $Picking
+            ]);
+        } 
+    }
     
 }

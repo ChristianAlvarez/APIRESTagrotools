@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
  */
 
-Route::post('/saveuser', 'MobileController@storeUser');
+Route::post('/saveuser', 'UserController@storeUser');
 
 //MOBILE
 Route::group(['prefix' => '/agrooreap/mobile'], function (){
