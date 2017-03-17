@@ -82,10 +82,11 @@ class DesktopController extends Controller
     //COMPANY
     public function saveCompany(Request $request)
     {
-        $companys = collect($request->all());    
-        $insert = $companys->where('row_mode', 1);
-        $update = $companys->where('row_mode', 0);
-        
+        $companys = collect($request->all());   
+        $results = $companys->slice(0, -1); 
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
+
         //INSERT       
         if (count($insert) > 0) {
             $new = $insert->map(function ($comp) {
@@ -98,12 +99,13 @@ class DesktopController extends Controller
 
         //UPDATE
         if (count($update) > 0) {
+        	dd($update);
             $this->UpdateCompany($update->toArray());
         }
 
         return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            'Codigo' => "2"
+        ]);
     }
 
     private function InsertCompany($companys)
@@ -151,9 +153,10 @@ class DesktopController extends Controller
      */
     public function savePicking(Request $request)
     { 
-        $pickings = collect($request->all());    
-        $insert = $pickings->where('row_mode', 1);
-        $update = $pickings->where('row_mode', 0);
+        $pickings = collect($request->all());   
+        $results = $pickings->slice(0, -1);  
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -234,9 +237,10 @@ class DesktopController extends Controller
      */
     public function saveDevice(Request $request)
     {
-        $devices = collect($request->all());    
-        $insert = $devices->where('row_mode', 1);
-        $update = $devices->where('row_mode', 0);
+        $devices = collect($request->all());  
+        $results = $devices->slice(0, -1);    
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -304,9 +308,10 @@ class DesktopController extends Controller
      */
     public function saveDetailsDevice(Request $request)
     {
-        $detailsdevices = collect($request->all());    
-        $insert = $detailsdevices->where('row_mode', 1);
-        $update = $detailsdevices->where('row_mode', 0);
+        $detailsdevices = collect($request->all()); 
+        $results = $detailsdevices->slice(0, -1);       
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -375,9 +380,10 @@ class DesktopController extends Controller
      */
     public function saveReap(Request $request)
     {
-        $reaps = collect($request->all());    
-        $insert = $reaps->where('row_mode', 1);
-        $update = $reaps->where('row_mode', 0);
+        $reaps = collect($request->all()); 
+        $results = $reaps->slice(0, -1);         
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
         
         //INSERT       
         if (count($insert) > 0) {
@@ -455,9 +461,10 @@ class DesktopController extends Controller
     public function saveDetailsReap(Request $request)
     {
 
-        $detailsreaps = collect($request->all());    
-        $insert = $detailsreaps->where('row_mode', 1);
-        $update = $detailsreaps->where('row_mode', 0);
+        $detailsreaps = collect($request->all());  
+        $results = $detailsreaps->slice(0, -1);    
+        $insert = $results->where('row_mode', 1);
+        $update = $results->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
