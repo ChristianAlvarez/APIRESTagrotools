@@ -76,7 +76,7 @@ class DesktopController extends Controller
     		return response()->json(['error' => $ex], 500);
     	}
 
-    	return response()->json(compact('token', 'user'));
+    	return response()->json(compact('token'));
     }
 
     //COMPANY
