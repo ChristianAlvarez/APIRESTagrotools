@@ -188,7 +188,7 @@ class DesktopController extends Controller
 			    $Picking->pick_active = $picking->pick_active;
 			    $Picking->pick_record = $picking->pick_record;
 
-				$Picking->save()
+				$Picking->save();
 			}
                 /*$Picking = new \App\Picking();
                 $Picking = Picking::insert($pickings);
