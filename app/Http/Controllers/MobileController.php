@@ -80,16 +80,16 @@ class MobileController extends Controller
                 {
 
                     $Login = DB::table('device')
-                            ->join('detailsDevice', function ($join) {
-                                    $join->on('detailsDevice.devi_id', '=', 'device.devi_id');
+                            ->join('detailsdevice', function ($join) {
+                                    $join->on('detailsdevice.devi_id', '=', 'device.devi_id');
                                 })
                             ->join('picking', function ($join) {
-                                    $join->on('detailsDevice.pers_id', '=', 'picking.pers_id');
+                                    $join->on('detailsdevice.pers_id', '=', 'picking.pers_id');
                                 })
                             ->join('company', function ($join) {
                                     $join->on('device.cpny_id', '=', 'company.cpny_id');
                                 })
-                            ->where('detailsDevice.dtde_active', 1)
+                            ->where('detailsdevice.dtde_active', 1)
                             ->where('device.devi_active', 1)
                             ->where('picking.pick_active', 1)
                             ->where('company.cpny_active', 1)
