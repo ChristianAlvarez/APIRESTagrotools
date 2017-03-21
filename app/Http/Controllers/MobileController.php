@@ -80,21 +80,21 @@ class MobileController extends Controller
                 {
 
                     $Login = DB::table('device')
-                            ->join('DetailsDevice', function ($join) {
-                                    $join->on('DetailsDevice.devi_id', '=', 'Device.devi_id');
+                            ->join('detailsDevice', function ($join) {
+                                    $join->on('detailsDevice.devi_id', '=', 'device.devi_id');
                                 })
-                            ->join('Picking', function ($join) {
-                                    $join->on('DetailsDevice.pers_id', '=', 'Picking.pers_id');
+                            ->join('picking', function ($join) {
+                                    $join->on('detailsDevice.pers_id', '=', 'picking.pers_id');
                                 })
-                            ->join('Company', function ($join) {
-                                    $join->on('Device.cpny_id', '=', 'Company.cpny_id');
+                            ->join('company', function ($join) {
+                                    $join->on('device.cpny_id', '=', 'company.cpny_id');
                                 })
-                            ->where('DetailsDevice.dtde_active', 1)
-                            ->where('Device.devi_active', 1)
-                            ->where('Picking.pick_active', 1)
-                            ->where('Company.cpny_active', 1)
-                            ->where('Picking.pers_id', $request->pers_id)
-                            ->where('Device.devi_id', $request->devi_id)
+                            ->where('detailsDevice.dtde_active', 1)
+                            ->where('device.devi_active', 1)
+                            ->where('picking.pick_active', 1)
+                            ->where('company.cpny_active', 1)
+                            ->where('picking.pers_id', $request->pers_id)
+                            ->where('device.devi_id', $request->devi_id)
                             ->get();
                         
                     if (count($Login) > 0) {
