@@ -62,8 +62,6 @@ class MobileController extends Controller
        
         $token = null;
 
-        //$customClaims = ['pick_record' => '0'];
-        //dd($customClaims);
         try 
         {   
             //$user = Picking::where('pers_id', $request->pers_id)->first();
@@ -80,8 +78,8 @@ class MobileController extends Controller
             {
                 try 
                 {
-                    
-                    $Login = DB::table('Device')
+
+                    $Login = DB::table('device')
                             ->join('DetailsDevice', function ($join) {
                                     $join->on('DetailsDevice.devi_id', '=', 'Device.devi_id');
                                 })

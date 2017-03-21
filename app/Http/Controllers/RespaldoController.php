@@ -2,88 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-use DB;
-use Hash;
-use Carbon\Carbon;
-
-use App\Reap;
-use App\Device;
-use App\Company;
-use App\Picking;
-use App\DetailsReap;
-use App\MovementReap;
-
-class DesktopController extends Controller
+class RespaldoController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('jwt.auth', ['except' => ['authenticate']]);
-	}
-
-    public function authenticate(Request $request)
-    {   
-        // grab credentials from the request
-        $credentials = $request->only('pers_id', 'password');       
-
-        $rules = [
-            'pers_id'   => 'required|max:12',
-            'password'  => 'required',
-        ];
-
-        $messages = [
-            'pers_id.required'  => 'pers_id - Identificador del usuario es requerido',
-            'pers_id.max'       => 'Pers_id - Id maximo de caracteres permitidos 12',
-            'password.required' => 'password es requerido',
-        ];       
-
-        $validator = Validator::make($credentials, $rules, $messages);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error validacion' => $validator->errors()
-            ]);
-        }
-       
-        $user = null;
-        $token = null;
-
-        //$customClaims = ['pers_role' => '1'];
-        
-    	try {
-            if (!$request->has('password')) {
-                $user = User::where('pers_id', $request->pers_id)->first();
-                if (empty($user)) {
-                    return response()->json(['error' => 'usuario del servicio no existe'], 500);
-                }
-
-                if (!$token = JWTAuth::fromUser($user)) {
-                    return response()->json(['error' => 'invalid_credentials'], 500);
-                }
-                
-            }else {
-        		if (!$token = JWTAuth::attempt($credentials)) {
-        			return response()->json(['error' => 'invalid_credentials'], 500);
-        		}
-
-                $user = JWTAuth::toUser($token);
-            }
-    	} catch (JWTException $ex) {
-    		return response()->json(['error' => $ex], 500);
-    	}
-
-    	return response()->json(compact('token'));
-    }
-
-    //COMPANY
+        //COMPANY
     public function saveCompany(Request $request)
     {
         $companys = collect($request->all()); 
-        //dd($companys);
+        //dd($companys  );
         $results = $companys->slice(0, -1); 
 
         $insert = $results->where('row_mode', 1);
@@ -114,7 +41,22 @@ class DesktopController extends Controller
 
     private function InsertCompany($companys)
     {
-        
+
+        try {
+                $Company = new \App\Company();
+                $Company = Company::insert($companys);
+
+                if (!$Company) {
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        }
     }
 
     private function UpdateCompany($companys)
@@ -510,20 +452,5 @@ class DesktopController extends Controller
                     'Descripcion' => $e
                 ]);
         }  
-    }
-
-    //MOVEMENTREAP
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getMovementReap($updated_at, $cpny_id)
-    {
-        $MovementReap = MovementReap::where('updated_at', '>', $updated_at)
-                                    ->where('cpny_id', $cpny_id)
-                                    ->get();
-        
-        return Response()->json(array('MovementReap' => $MovementReap));
     }
 }
