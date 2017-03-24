@@ -24,6 +24,7 @@ class Picking extends Model
         'password',
         'pick_active',
         'pick_record',
+        'last_conection'
     ];
 
     
@@ -33,7 +34,7 @@ class Picking extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 
+        
     ];
 
 }

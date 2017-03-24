@@ -59,92 +59,109 @@ class MobileController extends Controller
                 'error validacion' => $validator->errors()
             ]);
         }
-       
+
+        $user = null;
         $token = null;
 
         try 
         {   
-            //$user = Picking::where('pers_id', $request->pers_id)->first();
-            //dd(JWTAuth::fromUser($user, $customClaims));
-            //dd($token = JWTAuth::fromUser($user,['pick_record' => '0']));
-            //if (!$token = JWTAuth::fromUser($user, $customClaims))
-            //{
+            
             // attempt to verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) 
-            {  
-                return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-            else
-            {
-                try 
+	        {  
+	            return response()->json(['error' => 'invalid_credentials'], 401);
+	        }
+	        else
+	        {
+	            $user = Picking::where('pers_id', $request->pers_id)->first();
+                	
+                if ($user->last_conection === null) 
                 {
+                	
+                	try 
+		            {
 
-                    $Login = DB::table('device')
-                            ->join('detailsdevice', function ($join) {
-                                    $join->on('detailsdevice.devi_id', '=', 'device.devi_id');
-                                })
-                            ->join('picking', function ($join) {
-                                    $join->on('detailsdevice.pers_id', '=', 'picking.pers_id');
-                                })
-                            ->join('company', function ($join) {
-                                    $join->on('device.cpny_id', '=', 'company.cpny_id');
-                                })
-                            ->where('detailsdevice.dtde_active', 1)
-                            ->where('device.devi_active', 1)
-                            ->where('picking.pick_active', 1)
-                            ->where('company.cpny_active', 1)
-                            ->where('picking.pers_id', $request->pers_id)
-                            ->where('device.devi_id', $request->devi_id)
-                            ->get();
-                        
-                    if (count($Login) > 0) {
-                   
-                        $Picking = Picking::where('pers_id',  $request->pers_id)->get();
+		                $Login = DB::table('device')
+		                            ->join('detailsdevice', function ($join) {
+		                                    $join->on('detailsdevice.devi_id', '=', 'device.devi_id');
+		                                })
+		                            ->join('picking', function ($join) {
+		                                    $join->on('detailsdevice.pers_id', '=', 'picking.pers_id');
+		                                })
+		                            ->join('company', function ($join) {
+		                                    $join->on('device.cpny_id', '=', 'company.cpny_id');
+		                                })
+		                            ->where('detailsdevice.dtde_active', 1)
+		                            ->where('device.devi_active', 1)
+		                            ->where('picking.pick_active', 1)
+		                            ->where('company.cpny_active', 1)
+		                            ->where('picking.pers_id', $request->pers_id)
+		                            ->where('device.devi_id', $request->devi_id)
+		                            ->get();
+		                   
+		                if (count($Login) > 0) 
+		                {
+		                   
+		                    $Picking = Picking::where('pers_id',  $request->pers_id)->get();
 
-                        $cpny_id = $Login->pluck('cpny_id');
+		                    $cpny_id = $Login->pluck('cpny_id');
 
-                        $Company = Company::whereIn('cpny_id', $cpny_id)->get();       
+		                    $Company = Company::whereIn('cpny_id', $cpny_id)->get();       
 
-                        $Reap = Reap::whereIn('cpny_id', $cpny_id)->get();
+		                    $Reap = Reap::whereIn('cpny_id', $cpny_id)->get();
 
-                        $reap_id = $Reap->pluck('reap_id');
+		                    $reap_id = $Reap->pluck('reap_id');
 
-                        $DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)->get(); 
+		                    $DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)->get(); 
 
-                        $Data = [
-                            'Company'       => $Company,
-                            'Picking'       => $Picking,
-                            'Reap'          => $Reap,
-                            'DetailsReap'   => $DetailsReap
-                        ];
+		                    $Data = [
+		                        'Company'       => $Company,
+		                        'Picking'       => $Picking,
+		                        'Reap'          => $Reap,
+		                        'DetailsReap'   => $DetailsReap
+		                    ];
 
-                    }
-                    else
-                    {
-                        return response()->json([
-                            'Codigo' => "1",
-                            'Mensaje' => "Usuarios y/o contraseña incorrecto"
-                        ]);
-                    }       
-                } 
-                catch(\Illuminate\Database\QueryException $e) 
+		                    // all good so return the token
+        					return response()->json(compact('token', 'Data'));
+		                }
+		                else
+		                {
+		                    return response()->json([
+		                        'Codigo' => "1",
+		                        'Mensaje' => "Usuarios y/o contraseña incorrecto"
+		                    ]);
+		                }    
+
+		            //Actualizamos la fecha de ultima conexión
+                	$user->last_conection = Carbon::now();
+                	$user->save();
+   
+		            } 
+		            catch(\Illuminate\Database\QueryException $e) 
+		            {
+		                return response()->json([
+		                    'Codigo' => "2",
+		                    'Descripcion' => $e
+		                ]);
+		                
+                	}
+                }	
+                else
                 {
-                    return response()->json([
-                        'Codigo' => "1",
-                        'Descripcion' => $e
-                    ]);       
-                }                  
-
-            }
+                	$Data = [
+		                'User' => $user
+		            ];
+                	// all good so return the token
+        			return response()->json(compact('token', 'Data'));
+                }                    
+	        }                  
         } 
         catch (JWTException $e) 
         {
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
-        // all good so return the token
-        return response()->json(compact('token', 'Data'));
+        
     }
 
     /**
