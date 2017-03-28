@@ -121,6 +121,10 @@ class MobileController extends Controller
 		                        'DetailsReap'   => $DetailsReap
 		                    ];
 
+							//Actualizamos la fecha de ultima conexión
+                			$user->last_conection = Carbon::now();
+                			$user->save();
+
 		                    // all good so return the token
         					return response()->json(compact('token', 'Data'));
 		                }
@@ -131,10 +135,6 @@ class MobileController extends Controller
 		                        'Mensaje' => "Usuarios y/o contraseña incorrecto"
 		                    ]);
 		                }    
-
-		            //Actualizamos la fecha de ultima conexión
-                	$user->last_conection = Carbon::now();
-                	$user->save();
    
 		            } 
 		            catch(\Illuminate\Database\QueryException $e) 
