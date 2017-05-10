@@ -9,6 +9,7 @@ use App\UserPicking;
 use App\Device;
 use App\Company;
 use App\Reap;
+use App\DetailsReap;
 
 class SyncController extends Controller
 {
@@ -17,9 +18,20 @@ class SyncController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function SyncUp($Pers_id, $Cpny_id, $Devi_id, $Updated_at)
+    public function SyncUp(Request $request)
     {
         
+        $requests = $request->only('pers_id', 'password', 'devi_id', 'updated_at_company', 'updated_at_picking', 'updated_at_device', 'updated_at_reap', 'updated_at_detailsreap'); 
+
+        $Pers_id = $request->pers_id;
+        $Cpny_id = $request->cpny_id;
+        $Devi_id = $request->devi_id;
+        $Updated_at_company = $request->updated_at_company;
+        $Updated_at_picking = $request->updated_at_picking;
+        $Updated_at_device = $request->updated_at_device;
+        $Updated_at_reap = $request->updated_at_reap;
+        $Updated_at_detailsreap = $request->updated_at_detailsreap;
+
         $data = [
             'Pers_id' => $Pers_id, 
             'Cpny_id' => $Cpny_id,
@@ -27,17 +39,17 @@ class SyncController extends Controller
         ]; 
 
         $rules = [
-            'Pers_id' => 'required|max:12|exists:userspicking,pers_id',
+            'Pers_id' => 'required|max:15|exists:userspicking,pers_id',
             'Cpny_id' => 'required|max:20',
             'Devi_id' => 'required|max:50|exists:device,devi_id',
         ];
 
         $messages = [
             'Pers_id.required' => 'pers_id - Identificador del usuario es requerido',
-            'Pers_id.max'      => 'Pers_id - Id maximo de caracteres permitidos 20',
+            'Pers_id.max'      => 'Pers_id - Id maximo de caracteres permitidos 15',
             'Pers_id.exists'   => 'pers_id - Identificador del usuario debe existir en tabla Userpicking',
             'Cpny_id.required' => 'cpny_id - Compañia es requerido',
-            'Cpny_id.max'      => 'cpny_id - Compañia maximo de caracteres permitidos 12',
+            'Cpny_id.max'      => 'cpny_id - Compañia maximo de caracteres permitidos 20',
             'Devi_id.required' => 'devi_id - Identificador del dispositivo es requerido',
             'Devi_id.max'      => 'devi_id - Dispositivo maximo de caracteres permitidos 50',
             'Devi_id.exists'   => 'devi_id - Identificador del dispositivo debe existir en tabla Device',
@@ -54,36 +66,47 @@ class SyncController extends Controller
             $Company = Company::where('pers_id', $Pers_id)
                               ->where('cpny_id', $Cpny_id)
                               ->where('cpny_active', 1)
-                              ->where('updated_at', '>', $Updated_at)
+                              ->where('updated_at', '>', $Updated_at_company)
                               ->orderBy('updated_at', 'desc')
                               ->get();
 
             $Picking = Picking::where('pers_id', $Pers_id)
                               ->where('uspi_active', 1)
-                              ->where('updated_at', '>', $Updated_at)
+                              ->where('updated_at', '>', $Updated_at_picking)
                               ->orderBy('updated_at', 'desc')
                               ->get();
 
             $Device = Device::where('devi_id', $Devi_id)
                              ->where('devi_active', 1)
-                             ->where('updated_at', '>', $Updated_at)
+                             ->where('updated_at', '>', $Updated_at_device)
                              ->orderBy('updated_at', 'desc')
                              ->get();
 
-           
+            $Reap = Reap::where('cpny_id', $Cpny_id)
+                          ->where('pers_id', $Pers_id)
+                          ->where('updated_at', '>', $Updated_at_reap)
+                          ->orderBy('updated_at', 'desc')
+                          ->get();
 
-            $Reaps = Reap::with('DetailsReap')
+            $DetailsReap = DetailsReap::where('cpny_id', $Cpny_id)
+                                ->where('pers_id', $Pers_id)
+                                ->where('updated_at', '>', $Updated_at_detailsreap)
+                                ->orderBy('updated_at', 'desc')
+                                ->get();
+
+            /*$Reaps = Reap::with('DetailsReap')
                                 ->where('cpny_id', $Cpny_id)
                                 ->where('pers_id', $Pers_id)
                                 ->where('updated_at', '>', $Updated_at)
                                 ->orderBy('updated_at', 'desc')
-                                ->get();
+                                ->get();*/
 
             $Data = [
                 'Picking' => $Picking,
                 'Device' => $Device,
                 'Company' => $Company,
-                'Reaps' => $Reaps
+                'Reap' => $Reap,
+                'DetailsReap' => $DetailsReap
             ];
 
             return response()->json([
