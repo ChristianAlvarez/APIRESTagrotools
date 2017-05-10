@@ -27,6 +27,11 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 
 	//SYNC
 	Route::post('/syncup', 'SyncController@SyncUp');
+	Route::post('/syncuppickings', 'SyncController@SynchronizedPickings');
+	Route::post('/syncupcompanies', 'SyncController@SynchronizedCompanies');
+	Route::post('/syncupreaps', 'SyncController@SynchronizedReaps');
+	Route::post('/syncupdetailsreaps', 'SyncController@SynchronizedDetailsreap');
+
 	Route::get('/synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchronized');
 });
 
