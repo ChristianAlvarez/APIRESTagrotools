@@ -83,7 +83,7 @@ class DesktopController extends Controller
     public function saveCompany(Request $request)
     {
         $companys = collect($request->all()); 
-        //dd($companys);
+        dd($companys);
         $results = $companys->slice(0, -1); 
 
         $insert = $results->where('row_mode', 1);
