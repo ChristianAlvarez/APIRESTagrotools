@@ -97,7 +97,7 @@ class DesktopController extends Controller
                 unset($comp['row_mode']);
                 $arr = collect($comp);
                 $this->InsertCompany($arr->toArray());
-                //dd($arr);
+                dd($arr);
             });
         }
 
