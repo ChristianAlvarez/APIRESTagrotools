@@ -89,7 +89,7 @@ class DesktopController extends Controller
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
 
-		//dd($insert);
+		dd($insert);
         //INSERT       
         if (count($insert) > 0) {
         	
