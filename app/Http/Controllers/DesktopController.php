@@ -114,7 +114,21 @@ class DesktopController extends Controller
 
     private function InsertCompany($companys)
     {
-        
+       try {
+                $Company = new \App\Company();
+                $Company = Company::insert($companys);
+
+                if (!$Company) {
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        } 
     }
 
     private function UpdateCompany($companys)
