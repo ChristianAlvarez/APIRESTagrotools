@@ -83,13 +83,13 @@ class DesktopController extends Controller
     public function saveCompany(Request $request)
     {
         $companys = collect($request->all()); 
-        dd($companys);
+        //dd($companys);
         $results = $companys->slice(0, -1); 
 
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
 
-		dd($insert);
+		//dd($insert);
         //INSERT       
         if (count($insert) > 0) {
         	
@@ -97,7 +97,7 @@ class DesktopController extends Controller
                 unset($comp['row_mode']);
                 $arr = collect($comp);
                 $this->InsertCompany($arr->toArray());
-                dd($arr);
+                //dd($arr);
             });
         }
 
