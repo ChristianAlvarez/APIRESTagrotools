@@ -11,6 +11,7 @@ use DB;
 use Hash;
 use JWTAuth;
 use Carbon\Carbon;
+use PushNotification;
 
 use App\Reap;
 use App\Device;
@@ -232,5 +233,14 @@ class MobileController extends Controller
                 ]);
 
             }
+    }
+
+    public function index()
+    {
+        $deviceToken = 'AIzaSyAW1-kHWyzaEo2d4bnPCLZVGoMAjsiZ_1o';
+        $picking = PushNotification::app('appNameAndroid')
+                ->to($deviceToken)
+                ->send('Hello World, i`m a push message');
+        return $picking;
     }
 }

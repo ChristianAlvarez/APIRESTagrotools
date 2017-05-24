@@ -93,4 +93,6 @@ Route::put('/updateuserpickingcompany/{cpny_id}/{pers_id}', 'UserController@Upda
 Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovementReap');
 Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
 
+//TEST PUSH NOTIFICATION
+Route::get('/index2', 'MobileController@index');
 
