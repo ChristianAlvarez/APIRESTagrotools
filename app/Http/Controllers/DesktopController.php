@@ -159,9 +159,10 @@ class DesktopController extends Controller
     public function savePicking(Request $request)
     { 
         $pickings = collect($request->all());   
-        $results = $pickings->slice(0, -1);  
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+
+        //$results = $pickings->slice(0, -1);  
+        $insert = $pickings->where('row_mode', 1);
+        $update = $pickings->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -244,10 +245,10 @@ class DesktopController extends Controller
     public function saveDevice(Request $request)
     {
         $devices = collect($request->all());  
-        $results = $devices->slice(0, -1);  
+        //$results = $devices->slice(0, -1);  
 
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+        $insert = $devices->where('row_mode', 1);
+        $update = $devices->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -315,9 +316,10 @@ class DesktopController extends Controller
     public function saveDetailsDevice(Request $request)
     {
         $detailsdevices = collect($request->all()); 
-        $results = $detailsdevices->slice(0, -1);       
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+        //$results = $detailsdevices->slice(0, -1);       
+
+        $insert = $detailsdevices->where('row_mode', 1);
+        $update = $detailsdevices->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
@@ -386,9 +388,10 @@ class DesktopController extends Controller
     public function saveReap(Request $request)
     {
         $reaps = collect($request->all()); 
-        $results = $reaps->slice(0, -1);         
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+        //$results = $reaps->slice(0, -1);         
+
+        $insert = $reaps->where('row_mode', 1);
+        $update = $reaps->where('row_mode', 0);
         
         //INSERT       
         if (count($insert) > 0) {
@@ -465,9 +468,10 @@ class DesktopController extends Controller
     public function saveDetailsReap(Request $request)
     {
         $detailsreaps = collect($request->all());  
-        $results = $detailsreaps->slice(0, -1);    
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+        //$results = $detailsreaps->slice(0, -1);    
+        
+        $insert = $detailsreaps->where('row_mode', 1);
+        $update = $detailsreaps->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
