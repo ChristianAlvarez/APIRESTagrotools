@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PushNotification;
 
 class RespaldoController extends Controller
 {
@@ -452,5 +453,26 @@ class RespaldoController extends Controller
                     'Descripcion' => $e
                 ]);
         }  
+    }
+
+    public function index()
+    {
+       
+            $devices = PushNotification::DeviceCollection(array(
+                PushNotification::Device('eE8OK96aGT8:APA91bEoTAlRdNq0wcPsL4LFu69GpVJobQCaT9hBDVTVf2wwOw_I1omWYAsqnOtx6XTABUcdsSTLB64SPMJnVHClX6AElByN7-4c6l-I0lByt1RsntCPJQRXm-np0ToJ4nNI0QTtDW82')
+            ));
+
+        $message = "bla bla";
+
+        $collection = PushNotification::app('appNameAndroid')
+            ->to($devices)
+            ->send($message);
+
+        // get response for each device push
+        foreach ($collection->pushManager as $push) {
+            $response = $push->getAdapter()->getResponse();
+        }
+
+        dd($collection);
     }
 }

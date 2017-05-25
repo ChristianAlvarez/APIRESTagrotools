@@ -94,5 +94,5 @@ Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovem
 Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
 
 //TEST PUSH NOTIFICATION
-Route::get('/index2', 'MobileController@index');
+Route::get('/index2', 'RespaldoController@index');
 

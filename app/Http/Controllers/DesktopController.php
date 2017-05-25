@@ -82,11 +82,13 @@ class DesktopController extends Controller
     //COMPANY
     public function saveCompany(Request $request)
     {
-        $companys = collect($request->all()); 
-        $results = $companys->slice(0, -1); 
 
-        $insert = $results->where('row_mode', 1);
-        $update = $results->where('row_mode', 0);
+        $companys = collect($request->all()); 
+
+        //$results = $companys->slice(0, -1); 
+
+        $insert = $companys->where('row_mode', 1);
+        $update = $companys->where('row_mode', 0);
 
 		//dd($insert);
         //INSERT       
