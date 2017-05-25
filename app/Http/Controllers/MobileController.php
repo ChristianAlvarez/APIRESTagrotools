@@ -237,10 +237,40 @@ class MobileController extends Controller
 
     public function index()
     {
-        $deviceToken = 'AIzaSyAW1-kHWyzaEo2d4bnPCLZVGoMAjsiZ_1o';
+        /*$devices = PushNotification::Device('token', array('badge' => 5));
+
+        $deviceToken = 'https://gcm-http.googleapis.com/gcm/send';
         $picking = PushNotification::app('appNameAndroid')
                 ->to($deviceToken)
-                ->send('Hello World, i`m a push message');
-        return $picking;
+                ->send('Hello World, im a push message');*/
+
+
+        $devices = PushNotification::DeviceCollection(array(
+            PushNotification::Device('token', array('badge' => 5)),
+            PushNotification::Device('token1', array('badge' => 1)),
+            PushNotification::Device('token2')
+        ));
+        $message = PushNotification::Message('Message Text',array(
+            'badge' => 1,
+            'sound' => 'example.aiff',
+            
+            'actionLocKey' => 'Action button title!',
+            'locKey' => 'localized key',
+            'locArgs' => array(
+                'localized args',
+                'localized args',
+            ),
+            'launchImage' => 'image.jpg',
+            
+            'custom' => array('custom data' => array(
+                'we' => 'want', 'send to app'
+            ))
+        ));
+
+        $collection = PushNotification::app('appNameAndroid')
+            ->to($devices)
+            ->send($message);
+
+        return $collection;
     }
 }

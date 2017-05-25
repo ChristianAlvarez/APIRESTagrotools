@@ -83,7 +83,6 @@ class DesktopController extends Controller
     public function saveCompany(Request $request)
     {
         $companys = collect($request->all()); 
-        //dd($companys);
         $results = $companys->slice(0, -1); 
 
         $insert = $results->where('row_mode', 1);
@@ -179,7 +178,7 @@ class DesktopController extends Controller
 
         return response()->json([
             'Codigo' => "2"
-        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+        ]);
     }
 
     private function InsertPicking($pickings)
@@ -243,7 +242,8 @@ class DesktopController extends Controller
     public function saveDevice(Request $request)
     {
         $devices = collect($request->all());  
-        $results = $devices->slice(0, -1);    
+        $results = $devices->slice(0, -1);  
+
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
        
@@ -262,8 +262,8 @@ class DesktopController extends Controller
         }
 
         return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            'Codigo' => "2"
+        ]);
     }
 
     private function InsertDevice($devices)
@@ -333,11 +333,11 @@ class DesktopController extends Controller
         }
 
         return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            'Codigo' => "2"
+        ]);
     }
     
-     private function InsertDetailsDevice($detailsdevices)
+    private function InsertDetailsDevice($detailsdevices)
     {
        
         try {
@@ -405,8 +405,8 @@ class DesktopController extends Controller
         }
 
         return response()->json([
-                'Codigo' => "2"
-        ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            'Codigo' => "2"
+        ]);
     }
 
     private function InsertReap($reaps)
@@ -483,8 +483,8 @@ class DesktopController extends Controller
         }
 
         return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            'Codigo' => "2"
+        ]);
     }
 
     private function InsertDetailsReap($detailsreaps)
