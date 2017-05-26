@@ -83,23 +83,40 @@ class DesktopController extends Controller
     public function saveCompany(Request $request)
     {
 
-        $companys = collect($request->all()); 
+        /*if ($request->has('Company')) {
+            //$comp = $request->all();
 
+            if (count($request->all()) > 1) {
+                $this->InsertCompany($request);
+            }
+
+            //dd(count($request->all()));
+        }*/
+
+        $companys = collect($request->all()); 
+        $comp = collect($companys['Company']);
+ 
         //$results = $companys->slice(0, -1); 
 
-        $insert = $companys->where('row_mode', 1);
-        $update = $companys->where('row_mode', 0);
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
 
-		//dd($insert);
+        //dd(count($insert));
+
+		//dd($update);
         //INSERT       
-        if (count($insert) > 0) {
+        if (count($insert) > 1) {
         	
             $new = $insert->map(function ($comp) {
                 unset($comp['row_mode']);
                 $arr = collect($comp);
-                $this->InsertCompany($arr->toArray());
+                $this->InsertCompanys($arr->toArray());
                 //dd($arr);
             });
+        }
+        else
+        {
+            $this->InsertCompany($insert);
         }
 
         //UPDATE
@@ -113,7 +130,32 @@ class DesktopController extends Controller
         ]);
     }
 
-    private function InsertCompany($companys)
+    private function InsertCompany($company)
+    {
+        try {
+            $Company = new \App\Company();
+            $Company->cpny_id = $company->cpny_id;
+            $Company->cpny_name = $company->cpny_name;
+            $Company->cpny_active = $company->cpny_active;
+            $Company->cpny_record = $company->cpny_record;
+            $Company->created_at = $company->created_at;
+            $Company->updated_at = $company->updated_at;
+            $Company->save();
+
+            if (!$Company) {
+                return response()->json([
+                    'Codigo' => "1"
+                ]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        } 
+    }
+
+    private function InsertCompanys($companys)
     {
        try {
                 $Company = new \App\Company();
@@ -244,23 +286,32 @@ class DesktopController extends Controller
      */
     public function saveDevice(Request $request)
     {
-        $devices = collect($request->all());  
+       
+        $devices = collect($request->all());         
+       
         //$results = $devices->slice(0, -1);  
 
         $insert = $devices->where('row_mode', 1);
         $update = $devices->where('row_mode', 0);
        
+        /*if ($devices->count() > 1) {
+
+            dd($devices->count());
+        }*/
+
         //INSERT       
         if (count($insert) > 0) {
+            dd("insert");
             $new = $insert->map(function ($comp) {
                 unset($comp['row_mode']);
                 $arr = collect($comp);
-                $this->InsertDevice($arr->toArray());
+                $this->InsertDevices($arr->toArray());
             });
         }
 
         //UPDATE
         if (count($update) > 0) {
+            dd("update");
             $this->UpdateDevice($update->toArray());
         }
 
@@ -269,7 +320,7 @@ class DesktopController extends Controller
         ]);
     }
 
-    private function InsertDevice($devices)
+    private function InsertDevices($devices)
     {
        
         try {
@@ -469,7 +520,7 @@ class DesktopController extends Controller
     {
         $detailsreaps = collect($request->all());  
         //$results = $detailsreaps->slice(0, -1);    
-        
+
         $insert = $detailsreaps->where('row_mode', 1);
         $update = $detailsreaps->where('row_mode', 0);
        

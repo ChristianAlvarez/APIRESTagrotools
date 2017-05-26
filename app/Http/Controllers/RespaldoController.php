@@ -172,7 +172,7 @@ class RespaldoController extends Controller
     public function saveDevice(Request $request)
     {
         $devices = collect($request->all());  
-        $results = $devices->slice(0, -1);    
+        //$results = $devices->slice(0, -1);    
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
        
@@ -313,7 +313,7 @@ class RespaldoController extends Controller
     public function saveReap(Request $request)
     {
         $reaps = collect($request->all()); 
-        $results = $reaps->slice(0, -1);         
+        //$results = $reaps->slice(0, -1);         
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
         
@@ -392,7 +392,7 @@ class RespaldoController extends Controller
     public function saveDetailsReap(Request $request)
     {
         $detailsreaps = collect($request->all());  
-        $results = $detailsreaps->slice(0, -1);    
+        //$results = $detailsreaps->slice(0, -1);    
         $insert = $results->where('row_mode', 1);
         $update = $results->where('row_mode', 0);
        
@@ -473,6 +473,6 @@ class RespaldoController extends Controller
             $response = $push->getAdapter()->getResponse();
         }
 
-        dd($collection);
+        //dd($collection);
     }
 }
