@@ -21,6 +21,7 @@ class CreateDetailsdeviceTable extends Migration
             $table->boolean('dtde_record');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->boolean('row_mode');
 
             $table->primary(array('devi_id', 'cpny_id', 'pers_id'));
         });

@@ -164,6 +164,67 @@ class MobileController extends Controller
         }      
     }
 
+    public function posttoken(Request $request)
+    {
+        $requests = $request->only('registrationToken'); 
+
+        $Token = $request->registrationToken;
+
+        $data = [
+            'Token' => $Token, 
+        ]; 
+
+        $rules = [
+            'Token' => 'required|exists:devicetoken,devi_id',
+        ];
+
+        $messages = [
+            'Token.required' => 'Token - Token es requerido',
+            'Token.exists'   => 'Token - Token debe existir en tabla DeviceToken',
+        ];       
+
+        $validator = Validator::make($data, $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error validacion' => $validator->errors()
+            ]);
+        }else {
+
+            $DeviceToken = DeviceToken::where('devi_id', $Token)
+                              ->where('devi_active', 1)
+                              ->get();
+
+            if (count($DeviceToken) > 0) {
+                $DeviceToken = DeviceToken::find($DeviceToken->id);
+                $DeviceToken->devi_token = $Token;
+                $DeviceToken->devi_active = 1;
+                $DeviceToken->save();
+
+                if ($DeviceToken) {
+                    $Data = [
+                        'Token' => $DeviceToken
+                    ];
+
+                    return response()->json([
+                        'Data'   => $Data,
+                        'Codigo' => "2"
+                    ]);
+                }
+            } 
+            else{
+                $Data = [
+                    'Token' => null
+                ];
+
+                return response()->json([
+                    'Data'   => $Data,
+                    'Codigo' => "1"
+                ]);
+            }                           
+        }
+    }
+
     /**
      * Store a User newly created resource in storage.
      *

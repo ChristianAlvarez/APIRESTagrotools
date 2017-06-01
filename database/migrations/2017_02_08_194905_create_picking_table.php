@@ -24,6 +24,7 @@ class CreatePickingTable extends Migration
             $table->dateTime('last_conection')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->boolean('row_mode');
             $table->rememberToken();
             
             //$table->primary(array('id', 'pers_id', 'cpny_id'));

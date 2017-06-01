@@ -23,6 +23,7 @@ class CreateDetailsreapTable extends Migration
             $table->boolean('dere_record');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $table->boolean('row_mode');
 
             $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
         });

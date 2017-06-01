@@ -179,6 +179,7 @@ class UserController extends Controller
         $Picking->password = Hash::make($request->password);
         $Picking->pick_active = $request->pick_active;
         $Picking->pick_record = $request->pick_record;
+        $Picking->row_mode = $request->row_mode;
 
         if ($Picking->save()) {
             return response()->json([

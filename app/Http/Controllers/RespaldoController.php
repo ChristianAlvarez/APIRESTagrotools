@@ -457,13 +457,13 @@ class RespaldoController extends Controller
 
     public function index()
     {
-       
-            $devices = PushNotification::DeviceCollection(array(
+        $devices = PushNotification::DeviceCollection(array(
                 PushNotification::Device('eE8OK96aGT8:APA91bEoTAlRdNq0wcPsL4LFu69GpVJobQCaT9hBDVTVf2wwOw_I1omWYAsqnOtx6XTABUcdsSTLB64SPMJnVHClX6AElByN7-4c6l-I0lByt1RsntCPJQRXm-np0ToJ4nNI0QTtDW82')
-            ));
+        ));
 
-        $message = "bla bla";
+        $message = "hola";
 
+        
         $collection = PushNotification::app('appNameAndroid')
             ->to($devices)
             ->send($message);
@@ -473,6 +473,6 @@ class RespaldoController extends Controller
             $response = $push->getAdapter()->getResponse();
         }
 
-        //dd($collection);
+        var_dump($response);
     }
 }

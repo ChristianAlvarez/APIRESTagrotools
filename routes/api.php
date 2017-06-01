@@ -33,6 +33,9 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 	Route::post('/syncupdetailsreaps', 'SyncController@SynchronizedDetailsreap');
 
 	Route::get('/synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchronized');
+
+	//TOKEN GCM
+	Route::post('/posttoken', 'MobileController@posttoken');
 });
 
 //DESKTOP

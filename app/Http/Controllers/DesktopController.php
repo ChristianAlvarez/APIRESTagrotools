@@ -16,6 +16,7 @@ use App\Device;
 use App\Company;
 use App\Picking;
 use App\DetailsReap;
+use App\DeviceToken;
 use App\MovementReap;
 
 class DesktopController extends Controller
@@ -83,64 +84,35 @@ class DesktopController extends Controller
     public function saveCompany(Request $request)
     {
 
-        /*if ($request->has('Company')) {
-            //$comp = $request->all();
-
-            if (count($request->all()) > 1) {
-                $this->InsertCompany($request);
-            }
-
-            //dd(count($request->all()));
-        }*/
-
         $companys = collect($request->all()); 
         $comp = collect($companys['Company']);
  
         //$results = $companys->slice(0, -1); 
 
         $insert = $comp->where('row_mode', 1);
-        $update = $comp->where('row_mode', 0);
-
-        //dd(count($insert));
-
-		//dd($update);
+        $update = $comp->where('row_mode', 0);     
+    
         //INSERT       
-        if (count($insert) > 1) {
-        	
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertCompanys($arr->toArray());
-                //dd($arr);
-            });
-        }
-        else
-        {
-            $this->InsertCompany($insert);
+        if (count($insert) > 0) {
+            $this->InsertCompanys($insert);    
         }
 
         //UPDATE
-        if (count($update) > 0) {
-        	
-            $this->UpdateCompany($update->toArray());
-        }
+        if (count($update) > 0) {      	
+            $this->UpdateCompanys($update->toArray());
+        }   
 
         return response()->json([
             'Codigo' => "2"
         ]);
     }
 
-    private function InsertCompany($company)
+    private function InsertCompanys($companys)
     {
+    
         try {
-            $Company = new \App\Company();
-            $Company->cpny_id = $company->cpny_id;
-            $Company->cpny_name = $company->cpny_name;
-            $Company->cpny_active = $company->cpny_active;
-            $Company->cpny_record = $company->cpny_record;
-            $Company->created_at = $company->created_at;
-            $Company->updated_at = $company->updated_at;
-            $Company->save();
+                
+            $Company = Company::insert($companys->toArray());
 
             if (!$Company) {
                 return response()->json([
@@ -155,26 +127,7 @@ class DesktopController extends Controller
         } 
     }
 
-    private function InsertCompanys($companys)
-    {
-       try {
-                $Company = new \App\Company();
-                $Company = Company::insert($companys);
-
-                if (!$Company) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
-        } catch(\Illuminate\Database\QueryException $e) {
-            return response()->json([
-                    'Codigo' => "1",
-                    'Descripcion' => $e
-                ]);
-        } 
-    }
-
-    private function UpdateCompany($companys)
+    private function UpdateCompanys($companys)
     {
         try {
             foreach  ($companys as $id_key => $company) {
@@ -188,7 +141,7 @@ class DesktopController extends Controller
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
-        }       
+        }  
     }
 
     //PICKING
@@ -201,19 +154,14 @@ class DesktopController extends Controller
     public function savePicking(Request $request)
     { 
         $pickings = collect($request->all());   
+        $comp = collect($pickings['Picking']);
 
-        //$results = $pickings->slice(0, -1);  
-        $insert = $pickings->where('row_mode', 1);
-        $update = $pickings->where('row_mode', 0);
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertPicking($arr->toArray());
-                //$this->Insert($comp);
-            });
+            $this->InsertPicking($insert);
         }
 
         //UPDATE
@@ -232,22 +180,17 @@ class DesktopController extends Controller
 
         	foreach ($pickings as $picking) {
         		$Picking = new \App\Picking();
-			    $Picking->pers_id 	  = $picking->pers_id;
-			    $Picking->cpny_id 	  = $picking->cpny_id;
-			    $Picking->pers_name   = $picking->pers_name;
-			    $Picking->password 	  = Hash::make($picking->password);
-			    $Picking->pick_active = $picking->pick_active;
-			    $Picking->pick_record = $picking->pick_record;
+			    $Picking->pers_id 	  = $picking['pers_id'];
+			    $Picking->cpny_id 	  = $picking['cpny_id'];
+			    $Picking->pers_name   = $picking['pers_name'];
+			    $Picking->password 	  = Hash::make($picking['password']);
+			    $Picking->pick_active = $picking['pick_active'];
+			    $Picking->pick_record = $picking['pick_record'];
+                $Picking->row_mode = $picking['row_mode'];
 
 				$Picking->save();
 			}
-                /*$Picking = new \App\Picking();
-                $Picking = Picking::insert($pickings);
-                if (!$Picking) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }*/
+               
         } 
         catch(\Illuminate\Database\QueryException $e) 
         {
@@ -262,12 +205,13 @@ class DesktopController extends Controller
     {
         try {
             foreach  ($pickings as $id_key => $picking) {
-                $Picking =  Picking::where(['pers_id' => $company['pers_id']])
-                                   ->where(['cpny_id' => $company['cpny_id']])
-                                   ->update(['pers_name' 	=> $company['pers_name'],
-                                             'password' 	=> Hash::make($company['password|']),
-                                             'pick_active' 	=> $company['pick_active'],
-                                             'pick_record' 	=> $company['pick_record']]);
+                $Picking =  Picking::where(['pers_id' => $picking['pers_id']])
+                                   ->where(['cpny_id' => $picking['cpny_id']])
+                                   ->update(['pers_name' 	=> $picking['pers_name'],
+                                             'password' 	=> Hash::make($picking['password']),
+                                             'pick_active' 	=> $picking['pick_active'],
+                                             'pick_record' 	=> $picking['pick_record'],
+                                             'row_mode'     => $picking['row_mode']]);
                 }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -288,30 +232,18 @@ class DesktopController extends Controller
     {
        
         $devices = collect($request->all());         
+        $comp = collect($devices['Device']);
+
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
        
-        //$results = $devices->slice(0, -1);  
-
-        $insert = $devices->where('row_mode', 1);
-        $update = $devices->where('row_mode', 0);
-       
-        /*if ($devices->count() > 1) {
-
-            dd($devices->count());
-        }*/
-
         //INSERT       
         if (count($insert) > 0) {
-            dd("insert");
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertDevices($arr->toArray());
-            });
+            $this->InsertDevices($insert);
         }
 
         //UPDATE
         if (count($update) > 0) {
-            dd("update");
             $this->UpdateDevice($update->toArray());
         }
 
@@ -322,15 +254,31 @@ class DesktopController extends Controller
 
     private function InsertDevices($devices)
     {
-       
         try {
-                $Device = new \App\Device();
-                $Device = Device::insert($devices);
+                $Device = Device::insert($devices->toArray());           
+
                 if (!$Device) {
                     return response()->json([
                         'Codigo' => "1"
                     ]);
                 }
+                else
+                {
+
+                    foreach ($devices as $device) {
+                        
+                        $token = DeviceToken::where('devi_id', $device['devi_id']);
+
+                        if (count($token) > 0)
+                        {
+                            $DeviceToken = new \App\DeviceToken();
+                            $DeviceToken->devi_id = $device['devi_id'];
+                            $DeviceToken->save();
+                        }
+
+                    }
+                }
+
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
@@ -347,7 +295,8 @@ class DesktopController extends Controller
                                   ->where(['cpny_id' => $device['cpny_id']])
                                   ->update(['devi_name' => $device['devi_name'],
                                             'devi_active' => $device['devi_active'],
-                                            'devi_record' => $device['devi_record']]);
+                                            'devi_record' => $device['devi_record'],
+                                            'row_mode'    => $device['row_mode']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -367,19 +316,14 @@ class DesktopController extends Controller
     public function saveDetailsDevice(Request $request)
     {
         $detailsdevices = collect($request->all()); 
-        //$results = $detailsdevices->slice(0, -1);       
+        $comp = collect($detailsdevices['DetailDevice']);      
 
-        $insert = $detailsdevices->where('row_mode', 1);
-        $update = $detailsdevices->where('row_mode', 0);
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertDetailsDevice($arr->toArray());
-                //$this->Insert($comp);
-            });
+            $this->InsertDetailsDevice($insert);
         }
 
         //UPDATE
@@ -396,13 +340,13 @@ class DesktopController extends Controller
     {
        
         try {
-                $DetailsDevice = new \App\DetailsDevice();
-                $DetailsDevice = DetailsDevice::insert($detailsdevices);
-                if (!$DetailsDevice) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
+            $DetailsDevice = DetailsDevice::insert($detailsdevices->toArray());
+
+            if (!$DetailsDevice) {
+                return response()->json([
+                    'Codigo' => "1"
+                ]);
+            }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
@@ -419,7 +363,8 @@ class DesktopController extends Controller
                                                  ->where(['cpny_id' => $detailsdevice['cpny_id']])
                                                  ->where(['pers_id' => $detailsdevice['pers_id']])
                                                  ->update(['dtde_active' => $detailsdevice['dtde_active'],
-                                                           'dtde_record' => $detailsdevice['dtde_record']]);
+                                                           'dtde_record' => $detailsdevice['dtde_record'],
+                                                           'row_mode'    => $detailsdevice['row_mode']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -439,20 +384,14 @@ class DesktopController extends Controller
     public function saveReap(Request $request)
     {
         $reaps = collect($request->all()); 
-        //$results = $reaps->slice(0, -1);         
+        $comp = collect($reaps['Reap']);         
 
-        $insert = $reaps->where('row_mode', 1);
-        $update = $reaps->where('row_mode', 0);
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
         
         //INSERT       
         if (count($insert) > 0) {
-        
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertReap($arr->toArray());
-            });
-                
+            $this->InsertReap($insert);           
         }
 
         //UPDATE
@@ -469,9 +408,8 @@ class DesktopController extends Controller
     {
        
         try {
-                $Reap = new \App\Reap();
-                $Reap = Reap::insert($reaps);
-
+                $Reap = Reap::insert($reaps->toArray());
+               
                 if (!$Reap) {
                     return response()->json([
                         'Codigo' => "1"
@@ -499,7 +437,8 @@ class DesktopController extends Controller
                                        'ticu_name' => $reap['ticu_name'],
                                        'vare_name' => $reap['vare_name'],
                                        'mere_name' => $reap['mere_name'],
-                                       'reap_record' => $reap['reap_record']]);
+                                       'reap_record' => $reap['reap_record'],
+                                       'row_mode'    => $reap['row_mode']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -519,19 +458,14 @@ class DesktopController extends Controller
     public function saveDetailsReap(Request $request)
     {
         $detailsreaps = collect($request->all());  
-        //$results = $detailsreaps->slice(0, -1);    
+        $comp = collect($detailsreaps['DetailReap']);    
 
-        $insert = $detailsreaps->where('row_mode', 1);
-        $update = $detailsreaps->where('row_mode', 0);
+        $insert = $comp->where('row_mode', 1);
+        $update = $comp->where('row_mode', 0);
        
         //INSERT       
         if (count($insert) > 0) {
-            $new = $insert->map(function ($comp) {
-                unset($comp['row_mode']);
-                $arr = collect($comp);
-                $this->InsertDetailsReap($arr->toArray());
-                //$this->Insert($comp);
-            });
+            $this->InsertDetailsReap($insert);
         }
 
         //UPDATE
@@ -548,13 +482,13 @@ class DesktopController extends Controller
     {
        
         try {
-                $DetailsReap = new \App\DetailsReap();
-                $DetailsReap = DetailsReap::insert($detailsreaps);
-                if (!$DetailsReap) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
+            $DetailsReap = DetailsReap::insert($detailsreaps->toArray());
+                
+            if (!$DetailsReap) {
+                return response()->json([
+                    'Codigo' => "1"
+                ]);
+            }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
@@ -573,7 +507,8 @@ class DesktopController extends Controller
                                            ->update(['pers_name' => $detailsreap['pers_name'],
                                                      'quad_name' => $detailsreap['quad_name'],
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
-                                                     'dere_record' => $detailsreap['dere_record']]);
+                                                     'dere_record' => $detailsreap['dere_record'],
+                                                     'row_mode'     => $detailsreap['row_mode']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
