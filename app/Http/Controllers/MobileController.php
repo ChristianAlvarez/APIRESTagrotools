@@ -203,8 +203,6 @@ class MobileController extends Controller
                               ->whereNull('devi_token')
                               ->update(['devi_token' => $Token]);
 
-            dd($DeviceToken);
-
             if (count($DeviceToken) > 0) {
                 /*dd($DeviceToken->id);
                 $DeviceToken = DeviceToken::find($DeviceToken['id']);
