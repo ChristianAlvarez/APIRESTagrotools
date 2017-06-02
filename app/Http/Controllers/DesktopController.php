@@ -18,6 +18,7 @@ use App\Picking;
 use App\DetailsReap;
 use App\DeviceToken;
 use App\MovementReap;
+use App\DetailsDevice;
 
 class DesktopController extends Controller
 {
@@ -343,6 +344,7 @@ class DesktopController extends Controller
             $DetailsDevice = DetailsDevice::insert($detailsdevices->toArray());
 
             if (!$DetailsDevice) {
+                //ACA QUIERO MANDAR LA QUEUE
                 return response()->json([
                     'Codigo' => "1"
                 ]);
