@@ -220,6 +220,10 @@ class MobileController extends Controller
                         'Codigo' => "2"
                     ]);
                 }*/
+                $Data = [
+                        'Token' => $DeviceToken
+                    ];
+                    
                 return response()->json([
                         'Data'   => $Data,
                         'Codigo' => "2"
