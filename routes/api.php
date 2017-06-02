@@ -34,8 +34,6 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 
 	Route::get('/synchronized/{pers_id}/{cpny_id}/{devi_id}', 'SyncController@Synchronized');
 
-	//TOKEN GCM
-	Route::post('/posttoken', 'MobileController@posttoken');
 });
 
 //DESKTOP
@@ -98,4 +96,7 @@ Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
 
 //TEST PUSH NOTIFICATION
 Route::get('/index2', 'RespaldoController@index');
+
+//TOKEN GCM
+Route::post('/posttoken', 'MobileController@posttoken');
 
