@@ -198,12 +198,16 @@ class MobileController extends Controller
             ]);
         }else {
 
-            $DeviceToken = DeviceToken::where('devi_id', $Token)
+            $DeviceToken = DeviceToken::where('devi_id', $Device)
                               ->where('devi_active', 1)
-                              ->get();
+                              ->whereNull('devi_token')
+                              ->update(['devi_token' => $Token]);
+
+            dd($DeviceToken);
 
             if (count($DeviceToken) > 0) {
-                $DeviceToken = DeviceToken::find($DeviceToken->id);
+                /*dd($DeviceToken->id);
+                $DeviceToken = DeviceToken::find($DeviceToken['id']);
                 $DeviceToken->devi_token = $Token;
                 $DeviceToken->devi_active = 1;
                 $DeviceToken->save();
@@ -217,7 +221,12 @@ class MobileController extends Controller
                         'Data'   => $Data,
                         'Codigo' => "2"
                     ]);
-                }
+                }*/
+                return response()->json([
+                        'Data'   => $Data,
+                        'Codigo' => "2"
+                    ]);
+
             } 
             else{
                 $Data = [
