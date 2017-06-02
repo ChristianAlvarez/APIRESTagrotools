@@ -274,6 +274,7 @@ class DesktopController extends Controller
                         {
                             $DeviceToken = new \App\DeviceToken();
                             $DeviceToken->devi_id = $device['devi_id'];
+                            $DeviceToken->devi_active = 1;
                             $DeviceToken->save();
                         }
 
