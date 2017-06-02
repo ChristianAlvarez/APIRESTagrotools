@@ -18,6 +18,7 @@ use App\Device;
 use App\Company;
 use App\Picking;
 use App\DetailsReap;
+use App\DeviceToken;
 use App\MovementReap;
 
 class MobileController extends Controller
@@ -166,21 +167,27 @@ class MobileController extends Controller
 
     public function posttoken(Request $request)
     {
-        $requests = $request->only('registrationToken'); 
-       
-        $Token = $requests->registrationToken;
+        $requests = $request->only('registrationToken', 'devi_id'); 
+        
+
+        //dd($requests['registrationToken']);
+        $Token = $requests['registrationToken'];
+        $Device = $requests['devi_id'];
 
         $data = [
-            'Token' => $Token, 
+            'Token'     => $Token, 
+            'Device'    => $Device
         ]; 
 
         $rules = [
-            'Token' => 'required|exists:devicetoken,devi_id',
+            'Token'     => 'required',
+            'Device'    => 'required|exists:devicetoken,devi_id'
         ];
 
         $messages = [
             'Token.required' => 'Token - Token es requerido',
-            'Token.exists'   => 'Token - Token debe existir en tabla DeviceToken',
+            'Device.required' => 'Device - Device es requerido',
+            'Device.exists'   => 'Device - Device debe existir en tabla DeviceToken',
         ];       
 
         $validator = Validator::make($data, $rules, $messages);
