@@ -24,7 +24,7 @@ class MobileController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('jwt.auth', ['except' => ['authenticate']]);
+		$this->middleware('jwt.auth', ['except' => ['authenticate', 'posttoken']]);
 	}
 
 	public function indexUser()
@@ -167,8 +167,8 @@ class MobileController extends Controller
     public function posttoken(Request $request)
     {
         $requests = $request->only('registrationToken'); 
-
-        $Token = $request->registrationToken;
+       
+        $Token = $requests->registrationToken;
 
         $data = [
             'Token' => $Token, 
