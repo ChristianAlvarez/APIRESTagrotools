@@ -26,6 +26,7 @@ class CreateMovementreapTable extends Migration
             $table->boolean('more_record');
             $table->string('dmrp_device_id', 50)->references('devi_id')->on('device');
             $table->integer('esdo_id')->nullable();
+            $table->dateTime('dmrp_date');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
