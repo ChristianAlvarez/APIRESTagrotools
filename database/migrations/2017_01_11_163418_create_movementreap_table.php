@@ -25,6 +25,7 @@ class CreateMovementreapTable extends Migration
             $table->string('pers_id', 15)->references('pers_id')->on('userspicking');
             $table->boolean('more_record');
             $table->string('dmrp_device_id', 50)->references('devi_id')->on('device');
+            $table->integer('esdo_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 

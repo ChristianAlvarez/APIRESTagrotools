@@ -295,8 +295,10 @@ class MobileController extends Controller
 
                 if ($MovementReap) {
                     return response()->json([
-                        'Codigo' => "2"
-                    ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                    'Codigo' => "2",
+                    'Descripcion' => "ERROR"
+                ]);
+
                 }
                 else{
                     return response()->json([
