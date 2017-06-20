@@ -106,6 +106,8 @@ class MobileController extends Controller
 		                            ->where('picking.pers_id', $request->pers_id)
 		                            ->where('device.devi_id', $request->devi_id)
 		                            ->get();
+
+                        dd(count($Login));
 		                   
 		                if (count($Login) > 0) 
 		                {
