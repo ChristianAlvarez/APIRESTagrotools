@@ -78,9 +78,9 @@ class MobileController extends Controller
 	        {
 	            //$user = Picking::where('pers_id', $request->pers_id)->first();
                 
-                $detail = DetailsDevice::where('pers_id', $request->pers_id)
-                                        ->where('devi_id', $request->devi_id)
-                                        ->first();
+                $detail = DeviceToken::where('pers_id', $request->pers_id)
+                                     ->where('devi_id', $request->devi_id)
+                                     ->first();
 
                 //dd($detail['last_conection']);
                 if ($detail['last_conection'] === null) 
@@ -133,10 +133,6 @@ class MobileController extends Controller
 
 							//Actualizamos la fecha de ultima conexión
                 			$detail->last_conection = Carbon::now();
-
-                            //$f = $detail->last_conection;
-                            dd($detail);
-
                 			$detail->save();
 
 		                    // all good so return the token
