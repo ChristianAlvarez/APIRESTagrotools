@@ -133,6 +133,10 @@ class MobileController extends Controller
 
 							//Actualizamos la fecha de ultima conexión
                 			$detail->last_conection = Carbon::now();
+
+                            $f = $detail->last_conection;
+                            dd($f);
+                            
                 			$detail->save();
 
 		                    // all good so return the token
