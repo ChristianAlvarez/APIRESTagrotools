@@ -107,7 +107,7 @@ class MobileController extends Controller
 		                            ->where('device.devi_id', $request->devi_id)
 		                            ->get();
 
-                        dd(count($Login));
+                        //dd(count($Login));
 		                   
 		                if (count($Login) > 0) 
 		                {
