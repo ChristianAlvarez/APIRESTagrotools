@@ -29,5 +29,7 @@ class MovementReap extends Model
         'pers_id',
         'more_record',
         'dmrp_device_id',
+        'esdo_id',
+        'dmrp_date'
     ];
 }

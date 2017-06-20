@@ -19,6 +19,7 @@ use App\Company;
 use App\Picking;
 use App\DetailsReap;
 use App\DeviceToken;
+use App\DetailDevice;
 use App\MovementReap;
 
 class MobileController extends Controller
@@ -75,9 +76,13 @@ class MobileController extends Controller
 	        }
 	        else
 	        {
-	            $user = Picking::where('pers_id', $request->pers_id)->first();
-                	
-                if ($user->last_conection === null) 
+	            //$user = Picking::where('pers_id', $request->pers_id)->first();
+                
+                $detail = DetailDevice::where('pers_id', $request->pers_id)
+                                          ->where('devi_id', $request->devi_id)
+                                          ->first();
+
+                if ($detail->last_conection === null) 
                 {
                 	
                 	try 
@@ -124,8 +129,8 @@ class MobileController extends Controller
 		                    ];
 
 							//Actualizamos la fecha de ultima conexión
-                			$user->last_conection = Carbon::now();
-                			$user->save();
+                			$detail->last_conection = Carbon::now();
+                			$detail->save();
 
 		                    // all good so return the token
         					return response()->json(compact('token', 'Data'));
@@ -167,27 +172,32 @@ class MobileController extends Controller
 
     public function posttoken(Request $request)
     {
-        $requests = $request->only('registrationToken', 'devi_id'); 
+        $requests = $request->only('registrationToken', 'devi_id', 'pers_id'); 
         
 
         //dd($requests['registrationToken']);
-        $Token = $requests['registrationToken'];
-        $Device = $requests['devi_id'];
+        $Token   = $requests['registrationToken'];
+        $Device  = $requests['devi_id'];
+        $Pers_id = $requests['pers_id'];
 
         $data = [
             'Token'     => $Token, 
-            'Device'    => $Device
+            'Device'    => $Device,
+            'Pers_id'   => $Pers_id
         ]; 
 
         $rules = [
             'Token'     => 'required',
-            'Device'    => 'required|exists:devicetoken,devi_id'
+            'Device'    => 'required|exists:devicetoken,devi_id',
+            'Pers_id'   => 'required|exists:picking,pers_id'
         ];
 
         $messages = [
             'Token.required' => 'Token - Token es requerido',
             'Device.required' => 'Device - Device es requerido',
             'Device.exists'   => 'Device - Device debe existir en tabla DeviceToken',
+            'Pers_id.required' => 'Pers_id - Pers_id es requerido',
+            'Pers_id.exists'   => 'Pers_id - Pers_id debe existir en tabla picking',
         ];       
 
         $validator = Validator::make($data, $rules, $messages);
@@ -200,26 +210,11 @@ class MobileController extends Controller
 
             $DeviceToken = DeviceToken::where('devi_id', $Device)
                               ->where('devi_active', 1)
+                              ->where('pers_id', $Pers_id)
                               ->whereNull('devi_token')
                               ->update(['devi_token' => $Token]);
 
             if (count($DeviceToken) > 0) {
-                /*dd($DeviceToken->id);
-                $DeviceToken = DeviceToken::find($DeviceToken['id']);
-                $DeviceToken->devi_token = $Token;
-                $DeviceToken->devi_active = 1;
-                $DeviceToken->save();
-
-                if ($DeviceToken) {
-                    $Data = [
-                        'Token' => $DeviceToken
-                    ];
-
-                    return response()->json([
-                        'Data'   => $Data,
-                        'Codigo' => "2"
-                    ]);
-                }*/
                 $Data = [
                         'Token' => $DeviceToken
                     ];
@@ -287,11 +282,11 @@ class MobileController extends Controller
      */
     public function storeMovementReap(Request $request)
     {
-        $request = $request->all();
+        $request = collect($request->all());  
         try 
             {
                 $MovementReap = new \App\MovementReap();
-                $MovementReap = MovementReap::insert($request);
+                $MovementReap = MovementReap::insert($request->toArray());
 
                 if ($MovementReap) {
                     return response()->json([
@@ -324,7 +319,6 @@ class MobileController extends Controller
         $picking = PushNotification::app('appNameAndroid')
                 ->to($deviceToken)
                 ->send('Hello World, im a push message');*/
-
 
         $devices = PushNotification::DeviceCollection(array(
             PushNotification::Device('token', array('badge' => 5)),

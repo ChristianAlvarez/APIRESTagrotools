@@ -272,10 +272,19 @@ class DesktopController extends Controller
 
                         if (count($token) > 0)
                         {
-                            $DeviceToken = new \App\DeviceToken();
-                            $DeviceToken->devi_id = $device['devi_id'];
-                            $DeviceToken->devi_active = 1;
-                            $DeviceToken->save();
+
+                            $Detail = DetailDevice::where('devi_id', $device['devi_id'])
+                                          ->where('cpny_id', $device['cpny_id'])
+                                          ->first();
+
+                            if (!$Detail) {
+                                $DeviceToken = new \App\DeviceToken();
+                                $DeviceToken->devi_id = $device['devi_id'];
+                                $DeviceToken->pers_id = $Detail->pers_id;
+                                $DeviceToken->devi_active = 1;
+                                $DeviceToken->save();
+                            }
+                                  
                         }
 
                     }

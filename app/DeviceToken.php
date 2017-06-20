@@ -22,5 +22,7 @@ class DeviceToken extends Model
         'devi_id',
         'devi_token',
         'devi_active',
+        'pers_id',
+        'last_conection'
     ];
 }

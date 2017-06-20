@@ -21,7 +21,6 @@ class CreatePickingTable extends Migration
             $table->string('password');
             $table->boolean('pick_active');
             $table->boolean('pick_record');
-            $table->dateTime('last_conection')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->boolean('row_mode');

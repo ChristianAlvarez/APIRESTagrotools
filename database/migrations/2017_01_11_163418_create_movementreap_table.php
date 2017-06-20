@@ -22,7 +22,7 @@ class CreateMovementreapTable extends Migration
             $table->decimal('dmrp_received_amount', 10, 2);
             $table->dateTime('dmrp_date_transaction');
             $table->boolean('modc_input');
-            $table->string('pers_id', 15)->references('pers_id')->on('userspicking');
+            $table->string('pers_id', 12)->references('pers_id')->on('picking');
             $table->boolean('more_record');
             $table->string('dmrp_device_id', 50)->references('devi_id')->on('device');
             $table->integer('esdo_id')->nullable();
