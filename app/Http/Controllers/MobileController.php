@@ -82,7 +82,8 @@ class MobileController extends Controller
                                         ->where('devi_id', $request->devi_id)
                                         ->first();
 
-                if ($detail->last_conection === null) 
+                dd($detail['last_conection']);
+                if ($detail['last_conection'] === null) 
                 {
                 	
                 	try 
