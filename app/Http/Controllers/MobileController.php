@@ -26,7 +26,7 @@ class MobileController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('jwt.auth', ['except' => ['authenticate', 'posttoken']]);
+		$this->middleware('jwt.auth', ['except' => ['authenticate', 'posttoken', 'storeMovementReap']]);
 	}
 
 	public function indexUser()
