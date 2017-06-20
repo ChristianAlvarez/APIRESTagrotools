@@ -79,8 +79,8 @@ class MobileController extends Controller
 	            //$user = Picking::where('pers_id', $request->pers_id)->first();
                 
                 $detail = DetailDevice::where('pers_id', $request->pers_id)
-                                          ->where('devi_id', $request->devi_id)
-                                          ->first();
+                                        ->where('devi_id', $request->devi_id)
+                                        ->first();
 
                 if ($detail->last_conection === null) 
                 {
