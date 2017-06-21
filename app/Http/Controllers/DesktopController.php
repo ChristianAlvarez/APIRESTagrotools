@@ -354,7 +354,7 @@ class DesktopController extends Controller
 
                 foreach ($detailsdevices as $devices) {
                         
-                        $Detail = DetailDevice::where('devi_id', $devices['devi_id'])
+                        $Detail = DeviceToken::where('devi_id', $devices['devi_id'])
                                           ->where('devi_active', 1)
                                           ->update(['pers_id' => $devices['pers_id']]);
 
