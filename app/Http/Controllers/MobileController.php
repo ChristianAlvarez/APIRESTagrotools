@@ -285,7 +285,11 @@ class MobileController extends Controller
      */
     public function storeMovementReap(Request $request)
     {
-        $request = collect($request->all());  
+        //$detailsdevices = collect($request->all()); 
+        //$detailsdevices = collect($request['movementreap']); 
+
+        //$request = collect($request->all()); 
+        $request = collect($request['movementreap']);  
         try 
             {
                 $MovementReap = new \App\MovementReap();
@@ -293,10 +297,9 @@ class MobileController extends Controller
 
                 if (!$MovementReap) {
                     return response()->json([
-                    'Codigo' => "2",
-                    'Descripcion' => "ERROR"
-                ]);
-
+                        'Codigo' => "2",
+                        'Descripcion' => "ERROR"
+                    ]);
                 }
                 else{
                     return response()->json([
