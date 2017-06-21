@@ -356,7 +356,7 @@ class DesktopController extends Controller
                         
                         $Detail = DetailDevice::where('devi_id', $devices['devi_id'])
                                           ->where('devi_active', 1)
-                                          ->update(['pers_id' => $devices['pers_id']);
+                                          ->update(['pers_id' => $devices['pers_id']]);
 
                 }
 
