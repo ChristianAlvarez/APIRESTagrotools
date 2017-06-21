@@ -291,7 +291,7 @@ class MobileController extends Controller
                 $MovementReap = new \App\MovementReap();
                 $MovementReap = MovementReap::insert($request->toArray());
 
-                if ($MovementReap) {
+                if (!$MovementReap) {
                     return response()->json([
                     'Codigo' => "2",
                     'Descripcion' => "ERROR"
