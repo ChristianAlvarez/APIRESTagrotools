@@ -298,6 +298,12 @@ class MobileController extends Controller
                         'Codigo' => "1"
                     ]);
                 }
+                else
+                {
+                    return response()->json([
+                        'Success' => "Success"
+                    ]);
+                }
             }
             catch(\Illuminate\Database\QueryException $e)
             {
