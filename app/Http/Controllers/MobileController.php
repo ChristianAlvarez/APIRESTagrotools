@@ -211,6 +211,7 @@ class MobileController extends Controller
             ]);
         }else {
 
+            dd($$Device, $Pers_id, $Token);
             $DeviceToken = DeviceToken::where('devi_id', $Device)
                               ->where('devi_active', 1)
                               ->where('pers_id', $Pers_id)
