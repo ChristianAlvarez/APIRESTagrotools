@@ -211,12 +211,19 @@ class MobileController extends Controller
             ]);
         }else {
 
-            dd($Device, $Pers_id, $Token);
+            //dd($Device, $Pers_id, $Token);
+
+            $Token = DeviceToken::where('devi_id', $Device)
+                                      ->where('devi_active', 1)
+                                      ->where('pers_id', $Pers_id)
+                                      ->whereNull('devi_token')->get();
+
+            dd($Token);
             $DeviceToken = DeviceToken::where('devi_id', $Device)
-                              ->where('devi_active', 1)
-                              ->where('pers_id', $Pers_id)
-                              ->whereNull('devi_token')
-                              ->update(['devi_token' => $Token]);
+                                      ->where('devi_active', 1)
+                                      ->where('pers_id', $Pers_id)
+                                      ->whereNull('devi_token')
+                                      ->update(['devi_token' => $Token]);
 
             if (count($DeviceToken) > 0) {
                 $Data = [
