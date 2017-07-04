@@ -278,9 +278,10 @@ class DesktopController extends Controller
                             $DeviceToken->pers_id = '';
                             $DeviceToken->save();   
 
-                            dd($DeviceToken);
                             if (!$DeviceToken) {
-
+                                return response()->json([
+                                    'Error' => "Error insert DeviceToken"
+                                ]);
                             }     
                         }
                     }
