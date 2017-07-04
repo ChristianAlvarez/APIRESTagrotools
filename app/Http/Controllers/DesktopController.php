@@ -268,7 +268,7 @@ class DesktopController extends Controller
                     foreach ($devices as $device) {
                         
                         $token = DeviceToken::where('devi_id', $device['devi_id']);
-                        dd(!$token);
+                        dd(count($token));
 
                         if (count($token) <= 0)
                         {
