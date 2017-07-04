@@ -271,11 +271,15 @@ class DesktopController extends Controller
                         
                         if (count($Devicetoken) == 0)
                         {
-                            dd($Devicetoken);
                             $DeviceToken = new \App\DeviceToken();
                             $DeviceToken->devi_id = $device['devi_id'];
                             $DeviceToken->devi_active = 1;
-                            $DeviceToken->save();        
+                            $DeviceToken->save();   
+
+                            dd($DeviceToken);
+                            if (!$DeviceToken) {
+
+                            }     
                         }
                     }
                 }
