@@ -216,7 +216,7 @@ class MobileController extends Controller
             $Token = DeviceToken::where('devi_id', $Device)
                                       ->where('devi_active', 1)
                                       ->where('pers_id', $Pers_id)
-                                      ->where('')->get();
+                                      ->where('devi_token', '')->get();
 
             dd($Token);
             $DeviceToken = DeviceToken::where('devi_id', $Device)
