@@ -269,9 +269,7 @@ class DesktopController extends Controller
 
                         $Devicetoken = DeviceToken::where('devi_id', $device['devi_id'])->get();
                         
-                        dd(count($Devicetoken));
-
-                        if (count($Devicetoken) <= 0)
+                        if (count($Devicetoken) == 0)
                         {
                             $DeviceToken = new \App\DeviceToken();
                             $DeviceToken->devi_id = $device['devi_id'];
@@ -352,15 +350,13 @@ class DesktopController extends Controller
             }
             else
             {
-
                 foreach ($detailsdevices as $devices) {
                         
                         $Detail = DeviceToken::where('devi_id', $devices['devi_id'])
-                                          ->where('devi_active', 1)
-                                          ->update(['pers_id' => $devices['pers_id']]);
+                                             ->where('devi_active', 1)
+                                             ->update(['pers_id' => $devices['pers_id']]);
 
                 }
-
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
