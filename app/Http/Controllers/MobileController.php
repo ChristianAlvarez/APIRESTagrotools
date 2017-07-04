@@ -230,7 +230,7 @@ class MobileController extends Controller
             } 
             else{
                 $Data = [
-                    'Token' => null
+                    'Token' => "Success"
                 ];
 
                 return response()->json([
