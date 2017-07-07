@@ -144,7 +144,7 @@ class MobileController extends Controller
 		                {
 		                    return response()->json([
 		                        'Codigo' => "1",
-		                        'Mensaje' => "Usuarios y/o contraseña incorrecto"
+		                        'Mensaje' => "Usuarios no asociado al dispositivo " . $request->devi_id
 		                    ]);
 		                }    
    
