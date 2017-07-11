@@ -37,6 +37,9 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 	//TOKEN GCM
 	Route::post('/posttoken', 'MobileController@posttoken');
 
+	//Verify Picking Active
+	Route::post('/useractive', 'MobileController@userActive');
+
 });
 
 //DESKTOP

@@ -85,8 +85,8 @@ class MobileController extends Controller
                                      ->first();
 
                 //dd($detail['last_conection']);
-                if ($detail['last_conection'] === null) 
-                {
+                //if ($detail['last_conection'] === null) 
+                //{
                 	
                 	try 
 		            {
@@ -157,15 +157,17 @@ class MobileController extends Controller
 		                ]);
 		                
                 	}
-                }	
-                else
-                {
-                	$Data = [
-		                'User' => $user
-		            ];
+                //}	
+                //else
+                //{
+                //    $user = Picking::where('pers_id', $request->pers_id)->first()
+
+                //	$Data = [
+		        //        'User' => $user
+		        //    ];
                 	// all good so return the token
-        			return response()->json(compact('token', 'Data'));
-                }                    
+        		//	return response()->json(compact('token', 'Data'));
+                //}                    
 	        }                  
         } 
         catch (JWTException $e) 
@@ -241,6 +243,53 @@ class MobileController extends Controller
                     'Codigo' => "1"
                 ]);
             }                           
+        }
+    }
+
+    public function userActive(Request $request)
+    {
+        $requests = $request->only('pers_id'); 
+        
+        $Pers_id = $requests['pers_id'];
+
+        $data = [
+            'Pers_id'   => $Pers_id
+        ]; 
+
+        $rules = [
+            'Pers_id'   => 'required|exists:picking,pers_id'
+        ];
+
+        $messages = [
+            'Pers_id.required' => 'Pers_id - Pers_id es requerido',
+            'Pers_id.exists'   => 'Pers_id - Pers_id debe existir en tabla picking',
+        ];       
+
+        $validator = Validator::make($data, $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error validacion' => $validator->errors()
+            ]);
+        }else {
+
+            $user = Picking::where('pers_id', $request->pers_id)
+                           ->where('pick_active', 1)
+                           ->get();
+
+            if (count($user)) {
+                return response()->json([
+                    'Picking' => $user
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'Codigo' => "Error",
+                    'Mensaje' => "Usuarios inactivo "
+                ]);
+            }
+
         }
     }
 
