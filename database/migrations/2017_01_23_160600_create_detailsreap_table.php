@@ -17,6 +17,7 @@ class CreateDetailsreapTable extends Migration
             $table->string('reap_id', 20)->references('reap_id')->on('reap');
             $table->string('cpny_id', 12)->references('cpny_id')->on('company');
             $table->string('card_identification', 50);
+            $table->string('pers_id', 20);
             $table->string('pers_name', 160);
             $table->string('quad_name', 80);
             $table->boolean('dere_status_card');

@@ -235,7 +235,7 @@ class MobileController extends Controller
             } 
             else{
                 $Data = [
-                    'Token' => "Success"
+                    'Token' => "Error"
                 ];
 
                 return response()->json([
@@ -352,6 +352,7 @@ class MobileController extends Controller
                 }
                 else
                 {
+
                     return response()->json([
                         'Success' => "Success"
                     ]);
@@ -367,6 +368,54 @@ class MobileController extends Controller
             }
     }
 
+    /**
+     * Store a MovementReap newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeDetailsReapManual(Request $request)
+    {
+        $move = collect($request->all()); 
+        $comp = collect($move['detailsreap']); 
+
+        try 
+            {
+             
+                $DetailsReap = new \App\DetailsReap();
+                $DetailsReap = DetailsReap::insert($comp->toArray());
+
+                if (!$DetailsReap) {
+                    return response()->json([
+                        'Codigo' => "1"
+                    ]);
+                }
+                else
+                {
+
+                    //$reap_id = $DetailsReap->pluck('reap_id');
+                    //$DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)->get(); 
+
+                    /*foreach  ($DetailsReap as $id_key => $detail) {
+                        $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
+                                                ->where(['card_identification' => $detail['card_identification']])
+                                                ->update(['pers_id' => '']);
+                    }*/
+
+                    return response()->json([
+                        'Success' => "Success"
+                    ]);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+
+            }
+    }
     public function index()
     {
         /*$devices = PushNotification::Device('token', array('badge' => 5));

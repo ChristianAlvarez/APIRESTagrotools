@@ -468,6 +468,19 @@ class DesktopController extends Controller
     }
 
     //DETAILSREAP
+    public function updateDetailManual(Request $request)
+    {
+        $detailsreaps = collect($request->all());
+        $comp = collect($detailsreaps['detailsreap']); 
+
+        foreach  ($comp as $id_key => $detail) {
+            $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
+                                    ->where(['card_identification' => $detail['card_identification']])
+                                    ->update(['pers_id' => '']);
+            }
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -523,7 +536,8 @@ class DesktopController extends Controller
                 $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
-                                           ->update(['pers_name' => $detailsreap['pers_name'],
+                                           ->update(['pers_id' => $detailsreap['pers_id'],
+                                                     'pers_name' => $detailsreap['pers_name'],
                                                      'quad_name' => $detailsreap['quad_name'],
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
                                                      'dere_record' => $detailsreap['dere_record'],

@@ -21,6 +21,7 @@ class DetailsReap extends Model
         'reap_id',
         'cpny_id',
         'card_identification',
+        'pers_id',
         'pers_name',
         'quad_name',
         'dere_status_card',
