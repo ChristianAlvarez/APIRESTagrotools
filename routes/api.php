@@ -15,6 +15,10 @@ use Illuminate\Http\Request;
 
 Route::post('/saveuser', 'UserController@storeUser');
 
+Route::get('test', function() {
+	return 'Test';
+});
+
 //MOBILE
 Route::group(['prefix' => '/agroreap/mobile'], function (){
 	//USER - AUTHENTICATE
@@ -67,6 +71,7 @@ Route::group(['prefix' => '/agroreap/desktop'], function (){
 	Route::post('/savereap', 'DesktopController@saveReap');
 
 	//DETAILSREAP
+	Route::get('/getdetailsreap', 'DesktopController@getDetailsReap');
 	Route::post('/savedetailsreap', 'DesktopController@saveDetailsReap');
 	Route::post('/updatedetailsreap', 'DesktopController@updateDetailManual');
 
