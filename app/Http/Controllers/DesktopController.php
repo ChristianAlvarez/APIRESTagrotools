@@ -483,8 +483,16 @@ class DesktopController extends Controller
 
     public function getDetailsReap($cpny_id)
     {
-        $DetailsReap = DetailsReap::where('pers_id', "")
+        $DetailsReap = DetailsReap::whereNotNull('pers_id')
                                     ->where('cpny_id', $cpny_id)
+                                    ->get();
+        
+        return Response()->json(array('DetailsReap' => $DetailsReap));
+    }
+
+    public function getDetailsReap2($cpny_id)
+    {
+        $DetailsReap = DetailsReap::where('pers_id', "")
                                     ->get();
         
         return Response()->json(array('DetailsReap' => $DetailsReap));
