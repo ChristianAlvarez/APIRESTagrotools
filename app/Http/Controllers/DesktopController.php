@@ -483,7 +483,7 @@ class DesktopController extends Controller
 
     public function getDetailsReap($cpny_id)
     {
-        $DetailsReap = DetailsReap::whereNotNull('pers_id')
+        $DetailsReap = DetailsReap::whereNotIn('pers_id', 'N')
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
