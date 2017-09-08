@@ -476,27 +476,28 @@ class DesktopController extends Controller
         foreach  ($comp as $id_key => $detail) {
             $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
-                                    ->update(['pers_id' => '']);
+                                    ->update(['pers_id' => 'N']);
             }
         
     }
 
     public function getDetailsReap($cpny_id)
     {
-        $DetailsReap = DetailsReap::whereNotIn('pers_id', 'N')
+        $DetailsReap = DetailsReap::where('pers_id', '<>','N')
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
         return Response()->json(array('DetailsReap' => $DetailsReap));
     }
 
-    public function getDetailsReap2($cpny_id)
+    public function getDetailsReap2()
     {
-        $DetailsReap = DetailsReap::where('pers_id', "")
+        $DetailsReap = DetailsReap::where('pers_id', '<>','N')
                                     ->get();
         
         return Response()->json(array('DetailsReap' => $DetailsReap));
     }
+
 
     /**
      * Store a newly created resource in storage.

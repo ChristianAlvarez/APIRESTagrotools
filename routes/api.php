@@ -19,8 +19,7 @@ Route::get('test', function() {
 	return 'Test';
 });
 
-Route::get('/getdetailsreapp/{cpny_id}', 'DesktopController@getDetailsReap2');
-
+Route::get('/getdetailsreapp', 'DesktopController@getDetailsReap2');
 
 //MOBILE
 Route::group(['prefix' => '/agroreap/mobile'], function (){
