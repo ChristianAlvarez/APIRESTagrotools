@@ -71,7 +71,7 @@ Route::group(['prefix' => '/agroreap/desktop'], function (){
 	Route::post('/savereap', 'DesktopController@saveReap');
 
 	//DETAILSREAP
-	Route::get('/getdetailsreap', 'DesktopController@getDetailsReap');
+	Route::get('/getdetailsreap/{company}', 'DesktopController@getDetailsReap');
 	Route::post('/savedetailsreap', 'DesktopController@saveDetailsReap');
 	Route::post('/updatedetailsreap', 'DesktopController@updateDetailManual');
 
