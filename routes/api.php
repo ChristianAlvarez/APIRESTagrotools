@@ -21,6 +21,9 @@ Route::get('test', function() {
 
 Route::get('/getdetailsreapp', 'DesktopController@getDetailsReap2');
 
+//DETAILREAP
+Route::post('/savedetailreapmanual', 'MobileController@storeDetailsReapManual');
+
 //MOBILE
 Route::group(['prefix' => '/agroreap/mobile'], function (){
 	//USER - AUTHENTICATE
@@ -31,8 +34,7 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 	Route::get('/indexmovementreap', 'MobileController@indexMovementReap');
 	Route::post('/savemovementreap', 'MobileController@storeMovementReap');
 
-	//DETAILREAP
-	Route::post('/savedetailreapmanual', 'MobileController@storeDetailsReapManual');
+	
 
 	//SYNC
 	Route::post('/syncup', 'SyncController@SyncUp');
