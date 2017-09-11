@@ -471,7 +471,7 @@ class DesktopController extends Controller
     public function updateDetailManual(Request $request)
     {
         $detailsreaps = collect($request->all());
-        $comp = collect($detailsreaps['detailsreap']); 
+        $comp = collect($detailsreaps['DetailsReap']); 
 
         foreach  ($comp as $id_key => $detail) {
             $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
