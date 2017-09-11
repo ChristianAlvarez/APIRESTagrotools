@@ -490,14 +490,6 @@ class DesktopController extends Controller
         return Response()->json(array('DetailsReap' => $DetailsReap));
     }
 
-    public function getDetailsReap2()
-    {
-        $DetailsReap = DetailsReap::where('pers_id', '<>','N')
-                                    ->get();
-        
-        return Response()->json(array('DetailsReap' => $DetailsReap));
-    }
-
 
     /**
      * Store a newly created resource in storage.
