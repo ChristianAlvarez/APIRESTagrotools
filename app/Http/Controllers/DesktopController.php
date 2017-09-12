@@ -597,7 +597,8 @@ class DesktopController extends Controller
         $id = MovementReap::where('id' ,'>' ,0)
                          ->where('updated_at', '>', $updated_at)
                          ->where('cpny_id', $cpny_id)
-                         ->where('more_record', 0);  
+                         ->where('more_record', 0)
+                         ->get();  
 
                          dd($id);
         
