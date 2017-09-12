@@ -591,7 +591,7 @@ class DesktopController extends Controller
 
         $p = $comp[0];
 
-        dd($p);
+        dd($p->cpny_id);
 
         $cpny_id   = $credentials->cpny_id;
         $updated_at  = $credentials->updated_at;
