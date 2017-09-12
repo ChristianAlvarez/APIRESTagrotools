@@ -19,10 +19,6 @@ Route::get('test', function() {
 	return 'Test';
 });
 
-Route::get('/getdetailsreapp', 'DesktopController@getDetailsReap2');
-
-
-
 //MOBILE
 Route::group(['prefix' => '/agroreap/mobile'], function (){
 	//USER - AUTHENTICATE
@@ -81,6 +77,7 @@ Route::group(['prefix' => '/agroreap/desktop'], function (){
 
 	//MOVEMENTREAP
 	Route::get('/getmovementreap/{date}/{company}', 'DesktopController@getMovementReap');
+	Route::post('/updatemovementreap', 'DesktopController@postMovementReap');
 });
 
 //COMPANY
@@ -111,7 +108,7 @@ Route::put('/updateuserpickingcompany/{cpny_id}/{pers_id}', 'UserController@Upda
 
 //MOVEMENTREAP
 Route::get('/getmovementreap/{date}/{company}', 'MovementreapController@getMovementReap');
-Route::post('/postmovementreap', 'MovementreapController@postMovementReap');
+
 
 //TEST PUSH NOTIFICATION
 Route::get('/index2', 'RespaldoController@index');

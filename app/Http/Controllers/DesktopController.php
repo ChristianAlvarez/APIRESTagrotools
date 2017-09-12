@@ -575,4 +575,76 @@ class DesktopController extends Controller
         
         return Response()->json(array('MovementReap' => $MovementReap));
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function postMovementReap(Request $request)
+    {
+
+       //$companys = collect($request->all()); 
+       //$comp = collect($companys['Company']);
+        
+        $credentials = $request->only('cpny_id', 'updated_at');       
+
+        $cpny_id   = $requests['registrationToken'];
+        $updated_at  = $requests['devi_id'];
+
+        $rules = [
+            'cpny_id'       => 'required',
+            'updated_at'    => 'required',
+        ];
+
+        $messages = [
+            'cpny_id.required'  => 'cpny_id - Compañia es requerido',
+            'updated_at.required' => 'Fecha es requerido',
+        ];       
+
+        $validator = Validator::make($credentials, $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error validacion' => $validator->errors()
+            ]);
+        }
+
+
+        $id = MovementReap::where('id' ,'>' ,0)
+                         ->where('updated_at', '>', $updated_at)
+                         ->where('cpny_id', $cpny_id)
+                         ->where('more_record', 0)
+                         ->pluck('id')->toArray();  
+        
+        if (!empty($id)) 
+        {
+
+            try 
+                {
+                    
+                  $MovementReap = MovementReap::whereIn('id',
+                    $id)->update(['more_record' => 1]);
+
+                  return response()->json([
+                      'Codigo' => "2"
+                  ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+            }
+        }
+        else
+        {
+          return response()->json([
+              'Codigo' => "1",
+              'Descripcion' => "No existen registros para la condición de su consulta"
+          ]);
+        }
+        
+    }
 }

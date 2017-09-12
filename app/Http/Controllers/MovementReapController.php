@@ -43,7 +43,10 @@ class MovementreapController extends Controller
      */
     public function postMovementReap(Request $request)
     {
-       //$updated_at, $cpny_id
+
+       //$companys = collect($request->all()); 
+       //$comp = collect($companys['Company']);
+        
        $Request = $request->all();
 
        $id = MovementReap::where('id' ,'>' ,0)
