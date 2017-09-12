@@ -594,13 +594,12 @@ class DesktopController extends Controller
         $cpny_id   = $p['cpny_id'];
         $updated_at  = $p['updated_at'];
 
-        $id = MovementReap::where('id' ,'>' ,0)
-                         ->where('updated_at', '>', $updated_at)
+        $id = MovementReap::where('updated_at', '>', $updated_at)
                          ->where('cpny_id', $cpny_id)
                          ->where('more_record', 0)
                          ->get();  
 
-                         dd($id);
+        dd($id);
         
         if (!empty($id)) 
         {
