@@ -476,14 +476,14 @@ class DesktopController extends Controller
         foreach  ($comp as $id_key => $detail) {
             $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
-                                    ->update(['pers_id' => 'N']);
+                                    ->update(['dere_record' => 0]);
             }
         
     }
 
     public function getDetailsReap($cpny_id)
     {
-        $DetailsReap = DetailsReap::where('pers_id', '<>','N')
+        $DetailsReap = DetailsReap::where('dere_record', '<>', 0)
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
