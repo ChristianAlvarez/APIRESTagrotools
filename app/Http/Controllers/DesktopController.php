@@ -591,10 +591,8 @@ class DesktopController extends Controller
 
         $p = $comp[0];
 
-        dd($p['cpny_id']);
-
-        $cpny_id   = $credentials->cpny_id;
-        $updated_at  = $credentials->updated_at;
+        $cpny_id   = $p['cpny_id'];
+        $updated_at  = $p['updated_at'];
 
         $rules = [
             'cpny_id'       => 'required',
@@ -620,6 +618,8 @@ class DesktopController extends Controller
                          ->where('cpny_id', $cpny_id)
                          ->where('more_record', 0)
                          ->pluck('id')->toArray();  
+
+                         dd($id);
         
         if (!empty($id)) 
         {
