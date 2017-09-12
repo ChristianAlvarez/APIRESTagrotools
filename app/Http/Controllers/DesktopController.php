@@ -584,10 +584,12 @@ class DesktopController extends Controller
     public function postMovementReap(Request $request)
     {
 
+$credentials = $comp->only('cpny_id', 'updated_at');
+dd($credentials);
         $move = collect($request->all()); 
         $comp = collect($move['MovementReap']);
         
-        $credentials = $comp->only('cpny_id', 'updated_at');       
+               
 
         dd($comp);
 
