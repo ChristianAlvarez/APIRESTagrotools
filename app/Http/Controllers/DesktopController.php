@@ -598,8 +598,6 @@ class DesktopController extends Controller
                          ->where('cpny_id', $cpny_id)
                          ->where('more_record', 0)
                          ->pluck('id')->toArray();  
-
-        dd($id);
         
         if (!empty($id)) 
         {
@@ -607,12 +605,11 @@ class DesktopController extends Controller
             try 
                 {
                     
-                  $MovementReap = MovementReap::whereIn('id',
-                    $id)->update(['more_record' => 1]);
+                  $MovementReap = MovementReap::whereIn('id', $id)->update(['more_record' => 1]);
 
                   return response()->json([
                       'Codigo' => "2"
-                  ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                  ]);
             }
             catch(\Illuminate\Database\QueryException $e)
             {
