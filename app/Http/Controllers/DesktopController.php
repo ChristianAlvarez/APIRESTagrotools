@@ -589,8 +589,8 @@ class DesktopController extends Controller
         
         $credentials = $comp->only('cpny_id', 'updated_at');       
 
-        $cpny_id   = $credentials['cpny_id'];
-        $updated_at  = $credentials['updated_at'];
+        $cpny_id   = $credentials->cpny_id;
+        $updated_at  = $credentials->updated_at;
 
         $rules = [
             'cpny_id'       => 'required',
