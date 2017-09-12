@@ -597,7 +597,7 @@ class DesktopController extends Controller
         $id = MovementReap::where('updated_at', '<=', $updated_at)
                          ->where('cpny_id', $cpny_id)
                          ->where('more_record', 0)
-                         ->get();  
+                         ->pluck('id')->toArray();  
 
         dd($id);
         
