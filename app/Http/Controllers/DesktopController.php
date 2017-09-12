@@ -594,25 +594,6 @@ class DesktopController extends Controller
         $cpny_id   = $p['cpny_id'];
         $updated_at  = $p['updated_at'];
 
-        $rules = [
-            'cpny_id'       => 'required',
-            'updated_at'    => 'required',
-        ];
-
-        $messages = [
-            'cpny_id.required'  => 'cpny_id - Compañia es requerido',
-            'updated_at.required' => 'Fecha es requerido',
-        ];       
-
-        $validator = Validator::make($credentials, $rules, $messages);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error validacion' => $validator->errors()
-            ]);
-        }
-
-
         $id = MovementReap::where('id' ,'>' ,0)
                          ->where('updated_at', '>', $updated_at)
                          ->where('cpny_id', $cpny_id)
