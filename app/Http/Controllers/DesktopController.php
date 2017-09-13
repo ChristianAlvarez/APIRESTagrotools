@@ -478,7 +478,7 @@ class DesktopController extends Controller
                                     ->where(['pers_id' => $detail['pers_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
                                     ->update(['dere_record' => 0,
-                                              'dtrp_line_number' => $detailsreap['dtrp_line_number']]);
+                                              'dtrp_line_number' => $detail['dtrp_line_number']]);
             }   
     }
 
