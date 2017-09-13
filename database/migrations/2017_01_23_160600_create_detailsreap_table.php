@@ -25,8 +25,9 @@ class CreateDetailsreapTable extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->boolean('row_mode');
+            $table->integer('dtrp_line_number');
 
-            $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
+            $table->primary(array('reap_id', 'cpny_id', 'dtrp_line_number'));
         });
     }
 

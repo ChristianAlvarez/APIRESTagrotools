@@ -26,5 +26,6 @@ class DetailsReap extends Model
         'quad_name',
         'dere_status_card',
         'dere_record',
+        'dtrp_line_number'
     ];
 }

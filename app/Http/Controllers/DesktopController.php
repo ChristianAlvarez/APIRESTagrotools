@@ -475,15 +475,16 @@ class DesktopController extends Controller
 
         foreach  ($comp as $id_key => $detail) {
             $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
-                                    ->where(['card_identification' => $detail['card_identification']])
-                                    ->update(['dere_record' => 0]);
-            }
-        
+                                    ->where(['dtrp_line_number' => $detail['dtrp_line_number']])
+                                    ->update(['dere_record' => 0,
+                                              'dtrp_line_number' => $detailsreap['dtrp_line_number']]);
+            }   
     }
 
+    //Busca registros que fueron insertados por la aplicacion mobil
     public function getDetailsReap($cpny_id)
     {
-        $DetailsReap = DetailsReap::where('dere_record', '<>', 0)
+        $DetailsReap = DetailsReap::where('dere_record', '=', 1)
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
@@ -545,13 +546,14 @@ class DesktopController extends Controller
             foreach  ($detailsreaps as $id_key => $detailsreap) {
                 $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
-                                           ->where(['card_identification' => $detailsreap['card_identification']])
+                                           ->where(['dtrp_line_number' => $detailsreap['dtrp_line_number']])
                                            ->update(['pers_id' => $detailsreap['pers_id'],
                                                      'pers_name' => $detailsreap['pers_name'],
                                                      'quad_name' => $detailsreap['quad_name'],
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
                                                      'dere_record' => $detailsreap['dere_record'],
-                                                     'row_mode'     => $detailsreap['row_mode']]);
+                                                     'row_mode'     => $detailsreap['row_mode'],
+                                                     'card_identification' => $detailsreap['card_identification']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
