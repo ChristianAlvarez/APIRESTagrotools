@@ -532,6 +532,12 @@ class DesktopController extends Controller
                     'Codigo' => "1"
                 ]);
             }
+            else{
+                return response()->json([
+                    'Codigo' => "2",
+                    'Descripcion' => "Error insert DetailsReap"
+          ]);
+            }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
