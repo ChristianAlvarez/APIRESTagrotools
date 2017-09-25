@@ -580,6 +580,7 @@ class DesktopController extends Controller
     {
         $MovementReap = MovementReap::where('updated_at', '>', $updated_at)
                                     ->where('cpny_id', $cpny_id)
+                                    ->where('more_record', 0)
                                     ->get();
         
         return Response()->json(array('MovementReap' => $MovementReap));
