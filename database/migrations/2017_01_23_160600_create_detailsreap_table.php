@@ -27,7 +27,7 @@ class CreateDetailsreapTable extends Migration
             $table->boolean('row_mode');
             $table->integer('dtrp_line_number');
 
-            $table->primary(array('reap_id', 'cpny_id', 'dtrp_line_number'));
+            $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
         });
     }
 
