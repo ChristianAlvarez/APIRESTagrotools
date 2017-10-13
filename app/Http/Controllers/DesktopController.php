@@ -135,7 +135,8 @@ class DesktopController extends Controller
                 $Company =  Company::where(['cpny_id' => $company['cpny_id']])
                                    ->update(['cpny_name' => $company['cpny_name'],
                                              'cpny_active' => $company['cpny_active'],
-                                             'cpny_record' => $company['cpny_record']]);
+                                             'cpny_record' => $company['cpny_record'],
+                                             'updated_at'  => Carbon::now()->toTimeString()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -212,7 +213,8 @@ class DesktopController extends Controller
                                              'password' 	=> Hash::make($picking['password']),
                                              'pick_active' 	=> $picking['pick_active'],
                                              'pick_record' 	=> $picking['pick_record'],
-                                             'row_mode'     => $picking['row_mode']]);
+                                             'row_mode'     => $picking['row_mode'],
+                                             'updated_at'  => Carbon::now()->toTimeString()]]);
                 }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -304,7 +306,8 @@ class DesktopController extends Controller
                                   ->update(['devi_name' => $device['devi_name'],
                                             'devi_active' => $device['devi_active'],
                                             'devi_record' => $device['devi_record'],
-                                            'row_mode'    => $device['row_mode']]);
+                                            'row_mode'    => $device['row_mode'],
+                                            'updated_at'  => Carbon::now()->toTimeString()]]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -383,7 +386,8 @@ class DesktopController extends Controller
                                                  ->where(['pers_id' => $detailsdevice['pers_id']])
                                                  ->update(['dtde_active' => $detailsdevice['dtde_active'],
                                                            'dtde_record' => $detailsdevice['dtde_record'],
-                                                           'row_mode'    => $detailsdevice['row_mode']]);
+                                                           'row_mode'    => $detailsdevice['row_mode'],
+                                                           'updated_at'  => Carbon::now()->toTimeString()]]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -457,7 +461,8 @@ class DesktopController extends Controller
                                        'vare_name' => $reap['vare_name'],
                                        'mere_name' => $reap['mere_name'],
                                        'reap_record' => $reap['reap_record'],
-                                       'row_mode'    => $reap['row_mode']]);
+                                       'row_mode'    => $reap['row_mode'],
+                                       'updated_at'  => Carbon::now()->toTimeString()]]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -560,7 +565,8 @@ class DesktopController extends Controller
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
                                                      'dere_record' => $detailsreap['dere_record'],
                                                      'row_mode'     => $detailsreap['row_mode'],
-                                                     'card_identification' => $detailsreap['card_identification']]);
+                                                     'card_identification' => $detailsreap['card_identification'],
+                                                     'updated_at'  => Carbon::now()->toTimeString()]]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -635,7 +641,6 @@ class DesktopController extends Controller
               'Codigo' => "1",
               'Descripcion' => "No existen registros para la condición de su consulta"
           ]);
-        }
-        
+        }      
     }
 }
