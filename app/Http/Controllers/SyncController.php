@@ -156,8 +156,8 @@ class SyncController extends Controller
                                   ->update(['pick_record' => 1]);
 
           return response()->json([
-                'success' => "Synchronized Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                        'Success' => "Success"
+                    ]);
         }
     }
 
@@ -168,15 +168,13 @@ class SyncController extends Controller
      */
     public function SynchronizedCompanies(Request $request)
     {
-        $requests = $request->only('pers_id', 'cpny_id', 'updated_at_company');
+        $requests = $request->only('cpny_id', 'updated_at_company');
 
-        $Pers_id = $request->pers_id;
         $Cpny_id = $request->cpny_id;
         $Updated_at_company = $request->updated_at_company;
 
         $data = [
 
-            'Pers_id' => $Pers_id, 
             'Cpny_id' => $Cpny_id,
 
             'created_userpickingcompany' => $Updated_at_company,
@@ -184,7 +182,6 @@ class SyncController extends Controller
 
         $rules = [
 
-            'Pers_id' => 'required|max:12|exists:userspicking,pers_id',
             'Cpny_id' => 'required|max:20',
 
             'created_userpickingcompany' => 'required|date',
@@ -192,9 +189,6 @@ class SyncController extends Controller
 
         $messages = [
 
-            'Pers_id.required' => 'pers_id - Identificador del usuario es requerido',
-            'Pers_id.max'      => 'Pers_id - Id maximo de caracteres permitidos 20',
-            'Pers_id.exists'   => 'pers_id - Identificador del usuario debe existir en tabla Userpicking',
             'Cpny_id.required' => 'cpny_id - Compañia es requerido',
             'Cpny_id.max'      => 'cpny_id - Compañia maximo de caracteres permitidos 12',
 
@@ -210,16 +204,15 @@ class SyncController extends Controller
             ]);
         }else {
 
-          $UserPickingCompanys = Company::where('pers_id', $Pers_id)
-                                          ->where('cpny_id', $Cpny_id)
+          $UserPickingCompanys = Company::where('cpny_id', $Cpny_id)
                                           ->where('cpny_active', 1)
                                           ->where('cpny_record', 0)
                                           ->whereDate('updated_at', '<=',  $Updated_at_company)
                                           ->update(['cpny_record' => 1]);  
 
           return response()->json([
-                'success' => "Synchronized Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                        'Success' => "Success"
+                    ]);
         }  
     }
 
@@ -280,8 +273,8 @@ class SyncController extends Controller
                          ->update(['reap_record' => 1]);
 
            return response()->json([
-                'success' => "Synchronized Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                        'Success' => "Success"
+                    ]);
         }
     }
 
@@ -341,8 +334,8 @@ class SyncController extends Controller
                                       ->update(['dere_record' => 1]);
 
           return response()->json([
-                  'success' => "Synchronized Success"
-              ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                        'Success' => "Success"
+                    ]);
         }
     }
 
@@ -451,8 +444,8 @@ class SyncController extends Controller
                                       ->update(['dere_record' => 1]);
 
             return response()->json([
-                'success' => "Synchronized Success"
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+                        'Success' => "Success"
+                    ]);
         }
     }
 
