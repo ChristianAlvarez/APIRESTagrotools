@@ -56,41 +56,52 @@ class SyncController extends Controller
             ]);
         }else {
 
-            $Company = Company::where('cpny_id', $Cpny_id)
-                              ->where('cpny_active', 1)
-                              ->where('cpny_record', 0)
-                              ->where('updated_at', '>', $Updated_at_company)
-                              ->orderBy('updated_at', 'desc')
-                              ->get();
+            try 
+                {
+                    $Company = Company::where('cpny_id', $Cpny_id)
+                                      ->where('cpny_active', 1)
+                                      ->where('cpny_record', 0)
+                                      ->where('updated_at', '>', $Updated_at_company)
+                                      ->orderBy('updated_at', 'desc')
+                                      ->get();
 
-            $Picking = Picking::where('pers_id', $Pers_id)
-                              ->where('cpny_id', $Cpny_id)
-                              ->where('pick_active', 1)
-                              ->where('pick_record', 0)
-                              ->where('updated_at', '>', $Updated_at_picking)
-                              ->orderBy('updated_at', 'desc')
-                              ->get();
+                    $Picking = Picking::where('pers_id', $Pers_id)
+                                      ->where('cpny_id', $Cpny_id)
+                                      ->where('pick_active', 1)
+                                      ->where('pick_record', 0)
+                                      ->where('updated_at', '>', $Updated_at_picking)
+                                      ->orderBy('updated_at', 'desc')
+                                      ->get();
 
-            $Reap = Reap::where('cpny_id', $Cpny_id)
-                          ->where('pers_id', $Pers_id)
-                          ->where('reap_record', 0)
-                          ->where('updated_at', '>', $Updated_at_reap)
-                          ->orderBy('updated_at', 'desc')
-                          ->get();
+                    $Reap = Reap::where('cpny_id', $Cpny_id)
+                                  ->where('pers_id', $Pers_id)
+                                  ->where('reap_record', 0)
+                                  ->where('updated_at', '>', $Updated_at_reap)
+                                  ->orderBy('updated_at', 'desc')
+                                  ->get();
 
-            $DetailsReap = DetailsReap::where('cpny_id', $Cpny_id)
-                                ->where('dere_status_card', 1)
-                                ->where('dere_record', 0)
-                                ->where('updated_at', '>', $Updated_at_detailsreap)
-                                ->orderBy('updated_at', 'desc')
-                                ->get();
+                    $DetailsReap = DetailsReap::where('cpny_id', $Cpny_id)
+                                        ->where('dere_status_card', 1)
+                                        ->where('dere_record', 0)
+                                        ->where('updated_at', '>', $Updated_at_detailsreap)
+                                        ->orderBy('updated_at', 'desc')
+                                        ->get();
 
-            $Data = [
-                'Picking' => $Picking,
-                'Company' => $Company,
-                'Reap' => $Reap,
-                'DetailsReap' => $DetailsReap
-            ];
+                    $Data = [
+                        'Picking' => $Picking,
+                        'Company' => $Company,
+                        'Reap' => $Reap,
+                        'DetailsReap' => $DetailsReap
+                    ];
+                } 
+                catch(\Illuminate\Database\QueryException $e) 
+                {
+                    return response()->json([
+                        'Codigo' => "2",
+                        'Descripcion' => $e
+                    ]);
+                    
+                }
 
             return response()->json([
                     'Data'   => $Data,
