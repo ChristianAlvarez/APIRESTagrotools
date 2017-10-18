@@ -133,6 +133,8 @@ class MobileController extends Controller
 		                        'DetailsReap'   => $DetailsReap
 		                    ];
 
+                            dd(Carbon::now());
+                            
 							//Actualizamos la fecha de ultima conexión
                 			$detail->last_conection = Carbon::now();
                 			$detail->save();

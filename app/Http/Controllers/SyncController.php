@@ -93,9 +93,8 @@ class SyncController extends Controller
             ];
 
             return response()->json([
-                'msg' => "Success",
-                'Data' => $Data
-            ])->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+              'Success' => "Success"
+            ]);
         }
     }
 
@@ -177,23 +176,18 @@ class SyncController extends Controller
 
             'Cpny_id' => $Cpny_id,
 
-            'created_userpickingcompany' => $Updated_at_company,
         ]; 
 
         $rules = [
 
             'Cpny_id' => 'required|max:20',
 
-            'created_userpickingcompany' => 'required|date',
         ];
 
         $messages = [
 
             'Cpny_id.required' => 'cpny_id - Compañia es requerido',
             'Cpny_id.max'      => 'cpny_id - Compañia maximo de caracteres permitidos 12',
-
-            'created_userpickingcompany.required'   => 'created_userpickingcompany - Periodo tabla UserPickingCompany es requerido',
-            'created_userpickingcompany.date'       => 'created_userpickingcompany - Periodo tabla UserPickingCompany debe ser formato Date valido',
         ];  
 
         $validator = Validator::make($data, $rules, $messages);
