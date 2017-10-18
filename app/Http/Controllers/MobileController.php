@@ -84,6 +84,8 @@ class MobileController extends Controller
                                      ->where('devi_id', $request->devi_id)
                                      ->first();
 
+                //dd($detail);
+
                 //dd($detail['last_conection']);
                 //if ($detail['last_conection'] === null) 
                 //{
@@ -134,7 +136,8 @@ class MobileController extends Controller
 		                    ];
 
                             //dd(Carbon::now());
-                            dd($detail);
+                            //dd($detail);
+
 							//Actualizamos la fecha de ultima conexión
                 			$detail->last_conection = Carbon::now();
                 			$detail->save();
