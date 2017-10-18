@@ -92,10 +92,11 @@ class SyncController extends Controller
                 'DetailsReap' => $DetailsReap
             ];
 
-dd($Data);
             return response()->json([
-              'Success' => "Success"
-            ]);
+                    'Data'   => $Data,
+                    'Codigo' => "1"
+                ]);
+
         }
     }
 
