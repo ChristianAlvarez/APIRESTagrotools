@@ -134,7 +134,7 @@ class MobileController extends Controller
 		                    ];
 
                             //dd(Carbon::now());
-
+                            dd($detail);
 							//Actualizamos la fecha de ultima conexión
                 			$detail->last_conection = Carbon::now();
                 			$detail->save();
