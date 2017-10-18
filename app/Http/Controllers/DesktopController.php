@@ -136,7 +136,7 @@ class DesktopController extends Controller
                                    ->update(['cpny_name' => $company['cpny_name'],
                                              'cpny_active' => $company['cpny_active'],
                                              'cpny_record' => $company['cpny_record'],
-                                             'updated_at'  => Carbon::now()->toTimeString()]);
+                                             'updated_at'  => Carbon::now()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -214,7 +214,7 @@ class DesktopController extends Controller
                                              'pick_active' 	=> $picking['pick_active'],
                                              'pick_record' 	=> $picking['pick_record'],
                                              'row_mode'     => $picking['row_mode'],
-                                             'updated_at'   => Carbon::now()->toTimeString()]);
+                                             'updated_at'   => Carbon::now()]);
                 }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -307,7 +307,7 @@ class DesktopController extends Controller
                                             'devi_active' => $device['devi_active'],
                                             'devi_record' => $device['devi_record'],
                                             'row_mode'    => $device['row_mode'],
-                                            'updated_at'  => Carbon::now()->toTimeString()]);
+                                            'updated_at'  => Carbon::now()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -387,7 +387,7 @@ class DesktopController extends Controller
                                                  ->update(['dtde_active' => $detailsdevice['dtde_active'],
                                                            'dtde_record' => $detailsdevice['dtde_record'],
                                                            'row_mode'    => $detailsdevice['row_mode'],
-                                                           'updated_at'  => Carbon::now()->toTimeString()]);
+                                                           'updated_at'  => Carbon::now()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -462,7 +462,7 @@ class DesktopController extends Controller
                                        'mere_name' => $reap['mere_name'],
                                        'reap_record' => $reap['reap_record'],
                                        'row_mode'    => $reap['row_mode'],
-                                       'updated_at'  => Carbon::now()->toTimeString()]);
+                                       'updated_at'  => Carbon::now()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
@@ -566,7 +566,7 @@ class DesktopController extends Controller
                                                      'dere_record' => $detailsreap['dere_record'],
                                                      'row_mode'     => $detailsreap['row_mode'],
                                                      'card_identification' => $detailsreap['card_identification'],
-                                                     'updated_at'  => Carbon::now()->toTimeString()]);
+                                                     'updated_at'  => Carbon::now()]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
