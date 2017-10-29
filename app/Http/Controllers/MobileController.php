@@ -384,30 +384,8 @@ class MobileController extends Controller
         $move = collect($request->all()); 
         $comp = collect($move['detailsreap']); 
 
-        $insert = $comp->where('dere_update', 1);
-        $update = $comp->where('dere_update', 0);
-
-        //INSERT       
-        if (count($insert) > 0) {
-            $this->InsertDetailsReap($insert);
-        }
-
-        //UPDATE
-        if (count($update) > 0) {
-            $this->UpdateDetailsReap($update->toArray());
-        }
-
-        return response()->json([
-            'Codigo' => "2"
-        ]);
-
-    }
-
-    private function InsertDetailsReap($detailsreaps)
-    {
-       
         try {
-            $DetailsReap = DetailsReap::insert($detailsreaps->toArray());
+            $DetailsReap = DetailsReap::insert($comp->toArray());
                 
             if (!$DetailsReap) {
                 return response()->json([
@@ -428,13 +406,17 @@ class MobileController extends Controller
         }
     }
 
-    private function UpdateDetailsReap($detailsreaps)
+    private function updateDetailsReapManual(Request $request)
     {
+
+        $move = collect($request->all()); 
+        $detailsreaps = collect($move['detailsreap']); 
+
         try {
             foreach  ($detailsreaps as $id_key => $detailsreap) {
                 $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
-                                           ->where(['dtrp_line_number' => $detailsreap['dtrp_line_number']])
+                                           ->where(['card_identification' => $detailsreap['card_identification_old']])
                                            ->update(['pers_id' => $detailsreap['pers_id'],
                                                      'pers_name' => $detailsreap['pers_name'],
                                                      'quad_name' => $detailsreap['quad_name'],
@@ -442,7 +424,8 @@ class MobileController extends Controller
                                                      'dere_record' => $detailsreap['dere_record'],
                                                      'row_mode'     => $detailsreap['row_mode'],
                                                      'card_identification' => $detailsreap['card_identification'],
-                                                     'dere_update' => $detailsreap['card_identification']]);
+                                                     'dere_update' => $detailsreap['dere_update'],
+                                                     'dere_obs' => $detailsreap['dere_obs']]);
             }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([

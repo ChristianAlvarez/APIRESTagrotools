@@ -483,7 +483,6 @@ class DesktopController extends Controller
                                     ->where(['pers_id' => $detail['pers_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
                                     ->update(['dere_record' => 0,
-                                              'dere_update' => 0,
                                               'dtrp_line_number' => $detail['dtrp_line_number']]);
             }   
     }
@@ -492,13 +491,34 @@ class DesktopController extends Controller
     public function getDetailsReap($cpny_id)
     {
         $DetailsReap = DetailsReap::where('dere_record', '=', 1)
-                                    ->where('dere_update', '=', 1)
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
         return Response()->json(array('DetailsReap' => $DetailsReap));
     }
 
+    //Busca registros que fueron insertados por la aplicacion mobil
+    public function getDetailsReapUpdate($cpny_id)
+    {
+        $DetailsReap = DetailsReap::where('dere_update', '=', 1)
+                                    ->where('cpny_id', $cpny_id)
+                                    ->get();
+        
+        return Response()->json(array('DetailsReap' => $DetailsReap));
+    }
+
+    public function updateDetailManualupdate(Request $request)
+    {
+        $detailsreaps = collect($request->all());
+        $comp = collect($detailsreaps['DetailsReap']); 
+
+        foreach  ($comp as $id_key => $detail) {
+            $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
+                                    ->where(['pers_id' => $detail['pers_id']])
+                                    ->where(['card_identification' => $detail['card_identification']])
+                                    ->update(['dere_update' => 0]);
+            }   
+    }
 
     /**
      * Store a newly created resource in storage.
