@@ -88,8 +88,7 @@ class UserController extends Controller
                 'Codigo' => "1",
                 'Descripcion' => $e
             ]);       
-        }       
-        
+        }               
     }   
 
     /**

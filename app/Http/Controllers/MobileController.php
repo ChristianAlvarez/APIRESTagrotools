@@ -384,43 +384,74 @@ class MobileController extends Controller
         $move = collect($request->all()); 
         $comp = collect($move['detailsreap']); 
 
-        try 
-            {
-             
-                $DetailsReap = new \App\DetailsReap();
-                $DetailsReap = DetailsReap::insert($comp->toArray());
+        $insert = $comp->where('dere_update', 1);
+        $update = $comp->where('dere_update', 0);
 
-                if (!$DetailsReap) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
-                else
-                {
+        //INSERT       
+        if (count($insert) > 0) {
+            $this->InsertDetailsReap($insert);
+        }
 
-                    //$reap_id = $DetailsReap->pluck('reap_id');
-                    //$DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)->get(); 
+        //UPDATE
+        if (count($update) > 0) {
+            $this->UpdateDetailsReap($update->toArray());
+        }
 
-                    /*foreach  ($DetailsReap as $id_key => $detail) {
-                        $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
-                                                ->where(['card_identification' => $detail['card_identification']])
-                                                ->update(['pers_id' => '']);
-                    }*/
+        return response()->json([
+            'Codigo' => "2"
+        ]);
 
-                    return response()->json([
-                        'Success' => "Success"
-                    ]);
-                }
-            }
-            catch(\Illuminate\Database\QueryException $e)
-            {
+    }
+
+    private function InsertDetailsReap($detailsreaps)
+    {
+       
+        try {
+            $DetailsReap = DetailsReap::insert($detailsreaps->toArray());
+                
+            if (!$DetailsReap) {
                 return response()->json([
+                    'Codigo' => "1"
+                ]);
+            }
+            else{
+                return response()->json([
+                    'Codigo' => "2",
+                    'Descripcion' => "Error insert DetailsReap"
+                ]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
                     'Codigo' => "1",
                     'Descripcion' => $e
                 ]);
-
-            }
+        }
     }
+
+    private function UpdateDetailsReap($detailsreaps)
+    {
+        try {
+            foreach  ($detailsreaps as $id_key => $detailsreap) {
+                $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                           ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                           ->where(['dtrp_line_number' => $detailsreap['dtrp_line_number']])
+                                           ->update(['pers_id' => $detailsreap['pers_id'],
+                                                     'pers_name' => $detailsreap['pers_name'],
+                                                     'quad_name' => $detailsreap['quad_name'],
+                                                     'dere_status_card' => $detailsreap['dere_status_card'],
+                                                     'dere_record' => $detailsreap['dere_record'],
+                                                     'row_mode'     => $detailsreap['row_mode'],
+                                                     'card_identification' => $detailsreap['card_identification'],
+                                                     'dere_update' => $detailsreap['card_identification']]);
+            }
+        } catch(\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                    'Codigo' => "1",
+                    'Descripcion' => $e
+                ]);
+        }  
+    }
+
     public function index()
     {
         /*$devices = PushNotification::Device('token', array('badge' => 5));

@@ -483,6 +483,7 @@ class DesktopController extends Controller
                                     ->where(['pers_id' => $detail['pers_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
                                     ->update(['dere_record' => 0,
+                                              'dere_update' => 0,
                                               'dtrp_line_number' => $detail['dtrp_line_number']]);
             }   
     }
@@ -491,6 +492,7 @@ class DesktopController extends Controller
     public function getDetailsReap($cpny_id)
     {
         $DetailsReap = DetailsReap::where('dere_record', '=', 1)
+                                    ->where('dere_update', '=', 1)
                                     ->where('cpny_id', $cpny_id)
                                     ->get();
         
