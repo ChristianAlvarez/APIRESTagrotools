@@ -406,7 +406,7 @@ class MobileController extends Controller
         }
     }
 
-    private function updateDetailsReapManual(Request $request)
+    public function updateDetailsReapManual(Request $request)
     {
 
         $move = collect($request->all()); 
