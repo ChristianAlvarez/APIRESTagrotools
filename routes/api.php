@@ -31,6 +31,7 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 
 	//DETAILREAP
 	Route::post('/savedetailreapmanual', 'MobileController@storeDetailsReapManual');
+	Route::post('/updatedetailsreap', 'MobileController@updateDetailsReapManual');
 
 	//SYNC
 	Route::post('/syncup', 'SyncController@SyncUp');
@@ -73,10 +74,10 @@ Route::group(['prefix' => '/agroreap/desktop'], function (){
 	//DETAILSREAP
 	Route::get('/getdetailsreap/{company}', 'DesktopController@getDetailsReap');
 	Route::get('/getdetailsreapupdate/{company}', 'DesktopController@getDetailsReapUpdate');
+	Route::post('/savedetailsreap', 'DesktopController@saveDetailsReap');
+
 	Route::post('/updatedetailsreap', 'DesktopController@updateDetailManual');
 	Route::post('/updatedetailsreapupdate', 'DesktopController@updateDetailManualUpdate');
-	Route::post('/savedetailsreap', 'DesktopController@saveDetailsReap');
-	Route::post('/updatedetailsreap', 'DesktopController@updateDetailManual');
 
 	//MOVEMENTREAP
 	Route::get('/getmovementreap/{date}/{company}', 'DesktopController@getMovementReap');
