@@ -427,6 +427,11 @@ class MobileController extends Controller
                                                      'dere_update' => $detailsreap['dere_update'],
                                                      'dere_obs' => $detailsreap['dere_obs']]);
             }
+
+            return response()->json([
+                'Codigo' => "2"
+            ]);
+
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
