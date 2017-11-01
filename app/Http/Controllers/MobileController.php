@@ -425,6 +425,8 @@ class MobileController extends Controller
                                                      'row_mode'     => $detailsreap['row_mode'],
                                                      'card_identification' => $detailsreap['card_identification'],
                                                      'dere_update' => $detailsreap['dere_update'],
+                                                     'created_at' => $detailsreap['created_at'],
+                                                     'updated_at' => $detailsreap['updated_at'],
                                                      'dere_obs' => $detailsreap['dere_obs']]);
             }
 
