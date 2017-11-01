@@ -122,7 +122,8 @@ class MobileController extends Controller
 
 		                    $Company = Company::whereIn('cpny_id', $cpny_id)->get();       
 
-		                    $Reap = Reap::whereIn('cpny_id', $cpny_id)->get();
+		                    $Reap = Reap::whereIn('cpny_id', $cpny_id)
+                                          ->where('pers_id', $request->pers_id)->get();
 
 		                    $reap_id = $Reap->pluck('reap_id');
 
