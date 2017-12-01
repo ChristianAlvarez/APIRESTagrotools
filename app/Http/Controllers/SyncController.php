@@ -80,8 +80,9 @@ class SyncController extends Controller
                                   ->orderBy('updated_at', 'desc')
                                   ->get();
 
-                    $ReapId = Reap::whereIn('cpny_id', $Cpny_id)
-                                          ->where('pers_id', $Pers_id)->get();
+                    $ReapId = Reap::where('cpny_id', $Cpny_id)
+                              ->where('pers_id', $Pers_id)
+                              ->get();
 
                     $reap_id = $ReapId->pluck('reap_id');
 
