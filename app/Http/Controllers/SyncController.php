@@ -80,7 +80,13 @@ class SyncController extends Controller
                                   ->orderBy('updated_at', 'desc')
                                   ->get();
 
-                    $DetailsReap = DetailsReap::where('cpny_id', $Cpny_id)
+                    $ReapId = Reap::whereIn('cpny_id', $Cpny_id)
+                                          ->where('pers_id', $Pers_id)->get();
+
+                    $reap_id = $ReapId->pluck('reap_id');
+
+                    $DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)
+                                        ->where('cpny_id', $Cpny_id)
                                         ->where('dere_status_card', 1)
                                         ->where('dere_record', 0)
                                         ->where('updated_at', '>', $Updated_at_detailsreap)

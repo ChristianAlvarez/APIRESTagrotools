@@ -388,7 +388,7 @@ class MobileController extends Controller
         try {
             $DetailsReap = DetailsReap::insert($comp->toArray());
                 
-            if (!$DetailsReap) {
+            if ($DetailsReap) {
                 return response()->json([
                     'Codigo' => "1"
                 ]);
