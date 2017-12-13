@@ -58,6 +58,7 @@ class SyncController extends Controller
 
             try 
                 {
+                  /*
                     $Company = Company::where('cpny_id', $Cpny_id)
                                       ->where('cpny_active', 1)
                                       ->where('cpny_record', 0)
@@ -89,6 +90,40 @@ class SyncController extends Controller
                     $DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)
                                         ->where('cpny_id', $Cpny_id)
                                         ->where('dere_status_card', 1)
+                                        ->where('dere_record', 0)
+                                        ->where('updated_at', '>', $Updated_at_detailsreap)
+                                        ->orderBy('updated_at', 'desc')
+                                        ->get();
+                  */
+
+                    $Company = Company::where('cpny_id', $Cpny_id)
+                                      ->where('cpny_record', 0)
+                                      ->where('updated_at', '>', $Updated_at_company)
+                                      ->orderBy('updated_at', 'desc')
+                                      ->get();
+
+                    $Picking = Picking::where('pers_id', $Pers_id)
+                                      ->where('cpny_id', $Cpny_id)
+                                      ->where('pick_record', 0)
+                                      ->where('updated_at', '>', $Updated_at_picking)
+                                      ->orderBy('updated_at', 'desc')
+                                      ->get();
+
+                    $Reap = Reap::where('cpny_id', $Cpny_id)
+                                  ->where('pers_id', $Pers_id)
+                                  ->where('reap_record', 0)
+                                  ->where('updated_at', '>', $Updated_at_reap)
+                                  ->orderBy('updated_at', 'desc')
+                                  ->get();
+
+                    $ReapId = Reap::where('cpny_id', $Cpny_id)
+                              ->where('pers_id', $Pers_id)
+                              ->get();
+
+                    $reap_id = $ReapId->pluck('reap_id');
+
+                    $DetailsReap = DetailsReap::whereIn('reap_id', $reap_id)
+                                        ->where('cpny_id', $Cpny_id)
                                         ->where('dere_record', 0)
                                         ->where('updated_at', '>', $Updated_at_detailsreap)
                                         ->orderBy('updated_at', 'desc')
