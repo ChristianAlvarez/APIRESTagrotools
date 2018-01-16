@@ -437,8 +437,16 @@ class MobileController extends Controller
 
                     $DetailsReap->save();
                 }
+                elseif ($detailsreap['card_identification_old'] == "unsubscribe")
+                {
+                    $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                           ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                           ->where(['card_identification' => $detailsreap['card_identification']])
+                                           ->update(['dere_status_card' => $detailsreap['dere_status_card']);
+                }
                 else
                 {
+                    {
                     $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification_old']])
@@ -453,6 +461,7 @@ class MobileController extends Controller
                                                      'created_at' => $detailsreap['created_at'],
                                                      'updated_at' => $detailsreap['updated_at'],
                                                      'dere_obs' => $detailsreap['dere_obs']]);
+                }
                 }
             }
 
@@ -505,4 +514,5 @@ class MobileController extends Controller
 
         return $collection;
     }
+
 }
