@@ -29,7 +29,7 @@ class CreateDetailsreapTable extends Migration
             $table->boolean('dere_update');
             $table->string('dere_obs');
 
-            $table->primary(array('reap_id', 'cpny_id', 'card_identification'));
+            $table->primary(array('reap_id', 'cpny_id', 'pers_id'));
         });
     }
 
