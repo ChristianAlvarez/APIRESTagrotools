@@ -187,7 +187,6 @@ class MobileController extends Controller
     {
         $requests = $request->only('registrationToken', 'devi_id', 'pers_id'); 
         
-
         //dd($requests['registrationToken']);
         $Token   = $requests['registrationToken'];
         $Device  = $requests['devi_id'];
@@ -220,8 +219,7 @@ class MobileController extends Controller
                 'error validacion' => $validator->errors()
             ]);
         }else {
-
-            
+        
             $DeviceToken = DeviceToken::where('devi_id', $Device)
                                       ->where('devi_active', 1)
                                       ->where('pers_id', $Pers_id)
@@ -439,10 +437,41 @@ class MobileController extends Controller
                 }
                 elseif ($detailsreap['card_identification_old'] == "unsubscribe")
                 {
-                    $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+
+                    $detail = DetailsReap::where('pers_id', $detailsreap['pers_id'])
+                                         ->where('reap_id', $detailsreap['reap_id'])
+                                         ->where('cpny_id', $detailsreap['cpny_id'])
+                                         ->first();
+
+                    if ($detail)
+                    {
+                        $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
                                            ->update(['dere_status_card' => $detailsreap['dere_status_card']]);
+                    }
+                    else
+                    {
+
+                        $DetailsReap = new \App\DetailsReap();
+                        $DetailsReap->reap_id = $detailsreap['reap_id'];
+                        $DetailsReap->cpny_id = $detailsreap['cpny_id'];
+                        $DetailsReap->card_identification = $detailsreap['card_identification'];
+                        $DetailsReap->pers_id = $detailsreap['pers_id'];
+                        $DetailsReap->pers_name = $detailsreap['pers_name'];
+                        $DetailsReap->quad_name = $detailsreap['quad_name'];
+
+                        $DetailsReap->dere_status_card = $detailsreap['dere_status_card'];
+                        $DetailsReap->dere_record = $detailsreap['dere_record'];
+                        $DetailsReap->row_mode = $detailsreap['row_mode'];
+                        $DetailsReap->created_at = $detailsreap['created_at'];
+                        $DetailsReap->updated_at = $detailsreap['updated_at'];
+                        $DetailsReap->dtrp_line_number = -1;
+                        $DetailsReap->dere_update = $detailsreap['dere_update'];
+                        $DetailsReap->dere_obs = $detailsreap['dere_obs'];
+
+                        $DetailsReap->save();
+                    }    
                 }
                 else
                 {
