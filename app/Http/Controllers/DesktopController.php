@@ -425,19 +425,70 @@ class DesktopController extends Controller
         return response()->json([
             'Codigo' => "2"
         ]);
+
+        //Pruebas
+        /*$ReapInsert = Collection::make(new Reap);
+        $ReapUpdate = Collection::make(new Reap);
+        if (!$reaps->isEmpty()) {
+            foreach ($reaps as $id_key => $reap) {
+
+                $collect = Reap::where('reap_id', $reap['reap_id'])
+                               ->where('cpny_id', $reap['cpny_id'])
+                               ->first();
+
+                if ($collect->isEmpty()) {
+                    $insert = Reap::insert($reap->toArray());
+                    $reaps->push($ReapInsert);
+                }
+                else{
+                    $update =  Reap::where(['reap_id' => $reap['reap_id']])
+                                 ->where(['cpny_id' => $reap['cpny_id']])
+                                 ->update(['stus_id' => $reap['stus_id'],
+                                       'pers_id' => $reap['pers_id'],
+                                       'pers_name' => $reap['pers_name'],
+                                       'land_name' => $reap['land_name'],
+                                       'prun_name' => $reap['prun_name'],
+                                       'ticu_name' => $reap['ticu_name'],
+                                       'vare_name' => $reap['vare_name'],
+                                       'mere_name' => $reap['mere_name'],
+                                       'reap_record' => $reap['reap_record'],
+                                       'row_mode'    => $reap['row_mode'],
+                                       'updated_at'  => Carbon::now()]);
+
+                    $reaps->push($ReapUpdate);
+                }
+
+            }
+        }
+        else{
+
+            return response()->json([
+                'Status' => "Empty",
+                'Insert' => $ReapInsert,
+                'Update' => $ReapUpdate
+            ], 400);
+
+        }
+
+        return response()->json([
+            'Status' => "Ok",
+            'Insert' => $ReapInsert,
+            'Update' => $ReapUpdate
+        ], 200);
+        */
     }
 
     private function InsertReap($reaps)
     {
        
         try {
-                $Reap = Reap::insert($reaps->toArray());
+            $Reap = Reap::insert($reaps->toArray());
                
-                if (!$Reap) {
-                    return response()->json([
-                        'Codigo' => "1"
-                    ]);
-                }
+            if (!$Reap) {
+                return response()->json([
+                    'Codigo' => "1"
+                ]);
+            }
         } catch(\Illuminate\Database\QueryException $e) {
             return response()->json([
                     'Codigo' => "1",
@@ -665,4 +716,5 @@ class DesktopController extends Controller
           ]);
         }      
     }
+
 }

@@ -73,8 +73,8 @@ class MobileController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) 
 	        {  
                 return response()->json([
-                            'Error Credentials' => "Credenciales invalidas"
-                        ]);
+                    'Error Credentials' => "Credenciales invalidas"
+                ]);
 	        }
 	        else
 	        {
@@ -83,12 +83,6 @@ class MobileController extends Controller
                 $detail = DeviceToken::where('pers_id', $request->pers_id)
                                      ->where('devi_id', $request->devi_id)
                                      ->first();
-
-                //dd($detail);
-
-                //dd($detail['last_conection']);
-                //if ($detail['last_conection'] === null) 
-                //{
                 	
                 	try 
 		            {
@@ -448,7 +442,8 @@ class MobileController extends Controller
                         $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
-                                           ->update(['dere_status_card' => $detailsreap['dere_status_card']]);
+                                           ->update(['dere_status_card' => $detailsreap['dere_status_card'],
+                                                     'dere_obs' => $detailsreap['dere_obs']]);
                     }
                     else
                     {
