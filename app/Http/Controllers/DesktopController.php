@@ -566,6 +566,7 @@ class DesktopController extends Controller
         foreach  ($comp as $id_key => $detail) {
             $Detalle =  DetailsReap::where(['reap_id' => $detail['reap_id']])
                                     ->where(['pers_id' => $detail['pers_id']])
+                                    ->where(['cpny_id' => $detail['cpny_id']])
                                     ->where(['card_identification' => $detail['card_identification']])
                                     ->update(['dere_update' => 0]);
             }   
