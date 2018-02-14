@@ -442,7 +442,16 @@ class MobileController extends Controller
                         $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
-                                           ->update(['dere_status_card' => $detailsreap['dere_status_card'],
+                                            ->update(['pers_id' => $detailsreap['pers_id'],
+                                                     'pers_name' => $detailsreap['pers_name'],
+                                                     'quad_name' => $detailsreap['quad_name'],
+                                                     'dere_status_card' => $detailsreap['dere_status_card'],
+                                                     'dere_record' => $detailsreap['dere_record'],
+                                                     'row_mode'     => $detailsreap['row_mode'],
+                                                     'card_identification' => $detailsreap['card_identification'],
+                                                     'dere_update' => $detailsreap['dere_update'],
+                                                     'created_at' => $detailsreap['created_at'],
+                                                     'updated_at' => $detailsreap['updated_at'],
                                                      'dere_obs' => $detailsreap['dere_obs']]);
                     }
                     else
