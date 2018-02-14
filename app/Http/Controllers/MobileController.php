@@ -443,8 +443,6 @@ class MobileController extends Controller
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
                                             ->update(['pers_id' => $detailsreap['pers_id'],
-                                                     'pers_name' => $detailsreap['pers_name'],
-                                                     'quad_name' => $detailsreap['quad_name'],
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
                                                      'dere_record' => $detailsreap['dere_record'],
                                                      'row_mode'     => $detailsreap['row_mode'],
@@ -490,8 +488,6 @@ class MobileController extends Controller
                                            ->where(['cpny_id' => $detailsreap['cpny_id']])
                                            ->where(['card_identification' => $detailsreap['card_identification']])
                                            ->update(['pers_id' => $detailsreap['pers_id'],
-                                                     'pers_name' => $detailsreap['pers_name'],
-                                                     'quad_name' => $detailsreap['quad_name'],
                                                      'dere_status_card' => $detailsreap['dere_status_card'],
                                                      'dere_record' => $detailsreap['dere_record'],
                                                      'row_mode'     => $detailsreap['row_mode'],
