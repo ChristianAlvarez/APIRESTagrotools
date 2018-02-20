@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Controllers\Controller;
 
 use DB;
 use Hash;
