@@ -542,19 +542,19 @@ class MobileController extends Controller
         }  
         
         $MovementReapSuccess = [
-            'MovementReapSuccess'   => $MovementReapSuccess
+            'MovementReap'  => $MovementReapSuccess
         ];
 
         $MovementReapFails = [
-            'MovementReapFails'     => $MovementReapFails
+            'MovementReap'  => $MovementReapFails
         ];
 
         $DetailsReapSuccess = [
-            'DetailsReapSuccess'    => $DetailsReapSuccess
+            'DetailsReap'   => $DetailsReapSuccess
         ];
 
         $DetailsReapFails = [
-            'DetailsReapFails'      => $DetailsReapFails
+            'DetailsReap'   => $DetailsReapFails
         ];
 
         $Data = [
