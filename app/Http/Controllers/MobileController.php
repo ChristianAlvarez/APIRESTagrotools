@@ -328,6 +328,222 @@ class MobileController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sync(Request $request)
+    {
+        //REQUEST
+        $collection = collect($request->all());
+
+        //COLLECTIONS
+        $movementreap = collect($collection['movementreap']); 
+        $detailsreaps = collect($collection['detailsreap']); 
+
+        //VARIABLES
+        $MovementReapSuccess = Collection::make(new MovementReap);
+        $MovementReapFails = Collection::make(new MovementReap);
+
+        $DetailsReapSuccess = Collection::make(new DetailsReap);
+        $DetailsReapFails = Collection::make(new DetailsReap);
+
+        //MOVEMENTREAP
+        if ($movementreap) {
+            try 
+            {
+                $MovementReap = new \App\MovementReap();
+                $MovementReap = MovementReap::insert($movementreap->toArray());
+
+                if (!$MovementReap) {
+                    $MovementReapFails->push($MovementReap);
+                }
+                else
+                {
+                    $MovementReapSuccess->push($MovementReap);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                $MovementReapFails->push($MovementReap);
+                $message = $e;
+            }
+        } 
+
+        //DETAILSREAP
+        if ($detailsreaps) {
+            try {
+                foreach  ($detailsreaps as $id_key => $detailsreap) {
+
+                    if ($detailsreap['card_identification_old'] == "null")
+                    {
+                        $DetailsReap = new \App\DetailsReap();
+                        $DetailsReap->reap_id = $detailsreap['reap_id'];
+                        $DetailsReap->cpny_id = $detailsreap['cpny_id'];
+                        $DetailsReap->card_identification = $detailsreap['card_identification'];
+                        $DetailsReap->pers_id = $detailsreap['pers_id'];
+                        $DetailsReap->pers_name = $detailsreap['pers_name'];
+                        $DetailsReap->quad_name = $detailsreap['quad_name'];
+
+                        $DetailsReap->dere_status_card = $detailsreap['dere_status_card'];
+                        $DetailsReap->dere_record = $detailsreap['dere_record'];
+                        $DetailsReap->row_mode = $detailsreap['row_mode'];
+                        $DetailsReap->created_at = $detailsreap['created_at'];
+                        $DetailsReap->updated_at = $detailsreap['updated_at'];
+                        $DetailsReap->dtrp_line_number = -1;
+                        $DetailsReap->dere_update = $detailsreap['dere_update'];
+                        $DetailsReap->dere_obs = $detailsreap['dere_obs'];
+
+                        $DetailsReap->save();
+
+                        if ($DetailsReap) {
+                            $detailsreaps->push($DetailsReapSuccess);
+                        }
+                        else{
+                            $detailsreaps->push($DetailsReapFails);
+                        }
+                    }
+                    elseif ($detailsreap['card_identification_old'] == "unsubscribe")
+                    {
+
+                        $detail = DetailsReap::where('pers_id', $detailsreap['pers_id'])
+                                             ->where('reap_id', $detailsreap['reap_id'])
+                                             ->where('cpny_id', $detailsreap['cpny_id'])
+                                             ->first();
+
+                        if ($detail)
+                        {
+                            $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                                       ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                                       ->where(['card_identification' => $detailsreap['card_identification']])
+                                                       ->update(['pers_id' => $detailsreap['pers_id'],
+                                                                 'dere_status_card' => $detailsreap['dere_status_card'],
+                                                                 'dere_record' => $detailsreap['dere_record'],
+                                                                 'row_mode'     => $detailsreap['row_mode'],
+                                                                 'card_identification' => $detailsreap['card_identification'],
+                                                                 'dere_update' => $detailsreap['dere_update'],
+                                                                 'created_at' => $detailsreap['created_at'],
+                                                                 'updated_at' => $detailsreap['updated_at'],
+                                                                 'dere_obs' => $detailsreap['dere_obs']]);
+
+                            if ($DetailsReap) {
+                                $detailsreaps->push($DetailsReapSuccess);
+                            }
+                            else{
+                                $detailsreaps->push($DetailsReapFails);
+                            }
+                        }
+                        else
+                        {
+
+                            $DetailsReap = new \App\DetailsReap();
+                            $DetailsReap->reap_id = $detailsreap['reap_id'];
+                            $DetailsReap->cpny_id = $detailsreap['cpny_id'];
+                            $DetailsReap->card_identification = $detailsreap['card_identification'];
+                            $DetailsReap->pers_id = $detailsreap['pers_id'];
+                            $DetailsReap->pers_name = $detailsreap['pers_name'];
+                            $DetailsReap->quad_name = $detailsreap['quad_name'];
+
+                            $DetailsReap->dere_status_card = $detailsreap['dere_status_card'];
+                            $DetailsReap->dere_record = $detailsreap['dere_record'];
+                            $DetailsReap->row_mode = $detailsreap['row_mode'];
+                            $DetailsReap->created_at = $detailsreap['created_at'];
+                            $DetailsReap->updated_at = $detailsreap['updated_at'];
+                            $DetailsReap->dtrp_line_number = -1;
+                            $DetailsReap->dere_update = $detailsreap['dere_update'];
+                            $DetailsReap->dere_obs = $detailsreap['dere_obs'];
+
+                            $DetailsReap->save();
+
+                            if ($DetailsReap) {
+                                $detailsreaps->push($DetailsReapSuccess);
+                            }
+                            else{
+                                $detailsreaps->push($DetailsReapFails);
+                            }
+                        }    
+                    }
+                    else
+                    {
+                        $detail = DetailsReap::where('pers_id', $detailsreap['pers_id'])
+                                             ->where('reap_id', $detailsreap['reap_id'])
+                                             ->where('cpny_id', $detailsreap['cpny_id'])
+                                             ->first();
+
+                        if ($detail)
+                        {
+                            $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                               ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                               ->where(['card_identification' => $detailsreap['card_identification_old']])
+                                               ->update(['pers_id' => $detailsreap['pers_id'],
+                                                         'dere_status_card' => $detailsreap['dere_status_card'],
+                                                         'dere_record' => $detailsreap['dere_record'],
+                                                         'row_mode'     => $detailsreap['row_mode'],
+                                                         'card_identification' => $detailsreap['card_identification'],
+                                                         'dere_update' => $detailsreap['dere_update'],
+                                                         'created_at' => $detailsreap['created_at'],
+                                                         'updated_at' => $detailsreap['updated_at'],
+                                                         'dere_obs' => $detailsreap['dere_obs']]);
+
+                            if ($DetailsReap) {
+                                $detailsreaps->push($DetailsReapSuccess);
+                            }
+                            else{
+                                $detailsreaps->push($DetailsReapFails);
+                            }
+                        }
+                        else
+                        {
+
+                            $DetailsReap = new \App\DetailsReap();
+                            $DetailsReap->reap_id = $detailsreap['reap_id'];
+                            $DetailsReap->cpny_id = $detailsreap['cpny_id'];
+                            $DetailsReap->card_identification = $detailsreap['card_identification'];
+                            $DetailsReap->pers_id = $detailsreap['pers_id'];
+                            $DetailsReap->pers_name = $detailsreap['pers_name'];
+                            $DetailsReap->quad_name = $detailsreap['quad_name'];
+
+                            $DetailsReap->dere_status_card = $detailsreap['dere_status_card'];
+                            $DetailsReap->dere_record = $detailsreap['dere_record'];
+                            $DetailsReap->row_mode = $detailsreap['row_mode'];
+                            $DetailsReap->created_at = $detailsreap['created_at'];
+                            $DetailsReap->updated_at = $detailsreap['updated_at'];
+                            $DetailsReap->dtrp_line_number = -1;
+                            $DetailsReap->dere_update = $detailsreap['dere_update'];
+                            $DetailsReap->dere_obs = $detailsreap['dere_obs'];
+
+                            $DetailsReap->save();
+
+                            if ($DetailsReap) {
+                                $detailsreaps->push($DetailsReapSuccess);
+                            }
+                            else{
+                                $detailsreaps->push($DetailsReapFails);
+                            }
+                        }    
+                    }
+                }
+            }
+            catch(\Illuminate\Database\QueryException $e)
+            {
+                $DetailsReapFails->push($detailsreaps);
+                $message = $e;
+            }
+        }
+        
+        return response()->json([
+            'Status' => "Ok",
+            'MovementReapSuccess' => $MovementReapSuccess,
+            'MovementReapFails' => $MovementReapFails,
+            'DetailsReapSuccess' => $DetailsReapSuccess,
+            'DetailsReapFails' => $DetailsReapFails,
+            'Message' => $message
+        ], 200);
+
+        return Response()->json(array('MovementReap' => $MovementReap));
+    }
+
+    /**
      * Store a MovementReap newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
