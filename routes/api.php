@@ -34,7 +34,7 @@ Route::group(['prefix' => '/agroreap/mobile'], function (){
 	Route::post('/updatedetailsreapmanual', 'MobileController@updateDetailsReapManual');
 
 	//SYNC
-	Route::post('/sync', 'MobileController@sync')
+	Route::post('/sync', 'MobileController@sync');
 	Route::post('/syncup', 'SyncController@SyncUp');
 	Route::post('/syncuppickings', 'SyncController@SynchronizedPickings');
 	Route::post('/syncupcompanies', 'SyncController@SynchronizedCompanies');
