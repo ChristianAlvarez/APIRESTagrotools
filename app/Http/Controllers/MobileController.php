@@ -339,7 +339,10 @@ class MobileController extends Controller
 
         //COLLECTIONS
         $movementreap = collect($collection['movementreap']); 
-        $detailsreaps = collect($collection['detailsreap']); 
+        if (collect($collection['detailsreap']) {
+           $detailsreaps = collect($collection['detailsreap']);
+        }
+         
 
         //VARIABLES
         $MovementReapSuccess = Collection::make(new MovementReap);
