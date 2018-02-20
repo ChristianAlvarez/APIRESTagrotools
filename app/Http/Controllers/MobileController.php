@@ -400,11 +400,11 @@ class MobileController extends Controller
 
                             $DetailsReap->save();
 
-                            if ($DetailsReap) {
-                                $DetailsReapSuccess->push($detailsreaps);
+                            if (!$DetailsReap) {
+                                $DetailsReapFails->push($detailsreaps);
                             }
                             else{
-                                $DetailsReapFails->push($detailsreaps);
+                                $DetailsReapSuccess->push($detailsreaps);
                             }
                         }
                         elseif ($detailsreap['card_identification_old'] == "unsubscribe")
@@ -430,11 +430,11 @@ class MobileController extends Controller
                                                                      'updated_at' => $detailsreap['updated_at'],
                                                                      'dere_obs' => $detailsreap['dere_obs']]);
 
-                                if ($DetailsReap) {
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                if (!$DetailsReap) {
+                                    $DetailsReapFails->push($detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapSuccess->push($detailsreaps);
                                 }
                             }
                             else
@@ -459,11 +459,11 @@ class MobileController extends Controller
 
                                 $DetailsReap->save();
 
-                                if ($DetailsReap) {
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                if (!$DetailsReap) {
+                                    $DetailsReapFails->push($detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapSuccess->push($detailsreaps);
                                 }
                             }    
                         }
@@ -489,11 +489,11 @@ class MobileController extends Controller
                                                              'updated_at' => $detailsreap['updated_at'],
                                                              'dere_obs' => $detailsreap['dere_obs']]);
 
-                                if ($DetailsReap) {
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                if (!$DetailsReap) {
+                                    $DetailsReapFails->push($detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapSuccess->push($detailsreaps);
                                 }
                             }
                             else
@@ -518,11 +518,11 @@ class MobileController extends Controller
 
                                 $DetailsReap->save();
 
-                                if ($DetailsReap) {
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                if (!$DetailsReap) {
+                                    $DetailsReapFails->push($detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapSuccess->push($detailsreaps);
                                 }
                             }    
                         }
