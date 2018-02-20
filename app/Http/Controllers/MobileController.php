@@ -540,13 +540,17 @@ class MobileController extends Controller
                 'Message' => $e
             ]);
         }  
-     
+        
+        $Data = [
+            'MovementReapSuccess'   => $MovementReapSuccess,
+            'MovementReapFails'     => $MovementReapFails,
+            'DetailsReapSuccess'    => $DetailsReapSuccess,
+            'DetailsReapFails'      => $DetailsReapFails
+        ];
+
         return response()->json([
             'Status' => "Ok",
-            'MovementReapSuccess' => $MovementReapSuccess,
-            'MovementReapFails' => $MovementReapFails,
-            'DetailsReapSuccess' => $DetailsReapSuccess,
-            'DetailsReapFails' => $DetailsReapFails,
+            'Data' => $Data,
             'Message' => $message
         ], 200);
 
