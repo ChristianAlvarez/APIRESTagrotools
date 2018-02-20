@@ -339,7 +339,7 @@ class MobileController extends Controller
 
         //COLLECTIONS
         $movementreap = collect($collection['movementreap']); 
-        if (collect($collection['detailsreap']) {
+        if (collect($collection['detailsreap'])) {
            $detailsreaps = collect($collection['detailsreap']);
         }
          
