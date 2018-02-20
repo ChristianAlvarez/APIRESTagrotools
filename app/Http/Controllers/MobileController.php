@@ -361,16 +361,16 @@ class MobileController extends Controller
                 $MovementReap = MovementReap::insert($movementreap->toArray());
 
                 if (!$MovementReap) {
-                    $MovementReapFails->push($MovementReap);
+                    $MovementReapFails->push($movementreap);
                 }
                 else
                 {
-                    $MovementReapSuccess->push($MovementReap);
+                    $MovementReapSuccess->push($movementreap);
                 }
             }
             catch(\Illuminate\Database\QueryException $e)
             {
-                $MovementReapFails->push($MovementReap);
+                $MovementReapFails->push($movementreap);
                 $message = $e;
             }
         } 
