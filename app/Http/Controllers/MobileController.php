@@ -541,6 +541,22 @@ class MobileController extends Controller
             ]);
         }  
         
+        $MovementReapSuccess = [
+            'MovementReapSuccess'   => $MovementReapSuccess
+        ];
+
+        $MovementReapFails = [
+            'MovementReapFails'     => $MovementReapFails
+        ];
+
+        $DetailsReapSuccess = [
+            'DetailsReapSuccess'    => $DetailsReapSuccess
+        ];
+
+        $DetailsReapFails = [
+            'DetailsReapFails'      => $DetailsReapFails
+        ];
+
         $Data = [
             'MovementReapSuccess'   => $MovementReapSuccess,
             'MovementReapFails'     => $MovementReapFails,
