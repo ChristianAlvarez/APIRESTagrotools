@@ -346,6 +346,7 @@ class MobileController extends Controller
          
 
         //VARIABLES
+        $message = '';
         $MovementReapSuccess = Collection::make(new MovementReap);
         $MovementReapFails = Collection::make(new MovementReap);
 
