@@ -384,7 +384,7 @@ class MobileController extends Controller
             } 
 
             //DETAILSREAP
-            if (!$detailsreaps->isEmpty()) {
+            if (count($detailsreaps)) {
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
