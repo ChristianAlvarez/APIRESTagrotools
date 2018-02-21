@@ -344,11 +344,19 @@ class MobileController extends Controller
          
         //VARIABLES
         $message = '';
+        /*
         $MovementReapSuccess = Collection::make(new MovementReap);
         $MovementReapFails = Collection::make(new MovementReap);
 
         $DetailsReapSuccess = Collection::make(new DetailsReap);
         $DetailsReapFails = Collection::make(new DetailsReap);
+        */
+
+        $MovementReapSuccess = collect();
+        $MovementReapFails = collect();
+
+        $DetailsReapSuccess = collect();
+        $DetailsReapFails = collect();
 
         try{
 
@@ -540,24 +548,6 @@ class MobileController extends Controller
                 'Message' => $e
             ]);
         }  
-        
-        /*
-        $MovementReapSuccess = [
-            'MovementReap'  => $MovementReapSuccess
-        ];
-
-        $MovementReapFails = [
-            'MovementReap'  => $MovementReapFails
-        ];
-
-        $DetailsReapSuccess = [
-            'DetailsReap'   => $DetailsReapSuccess
-        ];
-
-        $DetailsReapFails = [
-            'DetailsReap'   => $DetailsReapFails
-        ];
-        */
 
         $Data = [
             'MovementReapSuccess'   => $MovementReapSuccess,
@@ -566,13 +556,11 @@ class MobileController extends Controller
             'DetailsReapFails'      => $DetailsReapFails
         ];
 
-        return response()->json(compact('Data'));
-
-        /*return response()->json([
+        return response()->json([
             'Status' => "Ok",
             'Data' => $Data,
             'Message' => $message
-        ], 200);*/
+        ], 200);
 
     }
 
