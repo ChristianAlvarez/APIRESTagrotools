@@ -340,14 +340,6 @@ class MobileController extends Controller
 
         //COLLECTIONS
         $movementreap = collect($collection['movementreap']); 
-
-        if (collect($collection['detailsreap'])) {
-            dd("hay");
-            # code...
-        }
-        else{
-            dd("no hay");
-        }
         $detailsreaps = collect($collection['detailsreap']);
          
         //VARIABLES
