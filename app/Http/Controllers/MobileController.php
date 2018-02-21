@@ -388,14 +388,10 @@ class MobileController extends Controller
             */
 
             //DETAILSREAP
-            if ($detailsreaps != 'null') {
-                
+            if (count($detailsreaps) > 0) {
+                dd($detailsreaps);
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
-
-                        if ($detailsreap[0] == 's') {
-                            dd($detailsreaps);
-                        }
 
                         if ($detailsreap['card_identification_old'] == "null")
                         {
