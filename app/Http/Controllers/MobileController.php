@@ -389,7 +389,7 @@ class MobileController extends Controller
 
             //DETAILSREAP
             if ($detailsreaps != 'null') {
-                
+                dd($detailsreaps);
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
