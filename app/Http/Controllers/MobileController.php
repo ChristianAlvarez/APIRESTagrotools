@@ -566,7 +566,7 @@ class MobileController extends Controller
             'DetailsReapFails'      => $DetailsReapFails
         ];
 
-        return response()->json(compact('Status' => "Ok", 'Data', 'Message' => $message));
+        return response()->json(compact('Data'));
 
         /*return response()->json([
             'Status' => "Ok",
