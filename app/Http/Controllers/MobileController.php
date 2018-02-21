@@ -361,6 +361,7 @@ class MobileController extends Controller
         try{
 
             //MOVEMENTREAP
+            //Anterior $MovementReapFails->push($movementreap);
             if ($movementreap) {
                 try 
                 {
@@ -368,7 +369,7 @@ class MobileController extends Controller
                     $MovementReap = MovementReap::insert($movementreap->toArray());
 
                     if (!$MovementReap) {
-                        $MovementReapFails->push($movementreap);
+                        $MovementReapFails->put('movementreap',$movementreap);
                     }
                     else
                     {
@@ -377,7 +378,7 @@ class MobileController extends Controller
                 }
                 catch(\Illuminate\Database\QueryException $e)
                 {
-                    $MovementReapFails->push($movementreap);
+                    $MovementReapFails->put('movementreap',$movementreap);
                     $message = $e;
                 }
             } 
@@ -409,10 +410,10 @@ class MobileController extends Controller
                             $DetailsReap->save();
 
                             if (!$DetailsReap) {
-                                $DetailsReapFails->push($detailsreaps);
+                                $DetailsReapFails->put('detailsreaps',$detailsreaps);
                             }
                             else{
-                                $DetailsReapSuccess->push($detailsreaps);
+                                $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                             }
                         }
                         elseif ($detailsreap['card_identification_old'] == "unsubscribe")
@@ -439,10 +440,10 @@ class MobileController extends Controller
                                                                      'dere_obs' => $detailsreap['dere_obs']]);
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }
                             else
@@ -468,10 +469,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }    
                         }
@@ -498,10 +499,10 @@ class MobileController extends Controller
                                                              'dere_obs' => $detailsreap['dere_obs']]);
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }
                             else
@@ -527,10 +528,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->push($detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->push($detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }    
                         }
