@@ -358,12 +358,13 @@ class MobileController extends Controller
         $DetailsReapSuccess = collect();
         $DetailsReapFails = collect();
 
-        dd($detailsreaps);
 
         try{
 
             //MOVEMENTREAP
             //Anterior $MovementReapFails->push($movementreap);
+            /*
+
             if ($movementreap != "") {
                 try 
                 {
@@ -384,10 +385,11 @@ class MobileController extends Controller
                     $message = $e;
                 }
             } 
-
+            */
 
             //DETAILSREAP
             if (count($detailsreaps) > 0) {
+                dd($detailsreaps);
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
