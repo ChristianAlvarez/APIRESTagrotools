@@ -372,7 +372,7 @@ class MobileController extends Controller
                     }
                     else
                     {
-                        $MovementReapSuccess->push($movementreap);
+                        $MovementReapSuccess->put('movementreap',$movementreap);
                     }
                 }
                 catch(\Illuminate\Database\QueryException $e)
