@@ -340,6 +340,14 @@ class MobileController extends Controller
 
         //COLLECTIONS
         $movementreap = collect($collection['movementreap']); 
+
+        if (collect($collection['detailsreap'])) {
+            dd("hay");
+            # code...
+        }
+        else{
+            dd("no hay");
+        }
         $detailsreaps = collect($collection['detailsreap']);
          
         //VARIABLES
@@ -359,7 +367,7 @@ class MobileController extends Controller
         $DetailsReapFails = collect();
 
         dd($detailsreaps);
-        
+
         try{
 
             //MOVEMENTREAP
@@ -387,7 +395,7 @@ class MobileController extends Controller
 
 
             //DETAILSREAP
-            if (count($detailsreaps)) {
+            if (count($detailsreaps) > 0) {
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
