@@ -388,8 +388,8 @@ class MobileController extends Controller
             */
 
             //DETAILSREAP
-            if (count($detailsreaps) > 0) {
-                dd($movementreap);
+            if ($detailsreaps != 'null') {
+                
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
