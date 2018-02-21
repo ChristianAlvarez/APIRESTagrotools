@@ -358,6 +358,8 @@ class MobileController extends Controller
         $DetailsReapSuccess = collect();
         $DetailsReapFails = collect();
 
+        dd($detailsreaps);
+        
         try{
 
             //MOVEMENTREAP
@@ -382,6 +384,7 @@ class MobileController extends Controller
                     $message = $e;
                 }
             } 
+
 
             //DETAILSREAP
             if (count($detailsreaps)) {
