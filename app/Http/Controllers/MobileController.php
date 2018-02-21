@@ -362,7 +362,7 @@ class MobileController extends Controller
 
             //MOVEMENTREAP
             //Anterior $MovementReapFails->push($movementreap);
-            if ($movementreap) {
+            if ($movementreap != "") {
                 try 
                 {
                     $MovementReap = new \App\MovementReap();
@@ -384,7 +384,7 @@ class MobileController extends Controller
             } 
 
             //DETAILSREAP
-            if ($detailsreaps != null) {
+            if ($detailsreaps != "") {
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
 
