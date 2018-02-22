@@ -344,7 +344,6 @@ class MobileController extends Controller
         $detailsreaps = collect($collection['detailsreap']);
         $synchronizations = collect($collection['synchronizations']);
         
-        dd($synchronizations->pers_id);
 
         //VARIABLES
         $message = '';
@@ -375,7 +374,19 @@ class MobileController extends Controller
                      if (count($synchronizations) > 0) {
 
                         $Synchronizations = new \App\Synchronizations();
-                        $Synchronizations = Synchronizations::create($synchronizations->toArray());
+
+                        foreach  ($synchronizations as $id_key => $sync) {
+                            
+                            $Synchronizations->cpny_id = $sync['cpny_id'];
+                            $Synchronizations->dmrp_date_transaction = $sync['dmrp_date_transaction'];
+                            $Synchronizations->dmrp_device_id = $sync['dmrp_device_id'];
+                            $Synchronizations->pers_id = $sync['pers_id'];
+                            $Synchronizations->latitud = $sync['latitud'];
+                            $Synchronizations->longitud = $sync['longitud'];
+                            $Synchronizations->esdo_id = $sync['esdo_id'];
+
+                            $Synchronizations->save();
+                        }
 
                         dd($Synchronizations);
 
