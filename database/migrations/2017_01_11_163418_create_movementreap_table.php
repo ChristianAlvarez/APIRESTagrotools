@@ -31,7 +31,7 @@ class CreateMovementreapTable extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
 
-            //$table->primary(array('reap_id', 'cpny_id', 'dmrp_card_identification'));
+            $table->primary('id');
         });
     }
 
