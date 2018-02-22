@@ -378,12 +378,12 @@ class MobileController extends Controller
                         foreach  ($synchronizations as $id_key => $sync) {
                             
                             $Synchronizations->cpny_id = $sync['cpny_id'];
-                            $Synchronizations->dmrp_date_transaction = $sync['dmrp_date_transaction'];
-                            $Synchronizations->dmrp_device_id = $sync['dmrp_device_id'];
+                            $Synchronizations->sync_date_transaction = $sync['sync_date_transaction'];
+                            $Synchronizations->sync_device_id = $sync['sync_device_id'];
                             $Synchronizations->pers_id = $sync['pers_id'];
-                            $Synchronizations->latitud = $sync['latitud'];
-                            $Synchronizations->longitud = $sync['longitud'];
-                            $Synchronizations->esdo_id = $sync['esdo_id'];
+                            $Synchronizations->sync_latitude = $sync['sync_latitude'];
+                            $Synchronizations->sync_longitude = $sync['sync_longitude'];
+                            $Synchronizations->sync_status = $sync['sync_status'];
 
                             $Synchronizations->save();
                         }
