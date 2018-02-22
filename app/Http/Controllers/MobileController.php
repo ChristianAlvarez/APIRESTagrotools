@@ -388,7 +388,7 @@ class MobileController extends Controller
                             $Synchronizations->save();
                         }
 
-                        dd($Synchronizations);
+                        dd($Synchronizations->id);
 
                         if (!$Synchronizations) {
                             $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
