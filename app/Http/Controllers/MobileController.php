@@ -343,7 +343,9 @@ class MobileController extends Controller
         $movementreap = collect($collection['movementreap']); 
         $detailsreaps = collect($collection['detailsreap']);
         $synchronizations = collect($collection['synchronizations']);
-         
+        
+        dd($synchronizations["pers_id"]);
+
         //VARIABLES
         $message = '';
         /*
