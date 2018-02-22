@@ -373,10 +373,10 @@ class MobileController extends Controller
                      if (count($synchronizations) > 0) {
 
                         $Synchronizations = new \App\Synchronizations();
-                        $Synchronizations = Synchronizations::insert($synchronizations->toArray());
+                        $Synchronizations = Synchronizations::create($synchronizations->toArray());
 
                         dd($Synchronizations);
-                        
+
                         if (!$Synchronizations) {
                             $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
                         }
