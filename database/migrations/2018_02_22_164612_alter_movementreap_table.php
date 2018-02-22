@@ -28,7 +28,7 @@ class AlterMovementreapTable extends Migration
     public function down()
     {
         Schema::table('movementreap', function (Blueprint $table) {
-            $table->integer('synchronizations_id', 50)->references('synchronizations')->on('id');
+            
         });
     }
 }
