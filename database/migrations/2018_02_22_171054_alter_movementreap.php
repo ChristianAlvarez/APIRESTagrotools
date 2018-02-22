@@ -14,7 +14,7 @@ class AlterMovementreap extends Migration
     public function up()
     {
         Schema::table('movementreap', function (Blueprint $table) {
-            $table->string('synchronizations_id')
+            $table->string('synchronizations_id');
         });
     }
 
