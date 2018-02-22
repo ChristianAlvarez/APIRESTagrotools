@@ -83,6 +83,9 @@ Route::group(['prefix' => '/agroreap/desktop'], function (){
 	//MOVEMENTREAP
 	Route::get('/getmovementreap/{date}/{company}', 'DesktopController@getMovementReap');
 	Route::post('/updatemovementreap', 'DesktopController@postMovementReap');
+
+	//SYNCHRONIZATIONS
+	Route::get('/getsynchronizations/{company}', 'DesktopController@getSynchronizations');
 });
 
 //COMPANY

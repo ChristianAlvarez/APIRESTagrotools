@@ -19,6 +19,7 @@ use App\DetailsReap;
 use App\DeviceToken;
 use App\MovementReap;
 use App\DetailsDevice;
+use App\Synchronizations;
 
 class DesktopController extends Controller
 {
@@ -665,6 +666,21 @@ class DesktopController extends Controller
                                     ->get();
         
         return Response()->json(array('MovementReap' => $MovementReap));
+    }
+
+    //SINCRONIZATIONS
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSynchronizations($cpny_id)
+    {
+        //$Synchronizations = App\Synchronizations::where('cpny_id', $cpny_id)->MovementReap()->orderBy('id')->get();
+
+        $Synchronizations = Synchronizations::where('cpny_id', $cpny_id)->with('Movementreap')->orderBy('id');
+   
+        return Response()->json(array('Synchronizations' => $Synchronizations));
     }
 
     /**

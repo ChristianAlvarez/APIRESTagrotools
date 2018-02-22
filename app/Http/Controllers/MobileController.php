@@ -22,6 +22,7 @@ use App\DetailsReap;
 use App\DeviceToken;
 use App\MovementReap;
 use App\DetailsDevice;
+use App\Synchronizations;
 
 class MobileController extends Controller
 {
@@ -341,6 +342,7 @@ class MobileController extends Controller
         //COLLECTIONS
         $movementreap = collect($collection['movementreap']); 
         $detailsreaps = collect($collection['detailsreap']);
+        $synchronizations = collect($collection['synchronizations']);
          
         //VARIABLES
         $message = '';
@@ -363,19 +365,57 @@ class MobileController extends Controller
 
             //MOVEMENTREAP
             //Anterior $MovementReapFails->push($movementreap);
-            if ($movementreap != "") {
+            if (count($movementreap) > 0) {
                 try 
                 {
-                    $MovementReap = new \App\MovementReap();
-                    $MovementReap = MovementReap::insert($movementreap->toArray());
 
-                    if (!$MovementReap) {
-                        $MovementReapFails->put('movementreap',$movementreap);
-                    }
-                    else
-                    {
-                        $MovementReapSuccess->put('movementreap',$movementreap);
-                    }
+                    //Insert Table Synchronizations
+                     if (count($synchronizations) > 0) {
+
+                        $Synchronizations = new \App\Synchronizations();
+                        $Synchronizations = Synchronizations::insert($synchronizations->toArray());
+
+                        if (!$Synchronizations) {
+                            $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
+                        }
+                        else
+                        {
+                            //Insert Movementreap
+                            foreach  ($movementreap as $id_key => $move) {
+
+                                $MovementReap = new \App\MovementReap();
+                                $MovementReap->reap_id = $move['reap_id'];
+                                $MovementReap->cpny_id = $move['cpny_id'];
+                                $MovementReap->dmrp_card_identification = $move['dmrp_card_identification'];
+                                $MovementReap->dtrp_received_pay_units = $move['dtrp_received_pay_units'];
+                                $MovementReap->dmrp_received_amount = $move['dmrp_received_amount'];
+                                $MovementReap->dmrp_date_transaction = $move['dmrp_date_transaction'];
+                                $MovementReap->modc_input = $move['modc_input'];
+                                $MovementReap->pers_id = $move['pers_id'];
+                                $MovementReap->more_record = $move['more_record'];
+                                $MovementReap->dmrp_device_id = $move['dmrp_device_id'];
+                                $MovementReap->esdo_id = $move['esdo_id'];
+                                $MovementReap->dmrp_date = $move['dmrp_date'];
+                                $MovementReap->synchronizations_id = $Synchronizations->id;
+
+                                $MovementReap->save();
+
+                                if (!$MovementReap) {
+                                    $MovementReapFails->put('movementreap',$movementreap);
+                                }
+                                else
+                                {
+                                    $MovementReapSuccess->put('movementreap',$movementreap);
+                                }
+                            }
+
+                        }
+                        
+                     }else{
+                        $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
+                     }
+
+                    
                 }
                 catch(\Illuminate\Database\QueryException $e)
                 {

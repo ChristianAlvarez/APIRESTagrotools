@@ -4,33 +4,33 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MovementReap extends Model
+class Synchronizations extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var string
      */
-    protected $table = 'movementreap';
-
+    protected $table = 'synchronizations';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'reap_id',
+        'id',
         'cpny_id',
-        'dmrp_card_identification',
-        'dtrp_received_pay_units',
-        'dmrp_received_amount',
         'dmrp_date_transaction',
-        'modc_input',
-        'pers_id',
-        'more_record',
         'dmrp_device_id',
+        'pers_id',
+        'latitud',
+        'longitud',
         'esdo_id',
-        'dmrp_date',
-        'synchronizations_id'
+        'created_at',
+        'updated_at',
     ];
+
+    public function Movementreap(){
+        return $this->hasMany('App\Movementreap', 'synchronizations_id', 'id');
+    }
 }
