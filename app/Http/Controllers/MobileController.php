@@ -371,7 +371,7 @@ class MobileController extends Controller
                 {
 
                     //Insert Table Synchronizations
-                     if (count($synchronizations) > 0) {
+                    if (count($synchronizations) > 0) {
 
                         $Synchronizations = new \App\Synchronizations();
 
@@ -571,7 +571,9 @@ class MobileController extends Controller
 
                             if ($detail)
                             {
-                                $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+
+                                if ($detailsreap['card_identification_old'] != null) {
+                                    $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                                    ->where(['cpny_id' => $detailsreap['cpny_id']])
                                                    ->where(['card_identification' => $detailsreap['card_identification_old']])
                                                    ->update(['pers_id' => $detailsreap['pers_id'],
@@ -584,12 +586,30 @@ class MobileController extends Controller
                                                              'updated_at' => $detailsreap['updated_at'],
                                                              'dere_obs' => $detailsreap['dere_obs']]);
 
-                                if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    if (!$DetailsReap) {
+                                        $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    }
+                                    else{
+                                        $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
+                                    }   
                                 }
                                 else{
-                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
+                                    $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                                                           ->where(['cpny_id' => $detailsreap['cpny_id']])
+                                                           ->where(['card_identification' => $detailsreap['card_identification']])
+                                                           ->update(['pers_id' => $detailsreap['pers_id'],
+                                                                     'dere_status_card' => $detailsreap['dere_status_card'],
+                                                                     'dere_record' => $detailsreap['dere_record'],
+                                                                     'row_mode'     => $detailsreap['row_mode'],
+                                                                     'card_identification' => $detailsreap['card_identification'],
+                                                                     'dere_update' => $detailsreap['dere_update'],
+                                                                     'created_at' => $detailsreap['created_at'],
+                                                                     'updated_at' => $detailsreap['updated_at'],
+                                                                     'dere_obs' => $detailsreap['dere_obs']]);
+
                                 }
+
+                                
                             }
                             else
                             {
