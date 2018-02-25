@@ -572,7 +572,8 @@ class MobileController extends Controller
                             if ($detail)
                             {
 
-                                if ($detailsreap['card_identification_old'] != null) {
+                                if ($detailsreap['card_identification_old'] != "") {
+
                                     $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                                    ->where(['cpny_id' => $detailsreap['cpny_id']])
                                                    ->where(['card_identification' => $detailsreap['card_identification_old']])
@@ -606,6 +607,13 @@ class MobileController extends Controller
                                                                      'created_at' => $detailsreap['created_at'],
                                                                      'updated_at' => $detailsreap['updated_at'],
                                                                      'dere_obs' => $detailsreap['dere_obs']]);
+
+                                    if (!$DetailsReap) {
+                                        $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    }
+                                    else{
+                                        $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
+                                    } 
 
                                 }
 
