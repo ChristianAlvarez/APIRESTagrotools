@@ -361,6 +361,9 @@ class MobileController extends Controller
         $DetailsReapSuccess = collect();
         $DetailsReapFails = collect();
 
+        $DetailsReapFails1 = collect();
+        $DetailsReapFails2 = collect();
+
 
         try{
 
@@ -556,10 +559,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps1',$detailsreaps);
+                                    $DetailsReapFails1->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->put('detailsreaps1',$detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }    
                         }
@@ -645,10 +648,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps2',$detailsreaps);
+                                    $DetailsReapFails2->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->put('detailsreaps2',$detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
                                 }
                             }    
                         }
