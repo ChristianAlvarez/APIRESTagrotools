@@ -363,6 +363,7 @@ class MobileController extends Controller
 
         $DetailsReapFails1 = collect();
         $DetailsReapFails2 = collect();
+        $DetailsReapFails3 = collect();
 
 
         try{
@@ -497,7 +498,7 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails3->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
                                     $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
@@ -676,7 +677,8 @@ class MobileController extends Controller
             'DetailsReapSuccess'    => $DetailsReapSuccess,
             'DetailsReapFails'      => $DetailsReapFails,
             'DetailsReapFails1'      => $DetailsReapFails1,
-            'DetailsReapFails2'      => $DetailsReapFails2
+            'DetailsReapFails2'      => $DetailsReapFails2,
+            'DetailsReapFails3'      => $DetailsReapFails3
         ];
 
         return response()->json([
