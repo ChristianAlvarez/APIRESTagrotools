@@ -19,6 +19,8 @@ class AlterSynchronizationsTable extends Migration
             $table->renameColumn('longitud', 'sync_longitude');
             $table->renameColumn('dmrp_device_id', 'sync_device_id');   
             $table->renameColumn('esdo_id', 'sync_status');
+
+            $table->longText('json');
         });
     }
 
@@ -35,6 +37,8 @@ class AlterSynchronizationsTable extends Migration
             $table->renameColumn('sync_longitude', 'longitud');
             $table->renameColumn('sync_device_id', 'dmrp_device_id'); 
             $table->renameColumn('sync_status', 'esdo_id'); 
+
+            $table->dropColumn('json');
         });
     }
 }
