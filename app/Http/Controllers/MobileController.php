@@ -384,6 +384,7 @@ class MobileController extends Controller
                             $Synchronizations->sync_latitude = $sync['sync_latitude'];
                             $Synchronizations->sync_longitude = $sync['sync_longitude'];
                             $Synchronizations->sync_status = $sync['sync_status'];
+                            $Synchronizations->json = $collection;
 
                             $Synchronizations->save();
                         }
