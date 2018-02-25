@@ -361,85 +361,79 @@ class MobileController extends Controller
         $DetailsReapSuccess = collect();
         $DetailsReapFails = collect();
 
-        $DetailsReapFails1 = collect();
-        $DetailsReapFails2 = collect();
-        $DetailsReapFails3 = collect();
-
-
         try{
 
             //MOVEMENTREAP
-            //Anterior $MovementReapFails->push($movementreap);
-            
+            //Anterior $MovementReapFails->push($movementreap);    
+            //Insert Table Synchronizations
+            if (count($synchronizations) > 0) {
+
                 try 
                 {
 
-                    //Insert Table Synchronizations
-                    if (count($synchronizations) > 0) {
+                    $Synchronizations = new \App\Synchronizations();
 
-                        $Synchronizations = new \App\Synchronizations();
-
-                        foreach  ($synchronizations as $id_key => $sync) {
+                    foreach  ($synchronizations as $id_key => $sync) {
                             
-                            $Synchronizations->cpny_id = $sync['cpny_id'];
-                            $Synchronizations->sync_date_transaction = $sync['sync_date_transaction'];
-                            $Synchronizations->sync_device_id = $sync['sync_device_id'];
-                            $Synchronizations->pers_id = $sync['pers_id'];
-                            $Synchronizations->sync_latitude = $sync['sync_latitude'];
-                            $Synchronizations->sync_longitude = $sync['sync_longitude'];
-                            $Synchronizations->sync_status = $sync['sync_status'];
-                            $Synchronizations->json = $collection;
+                        $Synchronizations->cpny_id = $sync['cpny_id'];
+                        $Synchronizations->sync_date_transaction = $sync['sync_date_transaction'];
+                        $Synchronizations->sync_device_id = $sync['sync_device_id'];
+                        $Synchronizations->pers_id = $sync['pers_id'];
+                        $Synchronizations->sync_latitude = $sync['sync_latitude'];
+                        $Synchronizations->sync_longitude = $sync['sync_longitude'];
+                        $Synchronizations->sync_status = $sync['sync_status'];
+                        $Synchronizations->json = $collection;
 
-                            $Synchronizations->save();
-                        }
+                        $Synchronizations->save();
+                    }
 
-                        if (!$Synchronizations) {
-                            $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
-                        }
-                        else
-                        {
-                            //Insert Movementreap
-                            if (count($movementreap) > 0) {
-                                foreach  ($movementreap as $id_key => $move) {
+                    if (!$Synchronizations) 
+                    {
+                        $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
+                    }
+                    else
+                    {
+                        //Insert Movementreap
+                        if (count($movementreap) > 0) {
+                            foreach  ($movementreap as $id_key => $move) {
 
-                                    $MovementReap = new \App\MovementReap();
-                                    $MovementReap->reap_id = $move['reap_id'];
-                                    $MovementReap->cpny_id = $move['cpny_id'];
-                                    $MovementReap->dmrp_card_identification = $move['dmrp_card_identification'];
-                                    $MovementReap->dtrp_received_pay_units = $move['dtrp_received_pay_units'];
-                                    $MovementReap->dmrp_received_amount = $move['dmrp_received_amount'];
-                                    $MovementReap->dmrp_date_transaction = $move['dmrp_date_transaction'];
-                                    $MovementReap->modc_input = $move['modc_input'];
-                                    $MovementReap->pers_id = $move['pers_id'];
-                                    $MovementReap->more_record = $move['more_record'];
-                                    $MovementReap->dmrp_device_id = $move['dmrp_device_id'];
-                                    $MovementReap->esdo_id = $move['esdo_id'];
-                                    $MovementReap->dmrp_date = $move['dmrp_date'];
-                                    $MovementReap->synchronizations_id = $Synchronizations->id;
+                                $MovementReap = new \App\MovementReap();
+                                $MovementReap->reap_id = $move['reap_id'];
+                                $MovementReap->cpny_id = $move['cpny_id'];
+                                $MovementReap->dmrp_card_identification = $move['dmrp_card_identification'];
+                                $MovementReap->dtrp_received_pay_units = $move['dtrp_received_pay_units'];
+                                $MovementReap->dmrp_received_amount = $move['dmrp_received_amount'];
+                                $MovementReap->dmrp_date_transaction = $move['dmrp_date_transaction'];
+                                $MovementReap->modc_input = $move['modc_input'];
+                                $MovementReap->pers_id = $move['pers_id'];
+                                $MovementReap->more_record = $move['more_record'];
+                                $MovementReap->dmrp_device_id = $move['dmrp_device_id'];
+                                $MovementReap->esdo_id = $move['esdo_id'];
+                                $MovementReap->dmrp_date = $move['dmrp_date'];
+                                $MovementReap->synchronizations_id = $Synchronizations->id;
 
-                                    $MovementReap->save();
+                                $MovementReap->save();
 
-                                    if (!$MovementReap) {
-                                        $MovementReapFails->put('movementreap',$movementreap);
-                                    }
-                                    else
-                                    {
-                                        $MovementReapSuccess->put('movementreap',$movementreap);
-                                    }
+                                if (!$MovementReap) {
+                                    $MovementReapFails->put('movementreap',$movementreap);
+                                }
+                                else
+                                {
+                                    $MovementReapSuccess->put('movementreap',$movementreap);
                                 }
                             }
-                            
-                        }
-                        
-                     }else{
-                        $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
-                     }                 
+                        }           
+                    }
                 }
                 catch(\Illuminate\Database\QueryException $e)
                 {
                     $MovementReapFails->put('movementreap',$movementreap);
                     $message = $e;
                 }
+            }else{
+                $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
+            }                 
+            
 
             //DETAILSREAP
             if (count($detailsreaps) > 0) {
@@ -498,7 +492,7 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails3->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
                                     $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
@@ -560,7 +554,7 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails1->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
                                     $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
@@ -649,7 +643,7 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails2->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
                                 }
                                 else{
                                     $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
@@ -675,10 +669,7 @@ class MobileController extends Controller
             'MovementReapSuccess'   => $MovementReapSuccess,
             'MovementReapFails'     => $MovementReapFails,
             'DetailsReapSuccess'    => $DetailsReapSuccess,
-            'DetailsReapFails'      => $DetailsReapFails,
-            'DetailsReapFails1'      => $DetailsReapFails1,
-            'DetailsReapFails2'      => $DetailsReapFails2,
-            'DetailsReapFails3'      => $DetailsReapFails3
+            'DetailsReapFails'      => $DetailsReapFails
         ];
 
         return response()->json([
