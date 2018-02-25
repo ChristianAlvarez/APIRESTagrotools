@@ -366,7 +366,7 @@ class MobileController extends Controller
 
             //MOVEMENTREAP
             //Anterior $MovementReapFails->push($movementreap);
-            if (count($movementreap) > 0) {
+            
                 try 
                 {
 
@@ -395,49 +395,47 @@ class MobileController extends Controller
                         else
                         {
                             //Insert Movementreap
-                            foreach  ($movementreap as $id_key => $move) {
+                            if (count($movementreap) > 0) {
+                                foreach  ($movementreap as $id_key => $move) {
 
-                                $MovementReap = new \App\MovementReap();
-                                $MovementReap->reap_id = $move['reap_id'];
-                                $MovementReap->cpny_id = $move['cpny_id'];
-                                $MovementReap->dmrp_card_identification = $move['dmrp_card_identification'];
-                                $MovementReap->dtrp_received_pay_units = $move['dtrp_received_pay_units'];
-                                $MovementReap->dmrp_received_amount = $move['dmrp_received_amount'];
-                                $MovementReap->dmrp_date_transaction = $move['dmrp_date_transaction'];
-                                $MovementReap->modc_input = $move['modc_input'];
-                                $MovementReap->pers_id = $move['pers_id'];
-                                $MovementReap->more_record = $move['more_record'];
-                                $MovementReap->dmrp_device_id = $move['dmrp_device_id'];
-                                $MovementReap->esdo_id = $move['esdo_id'];
-                                $MovementReap->dmrp_date = $move['dmrp_date'];
-                                $MovementReap->synchronizations_id = $Synchronizations->id;
+                                    $MovementReap = new \App\MovementReap();
+                                    $MovementReap->reap_id = $move['reap_id'];
+                                    $MovementReap->cpny_id = $move['cpny_id'];
+                                    $MovementReap->dmrp_card_identification = $move['dmrp_card_identification'];
+                                    $MovementReap->dtrp_received_pay_units = $move['dtrp_received_pay_units'];
+                                    $MovementReap->dmrp_received_amount = $move['dmrp_received_amount'];
+                                    $MovementReap->dmrp_date_transaction = $move['dmrp_date_transaction'];
+                                    $MovementReap->modc_input = $move['modc_input'];
+                                    $MovementReap->pers_id = $move['pers_id'];
+                                    $MovementReap->more_record = $move['more_record'];
+                                    $MovementReap->dmrp_device_id = $move['dmrp_device_id'];
+                                    $MovementReap->esdo_id = $move['esdo_id'];
+                                    $MovementReap->dmrp_date = $move['dmrp_date'];
+                                    $MovementReap->synchronizations_id = $Synchronizations->id;
 
-                                $MovementReap->save();
+                                    $MovementReap->save();
 
-                                if (!$MovementReap) {
-                                    $MovementReapFails->put('movementreap',$movementreap);
-                                }
-                                else
-                                {
-                                    $MovementReapSuccess->put('movementreap',$movementreap);
+                                    if (!$MovementReap) {
+                                        $MovementReapFails->put('movementreap',$movementreap);
+                                    }
+                                    else
+                                    {
+                                        $MovementReapSuccess->put('movementreap',$movementreap);
+                                    }
                                 }
                             }
-
+                            
                         }
                         
                      }else{
                         $message = "No se ha podido registrar su sincronizacion, comuniquese con el administrador";
-                     }
-
-                    
+                     }                 
                 }
                 catch(\Illuminate\Database\QueryException $e)
                 {
                     $MovementReapFails->put('movementreap',$movementreap);
                     $message = $e;
                 }
-            } 
-            
 
             //DETAILSREAP
             if (count($detailsreaps) > 0) {
@@ -558,10 +556,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps1',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps1',$detailsreaps);
                                 }
                             }    
                         }
@@ -647,10 +645,10 @@ class MobileController extends Controller
                                 $DetailsReap->save();
 
                                 if (!$DetailsReap) {
-                                    $DetailsReapFails->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapFails->put('detailsreaps2',$detailsreaps);
                                 }
                                 else{
-                                    $DetailsReapSuccess->put('detailsreaps',$detailsreaps);
+                                    $DetailsReapSuccess->put('detailsreaps2',$detailsreaps);
                                 }
                             }    
                         }
