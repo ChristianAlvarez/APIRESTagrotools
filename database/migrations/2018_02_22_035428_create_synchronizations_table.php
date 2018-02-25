@@ -22,6 +22,7 @@ class CreateSynchronizationsTable extends Migration
             $table->string('latitud');
             $table->string('longitud');
             $table->integer('esdo_id')->nullable();   
+            $table->longText('json');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
         });

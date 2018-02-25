@@ -26,6 +26,7 @@ class Synchronizations extends Model
         'latitud',
         'longitud',
         'esdo_id',
+        'json',
         'created_at',
         'updated_at',
 
