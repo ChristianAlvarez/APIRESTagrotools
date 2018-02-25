@@ -674,7 +674,9 @@ class MobileController extends Controller
             'MovementReapSuccess'   => $MovementReapSuccess,
             'MovementReapFails'     => $MovementReapFails,
             'DetailsReapSuccess'    => $DetailsReapSuccess,
-            'DetailsReapFails'      => $DetailsReapFails
+            'DetailsReapFails'      => $DetailsReapFails,
+            'DetailsReapFails1'      => $DetailsReapFails1,
+            'DetailsReapFails2'      => $DetailsReapFails2
         ];
 
         return response()->json([
