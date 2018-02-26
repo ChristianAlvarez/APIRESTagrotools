@@ -450,7 +450,7 @@ class MobileController extends Controller
                         if ($detail)
                         {
 
-                            $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
+                            $DetailsReap =  DetailsReap::where(['pers_id' => $detailsreap['pers_id']])
                                                         ->where(['cpny_id' => $detailsreap['cpny_id']])
                                                         ->where(['reap_id' => $detailsreap['reap_id']])
                                                         ->update(['pers_id' => $detailsreap['pers_id'],
@@ -478,8 +478,8 @@ class MobileController extends Controller
                         }
                         else{
 
-                            dd($detail);
-                            
+                            //dd($detail);
+
                             $DetailsReap = new \App\DetailsReap();
                             $DetailsReap->reap_id = $detailsreap['reap_id'];
                             $DetailsReap->cpny_id = $detailsreap['cpny_id'];
