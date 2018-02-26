@@ -440,11 +440,14 @@ class MobileController extends Controller
                 
                 try {
                     foreach  ($detailsreaps as $id_key => $detailsreap) {
-                       
+                        
+
                         $detail = DetailsReap::where('pers_id', $detailsreap['pers_id'])
-                                                ->where('reap_id', $detailsreap['reap_id'])
-                                                ->where('cpny_id', $detailsreap['cpny_id'])
-                                                ->first();
+                                             ->where('reap_id', $detailsreap['reap_id'])
+                                             ->where('cpny_id', $detailsreap['cpny_id'])
+                                             ->first();
+
+                        dd($detail);
 
                         if ($detail)
                         {
