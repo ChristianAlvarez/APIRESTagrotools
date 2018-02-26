@@ -454,7 +454,7 @@ class MobileController extends Controller
                                                         ->update(['pers_id' => $detailsreap['pers_id'],
                                                                 'reap_id' => $detailsreap['reap_id'],
                                                                 'cpny_id' => $detailsreap['cpny_id'],
-                                                                'quad_name' => $detailsreap['quad_name']
+                                                                'quad_name' => $detailsreap['quad_name'],
                                                                 'pers_name' => $detailsreap['pers_name'],
                                                                 'dere_status_card' => $detailsreap['dere_status_card'],
                                                                 'dere_record' => $detailsreap['dere_record'],
