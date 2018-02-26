@@ -449,6 +449,7 @@ class MobileController extends Controller
 
                         if ($detail)
                         {
+                            dd($detail);
                             $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
                                                         ->where(['cpny_id' => $detailsreap['cpny_id']])
                                                         ->where(['reap_id' => $detailsreap['reap_id']])
