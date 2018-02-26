@@ -467,7 +467,7 @@ class MobileController extends Controller
                                                                 'updated_at' => $detailsreap['updated_at'],
                                                                 'dere_obs' => $detailsreap['dere_obs']]);
 
-                            dd($DetailsReap);
+
 
                             if (!$DetailsReap) {
                                 $DetailsReapFails->put('detailsreaps',$detailsreaps);
@@ -477,6 +477,9 @@ class MobileController extends Controller
                             }
                         }
                         else{
+
+                            dd($detail);
+                            
                             $DetailsReap = new \App\DetailsReap();
                             $DetailsReap->reap_id = $detailsreap['reap_id'];
                             $DetailsReap->cpny_id = $detailsreap['cpny_id'];
