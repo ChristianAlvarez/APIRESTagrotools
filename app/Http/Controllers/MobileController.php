@@ -447,8 +447,6 @@ class MobileController extends Controller
                                              ->where('cpny_id', $detailsreap['cpny_id'])
                                              ->exists();
 
-                        dd($detail);
-
                         if ($detail)
                         {
                             $DetailsReap =  DetailsReap::where(['reap_id' => $detailsreap['reap_id']])
